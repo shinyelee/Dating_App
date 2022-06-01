@@ -45,8 +45,13 @@ class JoinActivity : AppCompatActivity() {
 
                     // 성공
                     if (task.isSuccessful) {
+
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
+
+                        // 로그인 확인 위해 -> 사용자 uid 받아옴
+                        val user = auth.currentUser
+                        Log.d(TAG, user?.uid.toString())
 
                         // 메인액티비티로 이동
                         val intent = Intent(this, MainActivity::class.java)
