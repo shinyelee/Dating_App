@@ -13,6 +13,9 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
+        // android-kotlin-extension -> 현재 사용 불가
+        // findViewById -> 초보자용
+        // DataBinding, ViewBinding -> 권장
         val joinBtn = findViewById<Button>(R.id.joinBtn)
 
         joinBtn.setOnClickListener {
@@ -23,4 +26,5 @@ class IntroActivity : AppCompatActivity() {
         }
 
     }
+
 }

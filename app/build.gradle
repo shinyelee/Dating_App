@@ -33,8 +33,13 @@ android {
 
 dependencies {
     // 경로 - Project - External Libraries
+
+    // Card Stack View
     def LatestVersion = "2.3.4"
     implementation "com.yuyakaido.android:card-stack-view:${LatestVersion}"
+
+    // Material Library
+    implementation 'com.google.android.material:material:1.2.1'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
