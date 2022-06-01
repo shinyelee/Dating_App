@@ -1,5 +1,6 @@
 package com.shinyelee.dating_app.auth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.R
 
 class JoinActivity : AppCompatActivity() {
@@ -37,19 +39,24 @@ class JoinActivity : AppCompatActivity() {
 //            Log.d(TAG, email.text.toString())
 //            Log.d(TAG, pw.text.toString())
 
+            // 회원가입
             auth.createUserWithEmailAndPassword(email.text.toString(), pw.text.toString())
                 .addOnCompleteListener(this) { task ->
+
+                    // 성공
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
-//                        val user = auth.currentUser
-//                        updateUI(user)
+
+                        // 메인액티비티로 이동
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+
+                    // 실패
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
-//                        Toast.makeText(baseContext, "Authentication failed.",
-//                            Toast.LENGTH_SHORT).show()
-//                        updateUI(null)
+
                     }
                 }
 
