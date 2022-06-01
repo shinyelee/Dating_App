@@ -9,21 +9,19 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.IntroActivity
+import com.shinyelee.dating_app.utils.FirebaseAuthUtils
 
 class SplashActivity : AppCompatActivity() {
 
     private val TAG = "SplashActivity"
-
-    // Firebase
-    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // 현재 유저의 uid값 확인
-        val uid = auth.currentUser?.uid.toString()
+        // FirebaseAuthUtils 클래스에서 getUid 함수 받아옴
+        val uid = FirebaseAuthUtils.getUid()
 
         // uid == null
         if(uid == "null") {
@@ -48,6 +46,6 @@ class SplashActivity : AppCompatActivity() {
             }, 3000)
 
         }
-        
+
     }
 }
