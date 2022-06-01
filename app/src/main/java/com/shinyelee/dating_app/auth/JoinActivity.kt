@@ -25,8 +25,8 @@ class JoinActivity : AppCompatActivity() {
             val email = findViewById<TextInputEditText>(R.id.emailArea)
             val pw = findViewById<TextInputEditText>(R.id.pwArea)
 
-            Log.d(TAG, email.toString())
-            Log.d(TAG, pw.toString())
+            Log.d(TAG, email.text.toString())
+            Log.d(TAG, pw.text.toString())
 
         }
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "888601676025",
+    "project_id": "dating-app-b2c17",
+    "storage_bucket": "dating-app-b2c17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888601676025:android:910581b47b5cb82f3b3a28",
+        "android_client_info": {
+          "package_name": "com.shinyelee.dating_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888601676025-irgbkdl8lh2nfgmk6jomnv6uppghhqa4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCmMXozsnD0waPAF2jDrYF1E68HATmyYA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888601676025-irgbkdl8lh2nfgmk6jomnv6uppghhqa4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
