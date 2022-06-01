@@ -17,6 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
+            android:id="@+id/joinBtn"
             android:text="회원가입"
             android:textSize="18sp"
             android:textColor="@color/white"
@@ -26,6 +27,7 @@
             android:background="@color/mainColor" />
 
         <Button
+            android:id="@+id/loginBtn"
             android:text="로그인"
             android:textSize="18sp"
             android:textColor="@color/white"

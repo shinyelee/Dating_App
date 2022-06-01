@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dating_App">
         <activity
+            android:name=".auth.JoinActivity"
+            android:exported="true" />
+        <activity
             android:name=".auth.IntroActivity"
             android:exported="true" />
         <activity
@@ -23,8 +26,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>
