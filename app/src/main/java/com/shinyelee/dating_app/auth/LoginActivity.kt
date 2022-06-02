@@ -12,9 +12,9 @@ import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.R
 
-class JoinActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
-    private val TAG = "JoinActivity"
+    private val TAG = "LoginActivity"
 
     // Firebase
     private lateinit var auth: FirebaseAuth
@@ -22,37 +22,30 @@ class JoinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_join)
+        setContentView(R.layout.activity_login)
 
         // Initialize Firebase Auth
         auth = Firebase.auth
 
-        // 회원가입 버튼
-        val joinBtn = findViewById<Button>(R.id.joinBtn)
+        // 로그인 버튼
+        val loginBtn = findViewById<Button>(R.id.loginBtn)
 
         // 을 클릭하면
-        joinBtn.setOnClickListener {
+        loginBtn.setOnClickListener {
 
             // 메일주소, 비밀번호 받아옴
             val email = findViewById<TextInputEditText>(R.id.emailArea)
             val pw = findViewById<TextInputEditText>(R.id.pwArea)
 
-//            Log.d(TAG, email.text.toString())
-//            Log.d(TAG, pw.text.toString())
-
-            // 회원가입
-            auth.createUserWithEmailAndPassword(email.text.toString(), pw.text.toString())
+            // 로그인
+            auth.signInWithEmailAndPassword(email.text.toString(), pw.text.toString())
                 .addOnCompleteListener(this) { task ->
 
                     // 성공
                     if (task.isSuccessful) {
 
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success")
-
-                        // 로그인 확인 위해 -> 사용자 uid 받아옴
-                        val user = auth.currentUser
-                        Log.d(TAG, user?.uid.toString())
+                        Log.d(TAG, "signInWithEmail:success")
 
                         // 메인액티비티로 이동
                         val intent = Intent(this, MainActivity::class.java)
@@ -62,7 +55,7 @@ class JoinActivity : AppCompatActivity() {
                     } else {
 
                         // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                        Log.w(TAG, "signInWithEmail:failure", task.exception)
 
                     }
 
@@ -71,4 +64,5 @@ class JoinActivity : AppCompatActivity() {
         }
 
     }
+
 }
