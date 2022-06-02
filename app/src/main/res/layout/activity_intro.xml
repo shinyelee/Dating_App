@@ -16,6 +16,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <!-- 회원가입 버튼-->
         <Button
             android:id="@+id/joinBtn"
             android:text="회원가입"
@@ -26,6 +27,7 @@
             android:layout_margin="5dp"
             android:background="@color/mainColor" />
 
+        <!-- 로그인 버튼-->
         <Button
             android:id="@+id/loginBtn"
             android:text="로그인"

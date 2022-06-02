@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 세팅 버튼
-        val setting = findViewById<ImageView>(R.id.settingIcon)
+        // 로그아웃 아이콘
+        val logout = findViewById<ImageView>(R.id.logoutIcon)
 
         // 을 클릭하면
-        setting.setOnClickListener {
+        logout.setOnClickListener {
 
             // 로그아웃 후
             val auth = Firebase.auth

@@ -131,6 +131,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- 회원가입 버튼-->
             <Button
                 android:id="@+id/joinBtn"
                 android:text="회원가입 완료하기"

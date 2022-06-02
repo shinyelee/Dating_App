@@ -44,6 +44,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- 로그인 버튼-->
     <Button
         android:id="@+id/loginBtn"
         android:text="로그인"
