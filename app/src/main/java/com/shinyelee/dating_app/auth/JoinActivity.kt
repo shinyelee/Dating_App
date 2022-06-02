@@ -8,6 +8,7 @@ import android.widget.Button
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.R
@@ -18,6 +19,17 @@ class JoinActivity : AppCompatActivity() {
 
     // Firebase
     private lateinit var auth: FirebaseAuth
+
+    // 별명
+    private var nickname = ""
+    // 성별
+    private var gender = ""
+    // 지역
+    private var city = ""
+    // 나이
+    private var age = ""
+    // UID
+    private var uid = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -37,8 +49,14 @@ class JoinActivity : AppCompatActivity() {
             val email = findViewById<TextInputEditText>(R.id.emailArea)
             val pw = findViewById<TextInputEditText>(R.id.pwArea)
 
-//            Log.d(TAG, email.text.toString())
-//            Log.d(TAG, pw.text.toString())
+            // 별명
+            nickname = findViewById<TextInputEditText>(R.id.nicknameArea).text.toString()
+            // 성별
+            gender = findViewById<TextInputEditText>(R.id.genderArea).text.toString()
+            // 지역
+            city = findViewById<TextInputEditText>(R.id.cityArea).text.toString()
+            // 나이
+            age = findViewById<TextInputEditText>(R.id.ageArea).text.toString()
 
             // 회원가입
             auth.createUserWithEmailAndPassword(email.text.toString(), pw.text.toString())
@@ -54,9 +72,22 @@ class JoinActivity : AppCompatActivity() {
                         val user = auth.currentUser
                         Log.d(TAG, user?.uid.toString())
 
+
+
+                        // 테스트 //
+                        // Write a message to the database
+                        val database = Firebase.database
+                        // 경로
+                        val myRef = database.getReference("message")
+                        // 데이터
+                        myRef.setValue("Hello, World!")
+
+
+
+
                         // 메인액티비티로 이동
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
+//                        val intent = Intent(this, MainActivity::class.java)
+//                        startActivity(intent)
 
                     // 실패
                     } else {

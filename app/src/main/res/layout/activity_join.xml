@@ -34,9 +34,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailArea"
+                    android:hint="메일주소"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="메일주소" />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -51,9 +51,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/pwArea"
+                    android:hint="비밀번호"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="비밀번호" />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,13 +67,13 @@
                 app:counterEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pw2Area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호 확인"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <!-- 별명 -->
             <com.google.android.material.textfield.TextInputLayout
@@ -83,9 +83,10 @@
                 android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nicknameArea"
+                    android:hint="별명"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="별명" />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,9 +98,10 @@
                 android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/genderArea"
+                    android:hint="성별(M/W)"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="성별(M/W)" />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,9 +113,10 @@
                 android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/cityArea"
+                    android:hint="지역"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="지역" />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,9 +128,10 @@
                 android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ageArea"
+                    android:hint="나이"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="나이" />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,6 +149,5 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
