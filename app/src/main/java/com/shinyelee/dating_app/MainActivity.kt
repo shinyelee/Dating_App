@@ -1,8 +1,13 @@
 package com.shinyelee.dating_app
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.shinyelee.dating_app.auth.IntroActivity
 import com.shinyelee.dating_app.slider.CardStackAdapter
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -18,12 +23,30 @@ class MainActivity : AppCompatActivity() {
     lateinit var manager: CardStackLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // 세팅 버튼
+        val setting = findViewById<ImageView>(R.id.settingIcon)
+
+        // 을 클릭하면
+        setting.setOnClickListener {
+
+            // 로그아웃 후
+            val auth = Firebase.auth
+            auth.signOut()
+
+            // 인트로액티비티로 이동
+            val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
+
+        }
 
         val cardStackView = findViewById<CardStackView>(R.id.cardStackView)
 
         manager = CardStackLayoutManager(baseContext, object: CardStackListener {
+
 
             override fun onCardDragging(direction: Direction?, ratio: Float) {
             }
