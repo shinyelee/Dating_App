@@ -1,10 +1,15 @@
 package com.shinyelee.dating_app.auth
 
+import android.app.Instrumentation
 import android.content.Intent
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -39,6 +44,25 @@ class JoinActivity : AppCompatActivity() {
 
         // Initialize Firebase Auth
         auth = Firebase.auth
+
+        // 프로필 사진
+        val profileImage = findViewById<ImageView>(R.id.imageArea)
+
+        // (기본 이미지를 선택 이미지로 변경)
+        val getAction = registerForActivityResult(
+            ActivityResultContracts.GetContent(),
+            ActivityResultCallback { uri ->
+                profileImage.setImageURI(uri)
+            }
+        )
+
+        // 을 클릭하면
+        profileImage.setOnClickListener {
+
+            // getAction 실행
+            getAction.launch("image/*")
+
+        }
 
         // 회원가입 버튼
         val joinBtn = findViewById<Button>(R.id.joinBtn)
