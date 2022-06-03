@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        // 카드스택어댑터에 데이터 넣어주기
+        // 카드스택어댑터에 데이터 넘겨주기
         cardStackAdapter = CardStackAdapter(baseContext, usersDataList)
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     private fun getUserDataList() {
 
         val postListener = object : ValueEventListener {
-            
+
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 // 데이터스냅샷 내 사용자 데이터 출력

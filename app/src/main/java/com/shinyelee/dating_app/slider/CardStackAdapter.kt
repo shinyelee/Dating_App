@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.UserDataModel
@@ -28,7 +29,17 @@ class CardStackAdapter(val context: Context, val items: List<UserDataModel>): Re
     // 자식뷰를 포함한 레이아웃 단위의 뷰를 하나의 뷰홀더로 설정
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
+        // 카드스택뷰의 별명, 지역, 나이
+        val nickname = itemView.findViewById<TextView>(R.id.itemNickname)
+        val city = itemView.findViewById<TextView>(R.id.itemCity)
+        val age = itemView.findViewById<TextView>(R.id.itemAge)
+
         fun binding(data: UserDataModel) {
+
+            // UserDataModel의 데이터와 매칭
+            nickname.text = data.nickname
+            city.text = data.city
+            age.text = data.age
 
         }
 
