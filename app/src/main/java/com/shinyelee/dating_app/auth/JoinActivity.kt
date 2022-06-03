@@ -12,6 +12,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.R
+import com.shinyelee.dating_app.utils.FirebaseRef
 
 class JoinActivity : AppCompatActivity() {
 
@@ -68,22 +69,12 @@ class JoinActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
 
-                        // 로그인 확인 위해 -> 사용자 uid 받아옴
+                        // 로그인 확인 위해 사용자 uid 받아옴
                         val user = auth.currentUser
-                        Log.d(TAG, user?.uid.toString())
+                        uid = user?.uid.toString()
 
-
-
-                        // 테스트 //
-                        // Write a message to the database
-                        val database = Firebase.database
-                        // 경로
-                        val myRef = database.getReference("message")
-                        // 데이터
-                        myRef.setValue("Hello, World!")
-
-
-
+                        // 사용자 정보 값 넣기
+                        FirebaseRef.userInfoRef.child(uid).setValue("Hello, World!")
 
                         // 메인액티비티로 이동
 //                        val intent = Intent(this, MainActivity::class.java)
