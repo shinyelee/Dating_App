@@ -73,8 +73,16 @@ class JoinActivity : AppCompatActivity() {
                         val user = auth.currentUser
                         uid = user?.uid.toString()
 
+                        val userModel = UserDataModel(
+                            uid,
+                            nickname,
+                            gender,
+                            city,
+                            age
+                        )
+
                         // 사용자 정보 값 넣기
-                        FirebaseRef.userInfoRef.child(uid).setValue("Hello, World!")
+                        FirebaseRef.userInfoRef.child(uid).setValue(userModel)
 
                         // 메인액티비티로 이동
 //                        val intent = Intent(this, MainActivity::class.java)
