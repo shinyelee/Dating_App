@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.auth.IntroActivity
+import com.shinyelee.dating_app.auth.UserDataModel
 import com.shinyelee.dating_app.slider.CardStackAdapter
 import com.shinyelee.dating_app.utils.FirebaseRef
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -28,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var manager: CardStackLayoutManager
 
     private val TAG: String = "MainActivity"
+
+    // 사용자 데이터 리스트
+    private val usersDataList = mutableListOf<UserDataModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -75,13 +79,8 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        // 테스트
-        val testList = mutableListOf<String>()
-        testList.add("a")
-        testList.add("b")
-        testList.add("c")
-
-        cardStackAdapter = CardStackAdapter(baseContext, testList)
+        // 카드스택어댑터에 데이터 넣어주기
+        cardStackAdapter = CardStackAdapter(baseContext, usersDataList)
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
 
@@ -92,14 +91,19 @@ class MainActivity : AppCompatActivity() {
     private fun getUserDataList() {
 
         val postListener = object : ValueEventListener {
+            
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-//                val post = dataSnapshot.getValue<Post>()
-
-                // 사용자 데이터 출력
+                // 데이터스냅샷 내 사용자 데이터 출력
                 for(dataModel in dataSnapshot.children) {
                     Log.d(TAG, dataModel.toString())
+
+                    val user = dataModel.getValue(UserDataModel::class.java)
+                    usersDataList.add(user!!)
+
                 }
+
+                cardStackAdapter.notifyDataSetChanged()
 
             }
 
@@ -107,7 +111,9 @@ class MainActivity : AppCompatActivity() {
                 // Getting Post failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
+
         }
+
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
 
     }

@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.shinyelee.dating_app.R
+import com.shinyelee.dating_app.auth.UserDataModel
 
-class CardStackAdapter(val context: Context, val items: List<String>): RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+class CardStackAdapter(val context: Context, val items: List<UserDataModel>): RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     // ViewHolder : (자식뷰를 포함한) 레이아웃 단위의 뷰를 하나의 뷰홀더로 설정
 
@@ -27,7 +28,7 @@ class CardStackAdapter(val context: Context, val items: List<String>): RecyclerV
     // 자식뷰를 포함한 레이아웃 단위의 뷰를 하나의 뷰홀더로 설정
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        fun binding(data: String) {
+        fun binding(data: UserDataModel) {
 
         }
 
