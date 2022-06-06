@@ -12,7 +12,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,8 +38,8 @@ dependencies {
     // 경로 - Project - External Libraries
 
     // Card Stack View
-    def LatestVersion = "2.3.4"
-    implementation "com.yuyakaido.android:card-stack-view:${LatestVersion}"
+    def CardStackViewVersion = "2.3.4"
+    implementation "com.yuyakaido.android:card-stack-view:${CardStackViewVersion}"
 
     // Material Library
     implementation 'com.google.android.material:material:1.6.1'
@@ -50,6 +50,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
+
+    // Glide
+    def GlideVersion = "4.13.0"
+    implementation "com.github.bumptech.glide:glide:${GlideVersion}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${GlideVersion}"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
