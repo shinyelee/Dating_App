@@ -60,7 +60,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/no" />
+            android:src="@drawable/bad" />
 
     </FrameLayout>
 
@@ -71,10 +71,10 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/ok" />
+            android:src="@drawable/good" />
 
     </FrameLayout>
 
