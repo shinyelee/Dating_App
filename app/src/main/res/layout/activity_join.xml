@@ -130,7 +130,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ageArea"
-                    android:hint="나이"
+                    android:hint="나이(만)"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -139,7 +139,7 @@
             <!-- 회원가입 버튼-->
             <Button
                 android:id="@+id/joinBtn"
-                android:text="회원가입 완료하기"
+                android:text="가입하기"
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.shinyelee.dating_app.auth
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.textfield.TextInputEditText
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.utils.FirebaseRef
 import java.io.ByteArrayOutputStream
@@ -70,10 +73,9 @@ class JoinActivity : AppCompatActivity() {
         // 을 클릭하면
         joinBtn.setOnClickListener {
 
-            // 메일주소, 비밀번호 받아옴
+            // 메일주소, 비밀번호, 비밀번호 확인 받아옴
             val email = findViewById<TextInputEditText>(R.id.emailArea)
             val pw = findViewById<TextInputEditText>(R.id.pwArea)
-
             // 별명
             nickname = findViewById<TextInputEditText>(R.id.nicknameArea).text.toString()
             // 성별
@@ -92,6 +94,7 @@ class JoinActivity : AppCompatActivity() {
 
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
+                        Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
 
                         // 로그인 확인 위해 사용자 uid 받아옴
                         val user = auth.currentUser
@@ -109,17 +112,18 @@ class JoinActivity : AppCompatActivity() {
                         FirebaseRef.userInfoRef.child(uid).setValue(userModel)
 
                         // 프사 업로드
-                        uploadImage()
+                        uploadImage(uid)
 
                         // 메인액티비티로 이동
-//                        val intent = Intent(this, MainActivity::class.java)
-//                        startActivity(intent)
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
 
                     // 실패
                     } else {
 
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
 
                     }
 
@@ -130,10 +134,10 @@ class JoinActivity : AppCompatActivity() {
     }
 
     // 프사 업로드
-    private fun uploadImage() {
+    private fun uploadImage(uid : String) {
 
         val storage = Firebase.storage
-        val storageRef = storage.reference.child("image.png")
+        val storageRef = storage.reference.child(uid + ".png")
 
         // Get the data from an ImageView as bytes
         profileImage.isDrawingCacheEnabled = true
