@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.auth.IntroActivity
 import com.shinyelee.dating_app.auth.UserDataModel
+import com.shinyelee.dating_app.setting.MyPageActivity
 import com.shinyelee.dating_app.slider.CardStackAdapter
 import com.shinyelee.dating_app.utils.FirebaseRef
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -38,10 +39,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // 내 정보 아이콘
+        val mypage = findViewById<ImageView>(R.id.mypageIcon)
+
+        mypage.setOnClickListener {
+
+            // 마이페이지액티비티로 이동
+            val intent = Intent(this, MyPageActivity::class.java)
+            startActivity(intent)
+
+        }
+
         // 로그아웃 아이콘
         val logout = findViewById<ImageView>(R.id.logoutIcon)
 
-        // 을 클릭하면
+        // 로그아웃 아이콘을 클릭하면
         logout.setOnClickListener {
 
             // 로그아웃 후
