@@ -1,8 +1,7 @@
 package com.shinyelee.dating_app.auth
 
-import android.app.Instrumentation
-import android.content.Intent
-import android.media.Image
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,11 +12,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.shinyelee.dating_app.MainActivity
+import com.google.firebase.storage.ktx.storage
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.utils.FirebaseRef
+import java.io.ByteArrayOutputStream
 
 class JoinActivity : AppCompatActivity() {
 
@@ -37,6 +36,9 @@ class JoinActivity : AppCompatActivity() {
     // UID
     private var uid = ""
 
+    // 프로필 사진
+    lateinit var profileImage : ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -45,10 +47,10 @@ class JoinActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = Firebase.auth
 
-        // 프로필 사진
-        val profileImage = findViewById<ImageView>(R.id.imageArea)
+        // 프사
+        profileImage = findViewById(R.id.imageArea)
 
-        // (기본 이미지를 선택 이미지로 변경)
+        // (프사의 기본 이미지를 선택한 이미지로 변경)
         val getAction = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
@@ -56,12 +58,10 @@ class JoinActivity : AppCompatActivity() {
             }
         )
 
-        // 을 클릭하면
+        // 프사 클릭하면
         profileImage.setOnClickListener {
-
             // getAction 실행
             getAction.launch("image/*")
-
         }
 
         // 회원가입 버튼
@@ -108,6 +108,9 @@ class JoinActivity : AppCompatActivity() {
                         // 사용자 정보 값 넣기
                         FirebaseRef.userInfoRef.child(uid).setValue(userModel)
 
+                        // 프사 업로드
+                        uploadImage()
+
                         // 메인액티비티로 이동
 //                        val intent = Intent(this, MainActivity::class.java)
 //                        startActivity(intent)
@@ -122,6 +125,30 @@ class JoinActivity : AppCompatActivity() {
 
                 }
 
+        }
+
+    }
+
+    // 프사 업로드
+    private fun uploadImage() {
+
+        val storage = Firebase.storage
+        val storageRef = storage.reference.child("image.png")
+
+        // Get the data from an ImageView as bytes
+        profileImage.isDrawingCacheEnabled = true
+        profileImage.buildDrawingCache()
+        val bitmap = (profileImage.drawable as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = storageRef.putBytes(data)
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+        }.addOnSuccessListener { taskSnapshot ->
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
         }
 
     }
