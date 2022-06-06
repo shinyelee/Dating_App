@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dating_App">
         <activity
+            android:name=".setting.SettingActivity"
+            android:exported="true" />
+        <activity
             android:name=".setting.MyPageActivity"
             android:exported="true" />
         <activity

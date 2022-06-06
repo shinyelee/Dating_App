@@ -11,9 +11,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import com.shinyelee.dating_app.auth.IntroActivity
 import com.shinyelee.dating_app.auth.UserDataModel
-import com.shinyelee.dating_app.setting.MyPageActivity
+import com.shinyelee.dating_app.setting.SettingActivity
 import com.shinyelee.dating_app.slider.CardStackAdapter
 import com.shinyelee.dating_app.utils.FirebaseRef
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -26,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     // 효율적으로 데이터와 뷰를 관리하기 위해 어댑터가 필요함
     lateinit var cardStackAdapter: CardStackAdapter
+
     // 레이아웃 매니저로 뷰를 그려줌
     lateinit var manager: CardStackLayoutManager
 
@@ -39,29 +39,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 내 정보 아이콘
-        val mypage = findViewById<ImageView>(R.id.mypageIcon)
+        // 설정 아이콘
+        val setting = findViewById<ImageView>(R.id.settingIcon)
 
-        mypage.setOnClickListener {
+        // 을 클릭하면
+        setting.setOnClickListener {
 
-            // 마이페이지액티비티로 이동
-            val intent = Intent(this, MyPageActivity::class.java)
-            startActivity(intent)
-
-        }
-
-        // 로그아웃 아이콘
-        val logout = findViewById<ImageView>(R.id.logoutIcon)
-
-        // 로그아웃 아이콘을 클릭하면
-        logout.setOnClickListener {
-
-            // 로그아웃 후
-            val auth = Firebase.auth
-            auth.signOut()
-
-            // 인트로액티비티로 이동
-            val intent = Intent(this, IntroActivity::class.java)
+            // 세팅액티비티로 이동
+            val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
 
         }
