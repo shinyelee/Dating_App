@@ -32,17 +32,22 @@ class MyPageActivity : AppCompatActivity() {
         // 내 정보 불러오기
        getMyData()
 
-    }
+   }
 
     // 파이어베이스에서 현재 사용자의 정보 불러오기
     private fun getMyData() {
 
-        // 프사, uid, 별명, 성별, 지역, 나이
+        // 프사
         val myImage = findViewById<ImageView>(R.id.myImage)
+        // uid
         val myUid = findViewById<TextView>(R.id.myUid)
+        // 별명
         val myNickname = findViewById<TextView>(R.id.myNickname)
+        // 성별
         val myGender = findViewById<TextView>(R.id.myGender)
+        // 지역
         val myCity = findViewById<TextView>(R.id.myCity)
+        // 나이
         val myAge = findViewById<TextView>(R.id.myAge)
 
         val postListener = object : ValueEventListener {
@@ -54,24 +59,25 @@ class MyPageActivity : AppCompatActivity() {
                 Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                // uid, 별명, 성별, 지역, 나이
+                // uid
                 myUid.text = data!!.uid
+                // 별명
                 myNickname.text = data!!.nickname
+                // 성별
                 myGender.text = data!!.gender
+                // 지역
                 myCity.text = data!!.city
+                // 나이
                 myAge.text = data!!.age
-
                 // 프사
+
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
-
                 storageRef.downloadUrl.addOnCompleteListener( OnCompleteListener { task ->
-
                     if(task.isSuccessful) {
                         Glide.with(baseContext)
                             .load(task.result)
                             .into(myImage)
                     }
-
                 })
 
             }

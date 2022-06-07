@@ -122,22 +122,16 @@ class JoinActivity : AppCompatActivity() {
 
             // 가입조건 모두 만족하면
             if(joinAvailable) {
-
                 // 회원가입
                 auth.createUserWithEmailAndPassword(email.text.toString(), pw.text.toString())
                     .addOnCompleteListener(this) { task ->
-
                         // 성공
                         if (task.isSuccessful) {
-
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success")
                             Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
-
                             // 로그인 확인 위해 현재사용자 uid 받아옴
                             val user = auth.currentUser
                             uid = user?.uid.toString()
-
                             val userModel = UserDataModel(
                                 uid,
                                 nickname,
@@ -145,30 +139,21 @@ class JoinActivity : AppCompatActivity() {
                                 city,
                                 age
                             )
-
                             // 현재사용자 정보 값 넣기
                             FirebaseRef.userInfoRef.child(uid).setValue(userModel)
-
                             // 프사 업로드
                             uploadImage(uid)
-
                             // 메인액티비티로 이동
                             val intent = Intent(this, MainActivity::class.java)
-                            // 뒤로가기 했을 때 조인액티비티로 이동 방지
+                            // 액티비티 관리
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                             startActivity(intent)
-
                         // 실패
                         } else {
-
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.exception)
                             Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
-
                         }
-
                     }
-
             }
 
         }
