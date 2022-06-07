@@ -100,18 +100,24 @@ class JoinActivity : AppCompatActivity() {
                 Toast.makeText(this, "입력란을 모두 채워주세요", Toast.LENGTH_SHORT).show()
             }
 
+            // 이메일주소 검사
+            if(!emailText.contains("@")) {
+                joinAvailable = false
+                Toast.makeText(this, "잘못된 이메일주소입니다", Toast.LENGTH_SHORT).show()
+            }
+
             // 비밀번호 검사
             if(pwText.length < 6 || pw2Text.length < 6) {
                 joinAvailable = false
-                Toast.makeText(this, "비밀번호를 6자 이상 입력하세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "비밀번호를 최소 6자리 이상 입력하세요", Toast.LENGTH_SHORT).show()
             }
             if(pwText.length > 20 || pw2Text.length > 20) {
                 joinAvailable = false
-                Toast.makeText(this, "비밀번호를 20자 이하로 입력하세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "비밀번호를 20자리 이하로 입력하세요", Toast.LENGTH_SHORT).show()
             }
             if(pwText != pw2Text) {
                 joinAvailable = false
-                Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "비밀번호 불일치", Toast.LENGTH_SHORT).show()
             }
 
             // 가입조건 모두 만족하면
