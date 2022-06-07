@@ -39,7 +39,7 @@ class MyPageActivity : AppCompatActivity() {
 
         // 프사, uid, 별명, 성별, 지역, 나이
         val myImage = findViewById<ImageView>(R.id.myImage)
-//        val myUid = findViewById<TextView>(R.id.myUid)
+        val myUid = findViewById<TextView>(R.id.myUid)
         val myNickname = findViewById<TextView>(R.id.myNickname)
         val myGender = findViewById<TextView>(R.id.myGender)
         val myCity = findViewById<TextView>(R.id.myCity)
@@ -55,7 +55,7 @@ class MyPageActivity : AppCompatActivity() {
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
                 // uid, 별명, 성별, 지역, 나이
-//                myUid.text = data!!.uid
+                myUid.text = data!!.uid
                 myNickname.text = data!!.nickname
                 myGender.text = data!!.gender
                 myCity.text = data!!.city

@@ -21,15 +21,13 @@
             android:src="@drawable/profile" />
 
         <!-- 내 Uid -->
-<!--        <TextView-->
-<!--            android:id="@+id/myUid"-->
-<!--            android:text="내 uid"-->
-<!--            android:textSize="24sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textStyle="bold"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="5dp" />-->
+        <TextView
+            android:id="@+id/myUid"
+            android:text="내 uid"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" />
 
         <!-- 내 별명 -->
         <TextView
