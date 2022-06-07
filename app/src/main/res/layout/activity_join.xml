@@ -52,7 +52,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/pwArea"
-                    android:hint="비밀번호(최대 20자)"
+                    android:hint="비밀번호(6~20자)"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

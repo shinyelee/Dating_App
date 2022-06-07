@@ -28,6 +28,8 @@ class JoinActivity : AppCompatActivity() {
     // Firebase
     private lateinit var auth: FirebaseAuth
 
+    // UID
+    private var uid = ""
     // 별명
     private var nickname = ""
     // 성별
@@ -36,8 +38,6 @@ class JoinActivity : AppCompatActivity() {
     private var city = ""
     // 나이
     private var age = ""
-    // UID
-    private var uid = ""
 
     // 프로필 사진
     lateinit var profileImage : ImageView
@@ -73,9 +73,18 @@ class JoinActivity : AppCompatActivity() {
         // 을 클릭하면
         joinBtn.setOnClickListener {
 
-            // 메일주소, 비밀번호, 비밀번호 확인 받아옴
+            // 가입조건 확인
+            var joinAvailable = true
+
+            // 이메일주소, 비밀번호, 비밀번호 확인
             val email = findViewById<TextInputEditText>(R.id.emailArea)
             val pw = findViewById<TextInputEditText>(R.id.pwArea)
+            val pw2 = findViewById<TextInputEditText>(R.id.pw2Area)
+
+            val emailText = email.text.toString()
+            val pwText = pw.text.toString()
+            val pw2Text = pw2.text.toString()
+
             // 별명
             nickname = findViewById<TextInputEditText>(R.id.nicknameArea).text.toString()
             // 성별
@@ -85,49 +94,76 @@ class JoinActivity : AppCompatActivity() {
             // 나이
             age = findViewById<TextInputEditText>(R.id.ageArea).text.toString()
 
-            // 회원가입
-            auth.createUserWithEmailAndPassword(email.text.toString(), pw.text.toString())
-                .addOnCompleteListener(this) { task ->
+            // 빈 칸 검사
+            if(emailText.isEmpty() || pwText.isEmpty() || pw2Text.isEmpty() || nickname.isEmpty() || gender.isEmpty() || city.isEmpty() || age.isEmpty()) {
+                joinAvailable = false
+                Toast.makeText(this, "입력란을 모두 채워주세요", Toast.LENGTH_SHORT).show()
+            }
 
-                    // 성공
-                    if (task.isSuccessful) {
+            // 비밀번호 검사
+            if(pwText.length < 6 || pw2Text.length < 6) {
+                joinAvailable = false
+                Toast.makeText(this, "비밀번호를 6자 이상 입력하세요", Toast.LENGTH_SHORT).show()
+            }
+            if(pwText.length > 20 || pw2Text.length > 20) {
+                joinAvailable = false
+                Toast.makeText(this, "비밀번호를 20자 이하로 입력하세요", Toast.LENGTH_SHORT).show()
+            }
+            if(pwText != pw2Text) {
+                joinAvailable = false
+                Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+            }
 
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success")
-                        Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
+            // 가입조건 모두 만족하면
+            if(joinAvailable) {
 
-                        // 로그인 확인 위해 사용자 uid 받아옴
-                        val user = auth.currentUser
-                        uid = user?.uid.toString()
+                // 회원가입
+                auth.createUserWithEmailAndPassword(email.text.toString(), pw.text.toString())
+                    .addOnCompleteListener(this) { task ->
 
-                        val userModel = UserDataModel(
-                            uid,
-                            nickname,
-                            gender,
-                            city,
-                            age
-                        )
+                        // 성공
+                        if (task.isSuccessful) {
 
-                        // 사용자 정보 값 넣기
-                        FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success")
+                            Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
 
-                        // 프사 업로드
-                        uploadImage(uid)
+                            // 로그인 확인 위해 현재사용자 uid 받아옴
+                            val user = auth.currentUser
+                            uid = user?.uid.toString()
 
-                        // 메인액티비티로 이동
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
+                            val userModel = UserDataModel(
+                                uid,
+                                nickname,
+                                gender,
+                                city,
+                                age
+                            )
 
-                    // 실패
-                    } else {
+                            // 현재사용자 정보 값 넣기
+                            FirebaseRef.userInfoRef.child(uid).setValue(userModel)
 
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                            // 프사 업로드
+                            uploadImage(uid)
+
+                            // 메인액티비티로 이동
+                            val intent = Intent(this, MainActivity::class.java)
+                            // 뒤로가기 했을 때 조인액티비티로 이동 방지
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            startActivity(intent)
+
+                        // 실패
+                        } else {
+
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                            Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
+
+                        }
 
                     }
 
-                }
+            }
 
         }
 
