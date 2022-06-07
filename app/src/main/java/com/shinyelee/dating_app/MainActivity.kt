@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity() {
     // 사용자 데이터 리스트
     private val usersDataList = mutableListOf<UserDataModel>()
 
+    // 사용자 수 세기
+    private var userCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -55,11 +59,32 @@ class MainActivity : AppCompatActivity() {
 
         manager = CardStackLayoutManager(baseContext, object: CardStackListener {
 
-
             override fun onCardDragging(direction: Direction?, ratio: Float) {
             }
 
+            // 카드 넘기기
             override fun onCardSwiped(direction: Direction?) {
+
+                // 왼쪽(관심없음)
+                if(direction == Direction.Left) {
+                    Toast.makeText(this@MainActivity, "관심없음", Toast.LENGTH_SHORT).show()
+                }
+
+                // 오른쪽(좋아요)
+                if(direction == Direction.Right) {
+                    Toast.makeText(this@MainActivity, "좋아요", Toast.LENGTH_SHORT).show()
+                }
+
+                // 넘긴 프로필의 수를 셈
+                userCount += 1
+
+                // 만약 모든 유저를 다 봤다면
+                if(userCount == usersDataList.count()) {
+                    // 새로고침
+//                    getUserDataList()
+                    Toast.makeText(this@MainActivity, "모든 사람의 프로필을 확인했어요!", Toast.LENGTH_LONG).show()
+                }
+
             }
 
             override fun onCardRewound() {
