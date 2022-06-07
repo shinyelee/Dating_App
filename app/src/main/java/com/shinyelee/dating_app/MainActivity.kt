@@ -7,11 +7,10 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import com.google.firebase.auth.ktx.auth
+import androidx.core.view.isVisible
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.auth.UserDataModel
 import com.shinyelee.dating_app.setting.SettingActivity
 import com.shinyelee.dating_app.slider.CardStackAdapter
@@ -20,7 +19,6 @@ import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
-import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity() {
 
@@ -78,11 +76,10 @@ class MainActivity : AppCompatActivity() {
                 // 넘긴 프로필의 수를 셈
                 userCount += 1
 
-                // 만약 모든 유저를 다 봤다면
+                // 프로필 전부 다 봤을 때
                 if(userCount == usersDataList.count()) {
-                    // 새로고침
-//                    getUserDataList()
-                    Toast.makeText(this@MainActivity, "모든 사람의 프로필을 확인했어요!", Toast.LENGTH_LONG).show()
+                    getUserDataList()
+                    Toast.makeText(this@MainActivity, "모든 프로필을 확인했습니다", Toast.LENGTH_SHORT).show()
                 }
 
             }
