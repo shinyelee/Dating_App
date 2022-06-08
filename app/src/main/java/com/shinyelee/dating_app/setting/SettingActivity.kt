@@ -19,32 +19,24 @@ class SettingActivity : AppCompatActivity() {
 
         // 내 정보 아이콘
         val mypage = findViewById<ImageView>(R.id.mypageIcon)
-
         // 을 클릭하면
         mypage.setOnClickListener {
-
             // 마이페이지액티비티로 이동
             val intent = Intent(this, MyPageActivity::class.java)
             startActivity(intent)
-
         }
 
         // 로그아웃 아이콘
         val logout = findViewById<ImageView>(R.id.logoutIcon)
-
         // 을 클릭하면
         logout.setOnClickListener {
-
             // 로그아웃 후
             val auth = Firebase.auth
             auth.signOut()
-
             Toast.makeText(this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
-
             // 인트로액티비티로 이동
             val intent = Intent(this, IntroActivity::class.java)
             startActivity(intent)
-
         }
 
     }

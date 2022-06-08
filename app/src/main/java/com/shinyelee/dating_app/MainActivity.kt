@@ -68,6 +68,9 @@ class MainActivity : AppCompatActivity() {
                 // 오른쪽(좋아요)
                 if(direction == Direction.Right) {
                     Toast.makeText(this@MainActivity, "좋아요", Toast.LENGTH_SHORT).show()
+                    // 다른 사용자 UID 받아옴
+                    Log.d(TAG, usersDataList[userCount].uid.toString())
+                    userLikeOtherUser(uid, usersDataList[userCount].uid.toString())
                 }
                 // 넘긴 프로필의 수를 셈
                 userCount += 1
@@ -134,6 +137,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
+    }
+
+    private fun userLikeOtherUser(myUid : String, otherUid : String) {
+        // 현재 사용자의 좋아요 정보를 저장
+        FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
+        // 대충 이런 구조임
+        // https://dating-app
+        // └─userLike
+        //   └─현재 사용자의 UID
+        //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
     }
 
 }
