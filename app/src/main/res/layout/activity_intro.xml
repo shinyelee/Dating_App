@@ -9,34 +9,57 @@
     android:background="@drawable/auth_image"
     tools:context=".auth.IntroActivity">
 
+    <!-- 로고 -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 앱 이름 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#데이팅_앱"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="15dp">
 
         <!-- 회원가입 버튼-->
         <Button
             android:id="@+id/joinBtn"
-            android:text="회원가입"
-            android:textSize="18sp"
-            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@color/mainColor" />
+            android:background="@color/mainColor"
+            android:text="회원가입"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <!-- 로그인 버튼-->
         <Button
             android:id="@+id/loginBtn"
-            android:text="로그인"
-            android:textSize="18sp"
-            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@color/mainColor" />
+            android:background="@color/mainColor"
+            android:text="로그인"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
