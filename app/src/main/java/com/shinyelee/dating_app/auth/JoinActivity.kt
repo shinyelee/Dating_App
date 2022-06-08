@@ -25,7 +25,6 @@ class JoinActivity : AppCompatActivity() {
 
     private val TAG = "JoinActivity"
 
-    // Firebase
     private lateinit var auth: FirebaseAuth
 
     // UID
@@ -39,7 +38,7 @@ class JoinActivity : AppCompatActivity() {
     // 나이
     private var age = ""
 
-    // 프로필 사진
+    // 프사
     lateinit var profileImage : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +46,10 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
 
-        // Initialize Firebase Auth
         auth = Firebase.auth
 
-        // 프사
         profileImage = findViewById(R.id.imageArea)
-
-        // (프사의 기본 이미지를 선택한 이미지로 변경)
+        // 선택한 이미지로 프사 변경
         val getAction = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
@@ -61,15 +57,13 @@ class JoinActivity : AppCompatActivity() {
             }
         )
 
-        // 프사 클릭하면
+        // 프사 클릭하면 getAction 실행
         profileImage.setOnClickListener {
-            // getAction 실행
             getAction.launch("image/*")
         }
 
         // 회원가입 버튼
         val joinBtn = findViewById<Button>(R.id.joinBtn)
-
         // 을 클릭하면
         joinBtn.setOnClickListener {
 
@@ -129,7 +123,7 @@ class JoinActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Log.d(TAG, "createUserWithEmail:success")
                             Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
-                            // 로그인 확인 위해 현재사용자 uid 받아옴
+                            // 로그인 확인 위해 현재사용자 UID 받아옴
                             val user = auth.currentUser
                             uid = user?.uid.toString()
                             val userModel = UserDataModel(
@@ -139,7 +133,7 @@ class JoinActivity : AppCompatActivity() {
                                 city,
                                 age
                             )
-                            // 현재사용자 정보 값 넣기
+                            // 현재 사용자 정보 넣기
                             FirebaseRef.userInfoRef.child(uid).setValue(userModel)
                             // 프사 업로드
                             uploadImage(uid)
@@ -166,7 +160,7 @@ class JoinActivity : AppCompatActivity() {
         val storage = Firebase.storage
         val storageRef = storage.reference.child(uid + ".png")
 
-        // Get the data from an ImageView as bytes
+        // 이미지뷰에서 데이터 가져옴
         profileImage.isDrawingCacheEnabled = true
         profileImage.buildDrawingCache()
         val bitmap = (profileImage.drawable as BitmapDrawable).bitmap
@@ -176,10 +170,7 @@ class JoinActivity : AppCompatActivity() {
 
         var uploadTask = storageRef.putBytes(data)
         uploadTask.addOnFailureListener {
-            // Handle unsuccessful uploads
         }.addOnSuccessListener { taskSnapshot ->
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-            // ...
         }
 
     }

@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity() {
     private val usersDataList = mutableListOf<UserDataModel>()
     // 사용자 수 세기
     private var userCount = 0
-    // uid
+    // 현재 사용자의 성별
+    private lateinit var currentUserGender: String
+    // UID
     private val uid = FirebaseAuthUtils.getUid()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,18 +73,14 @@ class MainActivity : AppCompatActivity() {
                 userCount += 1
                 // 프로필 전부 다 봤을 때 자동으로 새로고침
                 if(userCount == usersDataList.count()) {
-                    getUserDataList()
+                    getUserDataList(currentUserGender)
                     Toast.makeText(this@MainActivity, "모든 프로필을 확인했습니다", Toast.LENGTH_SHORT).show()
                 }
             }
-            override fun onCardRewound() {
-            }
-            override fun onCardCanceled() {
-            }
-            override fun onCardAppeared(view: View?, position: Int) {
-            }
-            override fun onCardDisappeared(view: View?, position: Int) {
-            }
+            override fun onCardRewound() {}
+            override fun onCardCanceled() {}
+            override fun onCardAppeared(view: View?, position: Int) {}
+            override fun onCardDisappeared(view: View?, position: Int) {}
         })
 
         // 카드스택어댑터에 데이터 넘겨주기
@@ -90,50 +88,48 @@ class MainActivity : AppCompatActivity() {
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
 
-        getUserDataList()
         getMyUserData()
 
     }
 
     private fun getMyUserData() {
-
         val postListener = object : ValueEventListener {
-
             // 데이터스냅샷 내 사용자 데이터 출력
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 // 프사 제외한 나머지 정보
                 Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
-
-                Log.d(TAG, data?.gender.toString())
-                // 성별만 가져오기
-
+                // 현재 사용자의 성별 정보만 가져오기
+                currentUserGender = data?.gender.toString()
+                getUserDataList(currentUserGender)
             }
             override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
+                // 실패
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
-
         }
-
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
-
     }
 
-    private fun getUserDataList() {
+    private fun getUserDataList(currentUserGender : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // 데이터스냅샷 내 사용자 데이터 출력
                 for(dataModel in dataSnapshot.children) {
                     Log.d(TAG, dataModel.toString())
                     val user = dataModel.getValue(UserDataModel::class.java)
-                    usersDataList.add(user!!)
+                    // 성별 필터링
+                    if(user!!.gender.toString().equals(currentUserGender)) {
+                        // 현재 사용자와 같은 성별의 사용자는 패스
+                    } else {
+                        // 다른 성별의 사용자 정보만 불러옴
+                        usersDataList.add(user!!)
+                    }
                 }
                 cardStackAdapter.notifyDataSetChanged()
             }
             override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
+                // 실패
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
