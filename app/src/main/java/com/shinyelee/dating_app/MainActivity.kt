@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -139,14 +140,37 @@ class MainActivity : AppCompatActivity() {
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
     }
 
+    // 현재 사용자의 좋아요 정보
     private fun userLikeOtherUser(myUid : String, otherUid : String) {
-        // 현재 사용자의 좋아요 정보를 저장
         FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
-        // 대충 이런 구조임
-        // https://dating-app
-        // └─userLike
-        //   └─현재 사용자의 UID
-        //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
+        getOtherUserLikeList(otherUid)
+    }
+    // 대충 이런 구조임
+    // DB
+    // └─userLike
+    //   └─현재 사용자의 UID
+    //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
+
+    // 다른 사용자의 좋아요를 가져옴
+    private fun getOtherUserLikeList(otherUid: String) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // "모든" 사용자들의 좋아요 리스트 (x)
+                // "현재 사용자가 좋아요 한" 사용자들의 좋아요 리스트 (O)
+                for(dataModel in dataSnapshot.children) {
+                    val likeUserKey = dataModel.key.toString()
+                    // 상대방도 현재 사용자를 좋아요 했는지 확인
+                    if(likeUserKey.equals(uid)) {
+                        Toast.makeText(this@MainActivity, "매칭 완료", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // 실패
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
     }
 
 }
