@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
     // 현재 사용자의 좋아요 정보
     private fun userLikeOtherUser(myUid : String, otherUid : String) {
         FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
-        getOtherUserLikeList(otherUid)
+        getMyLikeList(otherUid)
     }
     // 대충 이런 구조임
     // DB
@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
     //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
 
     // 다른 사용자의 좋아요를 가져옴
-    private fun getOtherUserLikeList(otherUid: String) {
+    private fun getMyLikeList(otherUid: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // "모든" 사용자들의 좋아요 리스트 (x)
