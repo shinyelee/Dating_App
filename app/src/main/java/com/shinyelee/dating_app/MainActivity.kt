@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "좋아요", Toast.LENGTH_SHORT).show()
                     // 다른 사용자 UID 받아옴
                     Log.d(TAG, usersDataList[userCount].uid.toString())
-                    userLikeOtherUser(uid, usersDataList[userCount].uid.toString())
+                    userLikeOther(uid, usersDataList[userCount].uid.toString())
                 }
                 // 넘긴 프로필의 수를 셈
                 userCount += 1
@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // 현재 사용자 정보
     private fun getMyUserData() {
         val postListener = object : ValueEventListener {
             // 데이터스냅샷 내 사용자 데이터 출력
@@ -117,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
     }
 
+    // 전체 사용자 정보
     private fun getUserDataList(currentUserGender : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -143,7 +145,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 현재 사용자의 좋아요 정보
-    private fun userLikeOtherUser(myUid : String, otherUid : String) {
+    private fun userLikeOther(myUid : String, otherUid : String) {
         FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
         getMyLikeList(otherUid)
     }
@@ -153,12 +155,12 @@ class MainActivity : AppCompatActivity() {
     //   └─현재 사용자의 UID
     //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
 
-    // 다른 사용자의 좋아요를 가져옴
+    // 현재 사용자의 좋아요 리스트
     private fun getMyLikeList(otherUid: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // "모든" 사용자들의 좋아요 리스트 (x)
-                // "현재 사용자가 좋아요 한" 사용자들의 좋아요 리스트 (O)
+                // "모든" 사용자의 좋아요 리스트 (x)
+                // "현재 사용자가 좋아하는" 사용자의 좋아요 리스트 (O)
                 for(dataModel in dataSnapshot.children) {
                     val likeUserKey = dataModel.key.toString()
                     // 상대방도 현재 사용자를 좋아요 했는지 확인
