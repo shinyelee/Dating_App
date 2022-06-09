@@ -14,15 +14,19 @@ import com.shinyelee.dating_app.utils.FirebaseRef
 class MyLikeActivity : AppCompatActivity() {
 
     private val TAG = "MyLikeActivity"
+
     private val uid = FirebaseAuthUtils.getUid()
+
+    // 현재 사용자가 좋아하는 사용자 UID
+    private val myLikeListUid = mutableListOf<String>()
+    // 현재 사용자가 좋아하는 사용자 정보
+    private val myLikeList = mutableListOf<UserDataModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_like)
 
-        // 전체 사용자 정보 받아옴
-        getUserDataList()
         // 현재 사용자의 좋아요 리스트
         getMyLikeList()
 
@@ -33,8 +37,11 @@ class MyLikeActivity : AppCompatActivity() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for(dataModel in dataSnapshot.children) {
-                    Log.d(TAG, dataModel.key.toString())
+                    // 현재 사용자가 좋아하는 사용자들의 UID가 myLikeList에 들어있음
+                    myLikeListUid.add(dataModel.key.toString())
                 }
+                // 전체 사용자 정보 받아옴
+                getUserDataList()
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // 실패
@@ -51,8 +58,13 @@ class MyLikeActivity : AppCompatActivity() {
                 // 데이터스냅샷 내 사용자 데이터 출력
                 for(dataModel in dataSnapshot.children) {
                     val user = dataModel.getValue(UserDataModel::class.java)
-                    Log.d(TAG, "point : " + user.toString())
+                    if(myLikeListUid.contains(user?.uid)) {
+                        // 현재 사용자가 좋아하는 사용자의 정보만
+                        myLikeList.add(user!!)
+                    }
                 }
+                //
+                Log.d(TAG, myLikeList.toString())
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // 실패
