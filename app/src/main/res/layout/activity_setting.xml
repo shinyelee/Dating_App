@@ -7,51 +7,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".setting.SettingActivity"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:gravity="center">
 
     <!-- 내 정보 -->
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/myPageBtn"
+        android:text="내 정보"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_margin="5dp"
+        android:background="@color/mainColor" />
 
-        <!-- 내 정보 아이콘 -->
-        <ImageView
-            android:id="@+id/mypageIcon"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginHorizontal="10dp"
-            android:src="@drawable/mypage" />
-
-        <TextView
-            android:text="내 정보"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+    <!-- 좋아요 리스트 -->
+    <Button
+        android:id="@+id/myLikeBtn"
+        android:text="좋아요"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/mainColor" />
 
     <!-- 로그아웃 -->
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/logoutBtn"
+        android:text="로그아웃"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <!-- 로그아웃 아이콘 -->
-        <ImageView
-            android:id="@+id/logoutIcon"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginHorizontal="10dp"
-            android:src="@drawable/logout" />
-
-        <TextView
-            android:text="로그아웃"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+        android:layout_margin="5dp"
+        android:background="@color/mainColor" />
 
 </LinearLayout>
