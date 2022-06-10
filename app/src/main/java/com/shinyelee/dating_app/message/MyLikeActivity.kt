@@ -35,8 +35,12 @@ class MyLikeActivity : AppCompatActivity() {
         listviewAdapter = ListViewAdapter(this, myLikeList)
         myLikeListView.adapter = listviewAdapter
 
-        // 현재 사용자의 좋아요 리스트
+        // 현재 사용자가 좋아하는 사용자
         getMyLikeList()
+        // 나를 좋아하는 사용자
+        myLikeListView.setOnItemClickListener { parent, view, position, id ->
+            Log.d(TAG, myLikeList[position].uid.toString())
+        }
 
     }
 
@@ -67,7 +71,7 @@ class MyLikeActivity : AppCompatActivity() {
                 for(dataModel in dataSnapshot.children) {
                     val user = dataModel.getValue(UserDataModel::class.java)
                     if(myLikeListUid.contains(user?.uid)) {
-                        // 현재 사용자가 좋아하는 사용자의 정보만
+                        // 현재 사용자가 좋아하는 사용자의 정보만 추가
                         myLikeList.add(user!!)
                     }
                 }
