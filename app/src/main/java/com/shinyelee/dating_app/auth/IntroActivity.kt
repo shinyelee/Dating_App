@@ -13,10 +13,6 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        // android-kotlin-extension -> 현재 사용 불가
-        // findViewById -> 초보자용
-        // DataBinding, ViewBinding -> 권장
-
         // 로그인 버튼
         val loginBtn = findViewById<Button>(R.id.loginBtn)
         // 을 클릭하면

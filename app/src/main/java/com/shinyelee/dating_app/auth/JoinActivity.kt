@@ -37,7 +37,6 @@ class JoinActivity : AppCompatActivity() {
     private var city = ""
     // 나이
     private var age = ""
-
     // 프사
     lateinit var profileImage : ImageView
 
@@ -121,7 +120,7 @@ class JoinActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         // 성공
                         if (task.isSuccessful) {
-                            Log.d(TAG, "createUserWithEmail:success")
+                            Log.d(TAG, "회원가입 성공")
                             Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
                             // 로그인 확인 위해 현재사용자 UID 받아옴
                             val user = auth.currentUser
@@ -144,7 +143,7 @@ class JoinActivity : AppCompatActivity() {
                             startActivity(intent)
                         // 실패
                         } else {
-                            Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                            Log.w(TAG, "회원가입 실패", task.exception)
                             Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -169,9 +168,7 @@ class JoinActivity : AppCompatActivity() {
         val data = baos.toByteArray()
 
         var uploadTask = storageRef.putBytes(data)
-        uploadTask.addOnFailureListener {
-        }.addOnSuccessListener { taskSnapshot ->
-        }
+        uploadTask.addOnFailureListener {}.addOnSuccessListener { taskSnapshot -> }
 
     }
 }

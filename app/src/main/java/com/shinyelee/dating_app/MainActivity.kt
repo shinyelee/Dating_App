@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // 실패
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                Log.w(TAG, "getMyUserData - loadPost:onCancelled", databaseError.toException())
             }
         }
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // 실패
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                Log.w(TAG, "getUserDataList - loadPost:onCancelled", databaseError.toException())
             }
         }
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
@@ -165,7 +165,6 @@ class MainActivity : AppCompatActivity() {
                     val likeUserKey = dataModel.key.toString()
                     // 상대방도 현재 사용자를 좋아요 했는지 확인
                     if(likeUserKey.equals(uid)) {
-                        Toast.makeText(this@MainActivity, "매칭 완료", Toast.LENGTH_SHORT).show()
                         createNotificationChannel()
                         sendNotification()
                     }
@@ -173,7 +172,7 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // 실패
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                Log.w(TAG, "getMyLikeList - loadPost:onCancelled", databaseError.toException())
             }
         }
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)

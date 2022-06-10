@@ -38,6 +38,7 @@ class MyLikeActivity : AppCompatActivity() {
 
         // 현재 사용자가 좋아하는 사용자
         getMyLikeList()
+
         // 나를 좋아하는 사용자
         myLikeListView.setOnItemClickListener { parent, view, position, id ->
             checkMatching(myLikeList[position].uid.toString())
@@ -64,7 +65,7 @@ class MyLikeActivity : AppCompatActivity() {
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // 실패
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                Log.w(TAG, "checkMatching - loadPost:onCancelled", databaseError.toException())
             }
         }
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
@@ -83,7 +84,7 @@ class MyLikeActivity : AppCompatActivity() {
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // 실패
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                Log.w(TAG, "getMyLikeList - loadPost:onCancelled", databaseError.toException())
             }
         }
         FirebaseRef.userLikeRef.child(uid).addValueEventListener(postListener)
@@ -106,7 +107,7 @@ class MyLikeActivity : AppCompatActivity() {
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // 실패
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                Log.w(TAG, "getUserDataList - loadPost:onCancelled", databaseError.toException())
             }
         }
         FirebaseRef.userInfoRef.addValueEventListener(postListener)

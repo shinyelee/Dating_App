@@ -18,6 +18,7 @@ class SplashActivity : AppCompatActivity() {
 
         // FirebaseAuthUtils 클래스에서 getUid 함수 받아옴
         val uid = FirebaseAuthUtils.getUid()
+
         // 로그인 안 한 상태
         if(uid == "null") {
             // 3초 뒤 인트로액티비티로 이동

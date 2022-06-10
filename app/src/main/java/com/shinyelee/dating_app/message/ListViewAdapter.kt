@@ -11,12 +11,16 @@ import com.shinyelee.dating_app.auth.UserDataModel
 
 class ListViewAdapter(val context : Context, val items : MutableList<UserDataModel>) : BaseAdapter() {
 
+    // 리스트 전체 개수
     override fun getCount(): Int = items.size
 
+    // 리스트를 하나씩 가져옴
     override fun getItem(position: Int): Any = items[position]
 
+    // 리스트의 ID를 가져옴
     override fun getItemId(position: Int): Long = position.toLong()
 
+    // 뷰를 꾸며줌
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var convertView = convertView
         if(convertView == null) {

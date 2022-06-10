@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     // 성공
                     if (task.isSuccessful) {
-                        Log.d(TAG, "signInWithEmail:success")
+                        Log.d(TAG, "로그인 성공")
                         // 메인액티비티로 이동
                         val intent = Intent(this, MainActivity::class.java)
                         // 액티비티 관리
@@ -46,8 +46,8 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                     // 실패
                     } else {
-                        Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                        Log.w(TAG, "로그인 실패", task.exception)
+                        Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
