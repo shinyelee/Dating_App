@@ -3,6 +3,7 @@ package com.shinyelee.dating_app.message
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ListView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -21,11 +22,18 @@ class MyLikeActivity : AppCompatActivity() {
     private val myLikeListUid = mutableListOf<String>()
     // 현재 사용자가 좋아하는 사용자 정보
     private val myLikeList = mutableListOf<UserDataModel>()
+    // 현재 사용자가 좋아하는 사용자 리스트
+    lateinit var listviewAdapter: ListViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_like)
+
+        // 어댑터
+        val myLikeListView = findViewById<ListView>(R.id.myLikeListView)
+        listviewAdapter = ListViewAdapter(this, myLikeList)
+        myLikeListView.adapter = listviewAdapter
 
         // 현재 사용자의 좋아요 리스트
         getMyLikeList()
@@ -63,7 +71,7 @@ class MyLikeActivity : AppCompatActivity() {
                         myLikeList.add(user!!)
                     }
                 }
-                //
+                listviewAdapter.notifyDataSetChanged()
                 Log.d(TAG, myLikeList.toString())
             }
             override fun onCancelled(databaseError: DatabaseError) {
