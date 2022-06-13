@@ -26,8 +26,7 @@ class SplashActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             // Get new FCM registration token
-            val token = task.result
-            // Log and toast
+            val token = task.result.toString()
             Log.e(TAG, "토큰 - $token")
         })
 
