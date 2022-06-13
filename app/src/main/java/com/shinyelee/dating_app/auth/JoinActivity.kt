@@ -11,10 +11,12 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.R
@@ -125,22 +127,34 @@ class JoinActivity : AppCompatActivity() {
                             // 로그인 확인 위해 현재사용자 UID 받아옴
                             val user = auth.currentUser
                             uid = user?.uid.toString()
-                            val userModel = UserDataModel(
-                                uid,
-                                nickname,
-                                gender,
-                                city,
-                                age
-                            )
-                            // 현재 사용자 정보 넣기
-                            FirebaseRef.userInfoRef.child(uid).setValue(userModel)
-                            // 프사 업로드
-                            uploadImage(uid)
-                            // 메인액티비티로 이동
-                            val intent = Intent(this, MainActivity::class.java)
-                            // 액티비티 관리
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(intent)
+                            // 토큰
+                            FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                                OnCompleteListener { task ->
+                                if (!task.isSuccessful) {
+                                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                                    return@OnCompleteListener
+                                }
+                                // Get new FCM registration token
+                                val token = task.result.toString()
+                                Log.e(TAG, "토큰 - $token")
+                                val userModel = UserDataModel(
+                                    uid,
+                                    nickname,
+                                    gender,
+                                    city,
+                                    age,
+                                    token
+                                )
+                                // 현재 사용자 정보 넣기
+                                FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                                // 프사 업로드
+                                uploadImage(uid)
+                                // 메인액티비티로 이동
+                                val intent = Intent(this, MainActivity::class.java)
+                                // 액티비티 관리
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                startActivity(intent)
+                            })
                         // 실패
                         } else {
                             Log.w(TAG, "회원가입 실패", task.exception)

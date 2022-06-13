@@ -11,6 +11,8 @@ data class UserDataModel (
     // 지역
     val city : String? = null,
     // 나이
-    val age : String? = null
+    val age : String? = null,
+    // 토큰
+    val token : String? = null
 
 )
