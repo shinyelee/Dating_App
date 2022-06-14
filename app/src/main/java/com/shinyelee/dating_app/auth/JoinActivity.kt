@@ -152,7 +152,7 @@ class JoinActivity : AppCompatActivity() {
                                 // 메인액티비티로 이동
                                 val intent = Intent(this, MainActivity::class.java)
                                 // 액티비티 관리
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+//                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                                 startActivity(intent)
                             })
                         // 실패

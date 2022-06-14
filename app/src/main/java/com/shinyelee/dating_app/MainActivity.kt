@@ -66,13 +66,12 @@ class MainActivity : AppCompatActivity() {
             override fun onCardSwiped(direction: Direction?) {
                 // 왼쪽(관심없음)
                 if(direction == Direction.Left) {
-                    Toast.makeText(this@MainActivity, "관심없음", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@MainActivity, "관심없음", Toast.LENGTH_SHORT).show()
                 }
                 // 오른쪽(좋아요)
                 if(direction == Direction.Right) {
                     Toast.makeText(this@MainActivity, "좋아요", Toast.LENGTH_SHORT).show()
                     // 다른 사용자 UID 받아옴
-                    Log.d(TAG, usersDataList[userCount].uid.toString())
                     userLikeOther(uid, usersDataList[userCount].uid.toString())
                 }
                 // 넘긴 프로필의 수를 셈
@@ -104,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             // 데이터스냅샷 내 사용자 데이터 출력
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // 프사 제외한 나머지 정보
-                Log.d(TAG, dataSnapshot.toString())
+//                Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
                 // 현재 사용자의 성별 정보만 가져오기
                 currentUserGender = data?.gender.toString()
@@ -165,6 +164,7 @@ class MainActivity : AppCompatActivity() {
                     val likeUserKey = dataModel.key.toString()
                     // 상대방도 현재 사용자를 좋아요 했는지 확인
                     if(likeUserKey.equals(uid)) {
+//                        Toast.makeText(this@MainActivity, "매칭 성공!", Toast.LENGTH_SHORT).show()
                         createNotificationChannel()
                         sendNotification()
                     }

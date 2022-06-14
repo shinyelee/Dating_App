@@ -24,22 +24,22 @@ class SplashActivity : AppCompatActivity() {
 
         // 로그인 안 한 상태
         if(uid == "null") {
-            // 3초 뒤 인트로액티비티로 이동
+            // 2초 뒤 인트로액티비티로 이동
             Handler().postDelayed({
                 val intent = Intent(this, IntroActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
                 finish()
-            }, 3000)
+            }, 2000)
         // 로그인 중이면
         } else {
-            // 3초 뒤 메인액티비티로 이동
+            // 2초 뒤 메인액티비티로 이동
             Handler().postDelayed({
                 val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
                 finish()
-            }, 3000)
+            }, 2000)
         }
 
     }
