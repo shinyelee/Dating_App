@@ -23,8 +23,6 @@ class FirebaseService : FirebaseMessagingService() {
 
         super.onMessageReceived(message)
 
-//        Log.e(TAG, message.notification?.title.toString())
-//        Log.e(TAG, message.notification?.body.toString())
         val title = message.notification?.title.toString()
         val body = message.notification?.body.toString()
 

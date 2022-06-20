@@ -1,79 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
     android:layout_gravity="center">
 
-    <!-- 내 정보 -->
-    <LinearLayout
+    <!-- 내 프사 -->
+    <ImageView
+        android:id="@+id/myImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:layout_height="450dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/profile" />
 
-        <!-- 내 프사 -->
-        <ImageView
-            android:id="@+id/myImage"
-            android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:layout_margin="5dp"
-            android:src="@drawable/profile" />
+    <!-- 내 Uid -->
+    <TextView
+        android:id="@+id/myUid"
+        android:text="내 uid"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" />
 
-        <!-- 내 Uid -->
-        <TextView
-            android:id="@+id/myUid"
-            android:text="내 uid"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
+    <!-- 내 별명 -->
+    <TextView
+        android:id="@+id/myNickname"
+        android:text="내 별명"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" />
 
-        <!-- 내 별명 -->
-        <TextView
-            android:id="@+id/myNickname"
-            android:text="내 별명"
-            android:textSize="24sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
+    <!-- 내 성별 -->
+    <TextView
+        android:id="@+id/myGender"
+        android:text="내 성별"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" />
 
-        <!-- 내 성별 -->
-        <TextView
-            android:id="@+id/myGender"
-            android:text="내 성별"
-            android:textSize="24sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
+    <!-- 내 지역 -->
+    <TextView
+        android:id="@+id/myCity"
+        android:text="내 지역"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" />
 
-        <!-- 내 지역 -->
-        <TextView
-            android:id="@+id/myCity"
-            android:text="내 지역"
-            android:textSize="24sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
+    <!--내 나이-->
+    <TextView
+        android:id="@+id/myAge"
+        android:text="내 나이"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" />
 
-        <!--내 나이-->
-        <TextView
-            android:id="@+id/myAge"
-            android:text="내 나이"
-            android:textSize="24sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

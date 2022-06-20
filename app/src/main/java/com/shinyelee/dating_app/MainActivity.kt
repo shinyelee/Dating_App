@@ -103,7 +103,6 @@ class MainActivity : AppCompatActivity() {
             // 데이터스냅샷 내 사용자 데이터 출력
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // 프사 제외한 나머지 정보
-//                Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
                 // 현재 사용자의 성별 정보만 가져오기
                 currentUserGender = data?.gender.toString()
@@ -123,7 +122,6 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // 데이터스냅샷 내 사용자 데이터 출력
                 for(dataModel in dataSnapshot.children) {
-                    Log.d(TAG, dataModel.toString())
                     val user = dataModel.getValue(UserDataModel::class.java)
                     // 성별 필터링
                     if(user!!.gender.toString().equals(currentUserGender)) {
@@ -164,7 +162,7 @@ class MainActivity : AppCompatActivity() {
                     val likeUserKey = dataModel.key.toString()
                     // 상대방도 현재 사용자를 좋아요 했는지 확인
                     if(likeUserKey.equals(uid)) {
-//                        Toast.makeText(this@MainActivity, "매칭 성공!", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this@MainActivity, "매칭 성공", Toast.LENGTH_SHORT).show()
                         createNotificationChannel()
                         sendNotification()
                     }

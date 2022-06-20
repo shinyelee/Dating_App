@@ -49,8 +49,8 @@ class MyLikeActivity : AppCompatActivity() {
         myLikeListView.setOnItemClickListener { parent, view, position, id ->
             checkMatching(myLikeList[position].uid.toString())
             // 메시지 보내기
-            val notiModel = NotiModel("제목", "내용")
-            val pushModel = PushNotification(notiModel, "d7jJ5pRXT2-Wcp3jl2f53N:APA91bFEqB8RGRct_OybuVeywez9LH46bRdw58OwbfeHMV-AWQFpUk8ePUmYDWBfbvp1Jrk_mi-x-1x41mtfzvJMXAPvugAE3zsNRQMaj6n1T4kcpnN60FgTJd47sX77hNzGmU1L8QSX")
+            val notiModel = NotiModel("title", "content")
+            val pushModel = PushNotification(notiModel, myLikeList[position].token.toString())
             testPush(pushModel)
         }
 
@@ -61,14 +61,14 @@ class MyLikeActivity : AppCompatActivity() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(dataSnapshot.children.count() == 0) {
-                    Toast.makeText(this@MyLikeActivity, "매칭 실패ㅠㅠ", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_SHORT).show()
                 } else {
                     for(dataModel in dataSnapshot.children) {
                         val likeUserKey = dataModel.key.toString()
                         if(likeUserKey.equals(uid)) {
-                            Toast.makeText(this@MyLikeActivity, "매칭 성공!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MyLikeActivity, "매칭 성공", Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(this@MyLikeActivity, "매칭 실패ㅠㅠ", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

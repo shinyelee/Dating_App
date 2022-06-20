@@ -122,7 +122,6 @@ class JoinActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         // 성공
                         if (task.isSuccessful) {
-                            Log.d(TAG, "회원가입 성공")
                             Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
                             // 로그인 확인 위해 현재사용자 UID 받아옴
                             val user = auth.currentUser
@@ -136,7 +135,7 @@ class JoinActivity : AppCompatActivity() {
                                 }
                                 // Get new FCM registration token
                                 val token = task.result.toString()
-                                Log.e(TAG, "토큰 - $token")
+                                Log.e(TAG, "user token value - $token")
                                 val userModel = UserDataModel(
                                     uid,
                                     nickname,
@@ -157,7 +156,6 @@ class JoinActivity : AppCompatActivity() {
                             })
                         // 실패
                         } else {
-                            Log.w(TAG, "회원가입 실패", task.exception)
                             Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -171,7 +169,7 @@ class JoinActivity : AppCompatActivity() {
     private fun uploadImage(uid : String) {
 
         val storage = Firebase.storage
-        val storageRef = storage.reference.child(uid + ".png")
+        val storageRef = storage.reference.child("$uid.png")
 
         // 이미지뷰에서 데이터 가져옴
         profileImage.isDrawingCacheEnabled = true

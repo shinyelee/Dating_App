@@ -12,7 +12,7 @@ class RetrofitInstance {
 
             Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory((GsonConverterFactory.create()))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
         }
