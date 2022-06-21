@@ -54,21 +54,29 @@ class MyLikeActivity : AppCompatActivity() {
             testPush(pushModel)
         }
 
+//        myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
+//            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
+//            checkMatching(myLikeList[position].uid.toString())
+//            return@setOnItemLongClickListener(true)
+//        }
+
     }
 
     // 현재 사용자와 상대방이 서로 좋아요 했는지 체크
-    private fun checkMatching(otherUid : String) {
+    private fun checkMatching(otherUid : String){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.d(TAG, otherUid)
+                Log.e(TAG, dataSnapshot.toString())
                 if(dataSnapshot.children.count() == 0) {
-                    Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
                 } else {
-                    for(dataModel in dataSnapshot.children) {
+                    for (dataModel in dataSnapshot.children) {
                         val likeUserKey = dataModel.key.toString()
-                        if(likeUserKey.equals(uid)) {
-                            Toast.makeText(this@MyLikeActivity, "매칭 성공", Toast.LENGTH_SHORT).show()
+                        if(likeUserKey == uid) {
+                            Toast.makeText(this@MyLikeActivity, "매칭 성공", Toast.LENGTH_LONG).show()
                         } else {
-                            Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
