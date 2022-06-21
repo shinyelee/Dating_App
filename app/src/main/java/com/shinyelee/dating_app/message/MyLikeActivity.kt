@@ -49,7 +49,7 @@ class MyLikeActivity : AppCompatActivity() {
         myLikeListView.setOnItemClickListener { parent, view, position, id ->
             checkMatching(myLikeList[position].uid.toString())
             // 메시지 보내기
-            val notiModel = NotiModel("title", "content")
+            val notiModel = NotiModel("test title", "test content")
             val pushModel = PushNotification(notiModel, myLikeList[position].token.toString())
             testPush(pushModel)
         }

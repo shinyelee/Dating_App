@@ -23,8 +23,13 @@ class FirebaseService : FirebaseMessagingService() {
 
         super.onMessageReceived(message)
 
-        val title = message.notification?.title.toString()
-        val body = message.notification?.body.toString()
+//        Log.e(TAG, message.notification?.title.toString())
+//        Log.e(TAG, message.notification?.body.toString())
+//        val title = message.notification?.title.toString()
+//        val body = message.notification?.body.toString()
+
+        val title = message.data["test title"].toString()
+        val body = message.data["test content"].toString()
 
         createNotificationChannel()
         sendNotification(title, body)
