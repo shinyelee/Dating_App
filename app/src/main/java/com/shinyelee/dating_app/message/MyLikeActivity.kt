@@ -19,6 +19,7 @@ import com.shinyelee.dating_app.message.fcm.PushNotification
 import com.shinyelee.dating_app.message.fcm.RetrofitInstance
 import com.shinyelee.dating_app.utils.FirebaseAuthUtils
 import com.shinyelee.dating_app.utils.FirebaseRef
+import com.shinyelee.dating_app.utils.MyInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -154,7 +155,7 @@ class MyLikeActivity : AppCompatActivity() {
         val send = mAlertDialog.findViewById<Button>(R.id.sendBtnArea)
         val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
         send?.setOnClickListener {
-            val msgModel = MsgModel(uid, textArea!!.text.toString())
+            val msgModel = MsgModel(MyInfo.myNickname, textArea!!.text.toString())
             FirebaseRef.userMsgRef.child(getterUid).push().setValue(msgModel)
             mAlertDialog.dismiss()
         }

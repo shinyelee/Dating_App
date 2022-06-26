@@ -21,6 +21,7 @@ import com.shinyelee.dating_app.setting.SettingActivity
 import com.shinyelee.dating_app.slider.CardStackAdapter
 import com.shinyelee.dating_app.utils.FirebaseAuthUtils
 import com.shinyelee.dating_app.utils.FirebaseRef
+import com.shinyelee.dating_app.utils.MyInfo
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -104,8 +105,10 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // 프사 제외한 나머지 정보
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
-                // 현재 사용자의 성별 정보만 가져오기
+                // 현재 사용자의 성별
                 currentUserGender = data?.gender.toString()
+                // 현재 사용자의 닉네임
+                MyInfo.myNickname = data?.nickname.toString()
                 getUserDataList(currentUserGender)
             }
             override fun onCancelled(databaseError: DatabaseError) {
