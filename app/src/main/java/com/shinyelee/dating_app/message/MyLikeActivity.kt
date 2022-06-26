@@ -154,7 +154,8 @@ class MyLikeActivity : AppCompatActivity() {
         val send = mAlertDialog.findViewById<Button>(R.id.sendBtnArea)
         val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
         send?.setOnClickListener {
-            FirebaseRef.userMsgRef.child(getterUid).setValue(textArea!!.text.toString())
+            val msgModel = MsgModel(uid, textArea!!.text.toString())
+            FirebaseRef.userMsgRef.child(getterUid).push().setValue(msgModel)
             mAlertDialog.dismiss()
         }
     }
