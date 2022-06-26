@@ -3,8 +3,10 @@ package com.shinyelee.dating_app.message
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.ListView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -46,19 +48,19 @@ class MyLikeActivity : AppCompatActivity() {
         getMyLikeList()
 
         // 나를 좋아하는 사용자
-        myLikeListView.setOnItemClickListener { parent, view, position, id ->
-            checkMatching(myLikeList[position].uid.toString())
-            // 메시지 보내기
-            val notiModel = NotiModel("test title", "test content")
-            val pushModel = PushNotification(notiModel, myLikeList[position].token.toString())
-            testPush(pushModel)
-        }
-
-//        myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
-//            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
+//        myLikeListView.setOnItemClickListener { parent, view, position, id ->
 //            checkMatching(myLikeList[position].uid.toString())
-//            return@setOnItemLongClickListener(true)
+//            // 메시지 보내기
+//            val notiModel = NotiModel("test title", "test content")
+//            val pushModel = PushNotification(notiModel, myLikeList[position].token.toString())
+//            testPush(pushModel)
 //        }
+
+        myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
+//            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
+            checkMatching(myLikeList[position].uid.toString())
+            return@setOnItemLongClickListener(true)
+        }
 
     }
 
@@ -69,14 +71,15 @@ class MyLikeActivity : AppCompatActivity() {
                 Log.d(TAG, otherUid)
                 Log.e(TAG, dataSnapshot.toString())
                 if(dataSnapshot.children.count() == 0) {
-                    Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MyLikeActivity, "상대방의 좋아요 목록이 비어있습니다", Toast.LENGTH_LONG).show()
                 } else {
                     for (dataModel in dataSnapshot.children) {
                         val likeUserKey = dataModel.key.toString()
                         if(likeUserKey == uid) {
-                            Toast.makeText(this@MyLikeActivity, "매칭 성공", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@MyLikeActivity, "매칭이 되었습니다", Toast.LENGTH_LONG).show()
+                            showDialog()
                         } else {
-                            Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
+//                            Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -134,6 +137,15 @@ class MyLikeActivity : AppCompatActivity() {
     // push messaging
     private fun testPush(notification : PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         RetrofitInstance.api.postNotification(notification)
+    }
+
+    // dialog
+    private fun showDialog() {
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("메시지 보내기")
+        mBuilder.show()
     }
 
 }
