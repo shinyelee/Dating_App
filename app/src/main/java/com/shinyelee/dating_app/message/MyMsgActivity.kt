@@ -34,12 +34,14 @@ class MyMsgActivity : AppCompatActivity() {
     private fun getMyMsg() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                msgList.clear()
                 // 데이터스냅샷 내 사용자 데이터 출력
                 for(dataModel in dataSnapshot.children) {
                     val msg = dataModel.getValue(MsgModel::class.java)
                     msgList.add(msg!!)
                     Log.d(TAG, msg.toString())
                 }
+                msgList.reverse()
                 listviewAdapter.notifyDataSetChanged()
             }
             override fun onCancelled(databaseError: DatabaseError) {

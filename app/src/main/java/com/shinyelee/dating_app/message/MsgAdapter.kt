@@ -25,9 +25,11 @@ class MsgAdapter(val context : Context, val items : MutableList<MsgModel>) : Bas
         if(convertView == null) {
             convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item, parent, false)
         }
-        // 별명 불러와서 좋아요 리스트에 넣어줌
-        val nickname = convertView!!.findViewById<TextView>(R.id.listViewItemNickname)
-//        nickname.text = items[position].nickname
+        // 메시지를 보낸 사용자의 별명과 메시지 내용 넣어줌
+        val nicknameArea = convertView!!.findViewById<TextView>(R.id.listViewItemNicknameArea)
+        val textArea = convertView!!.findViewById<TextView>(R.id.listViewItemNickname)
+        nicknameArea.text = items[position].senderInfo
+        textArea.text = items[position].sendText
         return convertView!!
     }
 
