@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.IntroActivity
 import com.shinyelee.dating_app.message.MyLikeActivity
+import com.shinyelee.dating_app.message.MyMsgActivity
 
 class SettingActivity : AppCompatActivity() {
 
@@ -33,6 +34,15 @@ class SettingActivity : AppCompatActivity() {
         myLike.setOnClickListener {
             // 마이라이크액티비티로 이동
             val intent = Intent(this, MyLikeActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 메시지 버튼
+        val myMsg = findViewById<Button>(R.id.myMsgBtn)
+        // 을 클릭하면
+        myMsg.setOnClickListener {
+            // 마이메시지액티비티로 이동
+            val intent = Intent(this, MyMsgActivity::class.java)
             startActivity(intent)
         }
 
