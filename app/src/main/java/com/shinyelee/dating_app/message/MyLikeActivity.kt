@@ -38,6 +38,8 @@ class MyLikeActivity : AppCompatActivity() {
     lateinit var listviewAdapter: ListViewAdapter
     // 현재 사용자가 보낸 메시지를 받는 사용자
     lateinit var getterUid : String
+    // 메시지를 받는 사용자의 토큰 값
+    lateinit var getterToken : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -52,19 +54,11 @@ class MyLikeActivity : AppCompatActivity() {
         // 현재 사용자가 좋아하는 사용자
         getMyLikeList()
 
-        // 나를 좋아하는 사용자
-//        myLikeListView.setOnItemClickListener { parent, view, position, id ->
-//            checkMatching(myLikeList[position].uid.toString())
-//            // 메시지 보내기
-//            val notiModel = NotiModel("test title", "test content")
-//            val pushModel = PushNotification(notiModel, myLikeList[position].token.toString())
-//            testPush(pushModel)
-//        }
-
         myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
 //            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
             checkMatching(myLikeList[position].uid.toString())
             getterUid = myLikeList[position].uid.toString()
+            getterToken = myLikeList[position].token.toString()
             return@setOnItemLongClickListener(true)
         }
 
@@ -155,8 +149,12 @@ class MyLikeActivity : AppCompatActivity() {
         val send = mAlertDialog.findViewById<Button>(R.id.sendBtnArea)
         val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
         send?.setOnClickListener {
-            val msgModel = MsgModel(MyInfo.myNickname, textArea!!.text.toString())
+            val msgText = textArea!!.text.toString()
+            val msgModel = MsgModel(MyInfo.myNickname, msgText)
             FirebaseRef.userMsgRef.child(getterUid).push().setValue(msgModel)
+            val notiModel = NotiModel(MyInfo.myNickname, msgText)
+            val pushModel = PushNotification(notiModel, getterToken)
+            testPush(pushModel)
             mAlertDialog.dismiss()
         }
     }
