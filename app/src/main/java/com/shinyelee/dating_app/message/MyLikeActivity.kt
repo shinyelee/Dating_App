@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -145,7 +146,11 @@ class MyLikeActivity : AppCompatActivity() {
         val mBuilder = AlertDialog.Builder(this)
             .setView(mDialogView)
             .setTitle("메시지 보내기")
-        mBuilder.show()
+        val mAlertDialog = mBuilder.show()
+        val send = mAlertDialog.findViewById<Button>(R.id.sendBtnArea)
+        send?.setOnClickListener {
+            mAlertDialog.dismiss()
+        }
     }
 
 }
