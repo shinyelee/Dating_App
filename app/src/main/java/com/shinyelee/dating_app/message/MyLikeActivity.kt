@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -34,6 +35,8 @@ class MyLikeActivity : AppCompatActivity() {
     private val myLikeList = mutableListOf<UserDataModel>()
     // 현재 사용자가 좋아하는 사용자 리스트
     lateinit var listviewAdapter: ListViewAdapter
+    // 현재 사용자가 보낸 메시지를 받는 사용자
+    lateinit var getterUid : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -60,6 +63,7 @@ class MyLikeActivity : AppCompatActivity() {
         myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
 //            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
             checkMatching(myLikeList[position].uid.toString())
+            getterUid = myLikeList[position].uid.toString()
             return@setOnItemLongClickListener(true)
         }
 
@@ -148,7 +152,9 @@ class MyLikeActivity : AppCompatActivity() {
             .setTitle("메시지 보내기")
         val mAlertDialog = mBuilder.show()
         val send = mAlertDialog.findViewById<Button>(R.id.sendBtnArea)
+        val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
         send?.setOnClickListener {
+            FirebaseRef.userMsgRef.child(getterUid).setValue(textArea!!.text.toString())
             mAlertDialog.dismiss()
         }
     }
