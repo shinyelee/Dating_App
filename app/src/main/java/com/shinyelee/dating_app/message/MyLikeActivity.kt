@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.UserDataModel
+import com.shinyelee.dating_app.databinding.ActivityMyLikeBinding
 import com.shinyelee.dating_app.message.fcm.NotiModel
 import com.shinyelee.dating_app.message.fcm.PushNotification
 import com.shinyelee.dating_app.message.fcm.RetrofitInstance
@@ -28,7 +29,11 @@ class MyLikeActivity : AppCompatActivity() {
 
     private val TAG = "MyLikeActivity"
 
-    private val uid = FirebaseAuthUtils.getUid()
+    // 뷰바인딩
+    private var vBinding : ActivityMyLikeBinding? = null
+    private val binding get() = vBinding!!
+
+    val uid = FirebaseAuthUtils.getUid()
 
     // 현재 사용자가 좋아하는 사용자 UID
     private val myLikeListUid = mutableListOf<String>()
@@ -44,18 +49,18 @@ class MyLikeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_like)
+        // 뷰바인딩
+        vBinding = ActivityMyLikeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // 어댑터
-        val myLikeListView = findViewById<ListView>(R.id.myLikeListView)
         listviewAdapter = ListViewAdapter(this, myLikeList)
-        myLikeListView.adapter = listviewAdapter
+        binding.myLikeListView.adapter = listviewAdapter
 
         // 현재 사용자가 좋아하는 사용자
         getMyLikeList()
 
-        myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
-//            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
+        binding.myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
             checkMatching(myLikeList[position].uid.toString())
             getterUid = myLikeList[position].uid.toString()
             getterToken = myLikeList[position].token.toString()
@@ -71,15 +76,16 @@ class MyLikeActivity : AppCompatActivity() {
                 Log.d(TAG, otherUid)
                 Log.e(TAG, dataSnapshot.toString())
                 if(dataSnapshot.children.count() == 0) {
-                    Toast.makeText(this@MyLikeActivity, "상대방의 좋아요 목록이 비어있습니다", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
                 } else {
                     for (dataModel in dataSnapshot.children) {
                         val likeUserKey = dataModel.key.toString()
                         if(likeUserKey == uid) {
-                            Toast.makeText(this@MyLikeActivity, "매칭이 되었습니다", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@MyLikeActivity, "매칭 성공", Toast.LENGTH_LONG).show()
                             showDialog()
                         } else {
-//                            Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
+
                         }
                     }
                 }
@@ -146,8 +152,8 @@ class MyLikeActivity : AppCompatActivity() {
             .setView(mDialogView)
             .setTitle("메시지 보내기")
         val mAlertDialog = mBuilder.show()
-        val send = mAlertDialog.findViewById<Button>(R.id.sendBtnArea)
-        val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
+        val send = mAlertDialog.findViewById<Button>(R.id.sendBtn)
+        val textArea = mAlertDialog.findViewById<EditText>(R.id.sendText)
         send?.setOnClickListener {
             val msgText = textArea!!.text.toString()
             val msgModel = MsgModel(MyInfo.myNickname, msgText)

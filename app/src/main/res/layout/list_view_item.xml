@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/listViewItemNicknameArea"
+        android:id="@+id/lvNickArea"
         android:text="별명   :"
         android:textSize="20sp"
         android:layout_margin="10dp"
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/listViewItemNickname"
+        android:id="@+id/lvNick"
         android:text="쩡이"
         android:textSize="20sp"
         android:textColor="@color/black"

@@ -27,9 +27,10 @@ class ListViewAdapter(val context : Context, val items : MutableList<UserDataMod
             convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item, parent, false)
         }
         // 별명 불러와서 좋아요 리스트에 넣어줌
-        val nickname = convertView!!.findViewById<TextView>(R.id.listViewItemNickname)
+        val nickname = convertView!!.findViewById<TextView>(R.id.lvNick)
         nickname.text = items[position].nickname
         return convertView!!
+
     }
 
 }

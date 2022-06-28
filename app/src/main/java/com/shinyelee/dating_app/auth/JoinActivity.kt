@@ -105,25 +105,20 @@ class JoinActivity : AppCompatActivity() {
                 binding.pw2Area.error = "비밀번호가 일치하지 않습니다"
             }
 
-            // 가입조건 모두 만족하면
+            // 가입조건 모두 만족하면 회원가입
             if(joinAvailable) {
-                // 회원가입
                 auth.createUserWithEmailAndPassword(email, pw)
                     .addOnCompleteListener(this) { task ->
-                        // 성공
                         if (task.isSuccessful) {
                             Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
-                            // 로그인 확인 위해 현재사용자 UID 받아옴
                             val user = auth.currentUser
                             uid = user?.uid.toString()
-                            // 토큰
                             FirebaseMessaging.getInstance().token.addOnCompleteListener(
                                 OnCompleteListener { task ->
                                 if (!task.isSuccessful) {
                                     Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                                     return@OnCompleteListener
                                 }
-                                // Get new FCM registration token
                                 val token = task.result.toString()
                                 Log.e(TAG, "user token value - $token")
                                 val userModel = UserDataModel(
@@ -134,11 +129,8 @@ class JoinActivity : AppCompatActivity() {
                                     age,
                                     token
                                 )
-                                // 현재 사용자 정보 넣기
                                 FirebaseRef.userInfoRef.child(uid).setValue(userModel)
-                                // 프사 업로드
                                 uploadImage(uid)
-                                // 메인액티비티로 이동
                                 val intent = Intent(this, MainActivity::class.java)
                                 startActivity(intent)
                             })
