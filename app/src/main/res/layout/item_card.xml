@@ -61,10 +61,10 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
             android:layout_gravity="center"
-            android:src="@drawable/bad" />
+            android:src="@drawable/x" />
 
     </FrameLayout>
 
@@ -75,10 +75,10 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
             android:layout_gravity="center"
-            android:src="@drawable/good" />
+            android:src="@drawable/heart" />
 
     </FrameLayout>
 

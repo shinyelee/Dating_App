@@ -1,6 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Dating_App" parent="Theme.AppCompat.Light">
+        <!--상태바 숨김 -->
+<!--        <item name="android:windowFullscreen">true</item>-->
+        <!-- 액션바(타이틀바) 숨김 -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <!-- Primary brand color. -->
