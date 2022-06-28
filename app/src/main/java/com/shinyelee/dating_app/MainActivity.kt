@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -17,6 +16,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.shinyelee.dating_app.auth.UserDataModel
+import com.shinyelee.dating_app.databinding.ActivityMainBinding
 import com.shinyelee.dating_app.setting.SettingActivity
 import com.shinyelee.dating_app.slider.CardStackAdapter
 import com.shinyelee.dating_app.utils.FirebaseAuthUtils
@@ -24,17 +24,19 @@ import com.shinyelee.dating_app.utils.FirebaseRef
 import com.shinyelee.dating_app.utils.MyInfo
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
-import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
 
 class MainActivity : AppCompatActivity() {
 
-    // 효율적으로 데이터와 뷰를 관리하기 위해 어댑터가 필요함
+    // 카드스택뷰
     lateinit var cardStackAdapter: CardStackAdapter
-    // 레이아웃 매니저로 뷰를 그려줌
     lateinit var manager: CardStackLayoutManager
 
     private val TAG: String = "MainActivity"
+
+    // 뷰바인딩
+    private var vBinding : ActivityMainBinding? = null
+    private val binding get() = vBinding!!
 
     // 사용자 데이터 리스트
     private val usersDataList = mutableListOf<UserDataModel>()
@@ -48,18 +50,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        // 뷰바인딩
+        vBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // 설정 아이콘
-        val setting = findViewById<ImageView>(R.id.settingIcon)
-        // 을 클릭하면
-        setting.setOnClickListener {
-            // 세팅액티비티로 이동
+        // 설정 버튼 -> 세팅액티비티
+        binding.settingIcon.setOnClickListener {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
         }
 
-        val cardStackView = findViewById<CardStackView>(R.id.cardStackView)
+        // 카드스택뷰
         manager = CardStackLayoutManager(baseContext, object: CardStackListener {
             override fun onCardDragging(direction: Direction?, ratio: Float) {
             }
@@ -89,10 +90,10 @@ class MainActivity : AppCompatActivity() {
             override fun onCardDisappeared(view: View?, position: Int) {}
         })
 
-        // 카드스택어댑터에 데이터 넘겨주기
+        // 카드스택어댑터에 데이터 넘김
         cardStackAdapter = CardStackAdapter(baseContext, usersDataList)
-        cardStackView.layoutManager = manager
-        cardStackView.adapter = cardStackAdapter
+        binding.cardStackView.layoutManager = manager
+        binding.cardStackView.adapter = cardStackAdapter
 
         getMyUserData()
 
@@ -100,6 +101,7 @@ class MainActivity : AppCompatActivity() {
 
     // 현재 사용자 정보
     private fun getMyUserData() {
+
         val postListener = object : ValueEventListener {
             // 데이터스냅샷 내 사용자 데이터 출력
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -116,11 +118,14 @@ class MainActivity : AppCompatActivity() {
                 Log.w(TAG, "getMyUserData - loadPost:onCancelled", databaseError.toException())
             }
         }
+
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
+
     }
 
     // 전체 사용자 정보
     private fun getUserDataList(currentUserGender : String) {
+
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // 데이터스냅샷 내 사용자 데이터 출력
@@ -141,13 +146,17 @@ class MainActivity : AppCompatActivity() {
                 Log.w(TAG, "getUserDataList - loadPost:onCancelled", databaseError.toException())
             }
         }
+
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
+
     }
 
     // 현재 사용자의 좋아요 정보
     private fun userLikeOther(myUid : String, otherUid : String) {
+
         FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
         getMyLikeList(otherUid)
+
     }
     // 대충 이런 구조임
     // DB
@@ -157,6 +166,7 @@ class MainActivity : AppCompatActivity() {
 
     // 현재 사용자의 좋아요 리스트
     private fun getMyLikeList(otherUid: String) {
+
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // "모든" 사용자의 좋아요 리스트 (x)
@@ -176,11 +186,14 @@ class MainActivity : AppCompatActivity() {
                 Log.w(TAG, "getMyLikeList - loadPost:onCancelled", databaseError.toException())
             }
         }
+
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
+
     }
 
     // 알림 채널 시스템에 등록
     private fun createNotificationChannel() {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "name"
             val descriptionText = "descriptionText"
@@ -192,10 +205,12 @@ class MainActivity : AppCompatActivity() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+
     }
 
     // 푸시 알림
     private fun sendNotification() {
+
         var builder = NotificationCompat.Builder(this, "CHANNEL_ID")
             .setSmallIcon(R.drawable.logo)
             .setContentTitle("매칭 완료")
@@ -204,6 +219,7 @@ class MainActivity : AppCompatActivity() {
         with(NotificationManagerCompat.from(this)) {
             notify(1234, builder.build())
         }
+
     }
 
 }

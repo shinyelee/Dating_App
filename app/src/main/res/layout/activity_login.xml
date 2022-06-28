@@ -13,13 +13,14 @@
 
     <!-- 이메일주소 -->
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@color/white">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailArea"
+            android:id="@+id/email"
             android:hint="이메일주소"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
@@ -29,7 +30,7 @@
 
     <!-- 비밀번호 -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pwAreaLayout"
+        android:id="@+id/pwArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -37,7 +38,7 @@
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/pwArea"
+            android:id="@+id/pw"
             android:hint="비밀번호"
             android:inputType="textPassword"
             app:counterMaxLength="20"

@@ -20,6 +20,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.R
+import com.shinyelee.dating_app.databinding.ActivityJoinBinding
 import com.shinyelee.dating_app.utils.FirebaseRef
 import java.io.ByteArrayOutputStream
 
@@ -27,6 +28,11 @@ class JoinActivity : AppCompatActivity() {
 
     private val TAG = "JoinActivity"
 
+    // 뷰바인딩
+    private var vBinding : ActivityJoinBinding? = null
+    private val binding get() = vBinding!!
+
+    // 파이어베이스 인증
     private lateinit var auth: FirebaseAuth
 
     // UID
@@ -45,8 +51,11 @@ class JoinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_join)
+        // 뷰바인딩
+        vBinding = ActivityJoinBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        // 파이어베이스 인증
         auth = Firebase.auth
 
         profileImage = findViewById(R.id.imageArea)
@@ -63,54 +72,45 @@ class JoinActivity : AppCompatActivity() {
             getAction.launch("image/*")
         }
 
-        // 회원가입 버튼
-        val joinBtn = findViewById<Button>(R.id.joinBtn)
-        // 을 클릭하면
-        joinBtn.setOnClickListener {
+        // 회원가입 버튼 -> 가입조건 확인
+        binding.joinBtn.setOnClickListener {
 
             // 가입조건 확인
             var joinAvailable = true
 
-            // 이메일주소, 비밀번호, 비밀번호 확인
-            val email = findViewById<TextInputEditText>(R.id.emailArea)
-            val pw = findViewById<TextInputEditText>(R.id.pwArea)
-            val pw2 = findViewById<TextInputEditText>(R.id.pw2Area)
+            // 메일주소, 비밀번호, 비밀번호 확인
+            val email = binding.email.text.toString()
+            val pw = binding.pw.text.toString()
+            val pw2 = binding.pw2.text.toString()
 
-            val emailText = email.text.toString()
-            val pwText = pw.text.toString()
-            val pw2Text = pw2.text.toString()
-
-            // 별명
-            nickname = findViewById<TextInputEditText>(R.id.nicknameArea).text.toString()
-            // 성별
-            gender = findViewById<TextInputEditText>(R.id.genderArea).text.toString()
-            // 지역
-            city = findViewById<TextInputEditText>(R.id.cityArea).text.toString()
-            // 나이
-            age = findViewById<TextInputEditText>(R.id.ageArea).text.toString()
+            // 별명, 성별, 지역, 나이
+            nickname = binding.nickname.text.toString()
+            gender = binding.gender.text.toString()
+            city = binding.city.text.toString()
+            age = binding.age.text.toString()
 
             // 빈 칸 검사
-            if(emailText.isEmpty() || pwText.isEmpty() || pw2Text.isEmpty() || nickname.isEmpty() || gender.isEmpty() || city.isEmpty() || age.isEmpty()) {
+            if(email.isEmpty() || pw.isEmpty() || pw2.isEmpty() || nickname.isEmpty() || gender.isEmpty() || city.isEmpty() || age.isEmpty()) {
                 joinAvailable = false
                 Toast.makeText(this, "입력란을 모두 채워주세요", Toast.LENGTH_SHORT).show()
             }
 
             // 이메일주소 검사
-            if(!emailText.contains("@")) {
+            if(!email.contains("@")) {
                 joinAvailable = false
                 Toast.makeText(this, "잘못된 이메일주소입니다", Toast.LENGTH_SHORT).show()
             }
 
             // 비밀번호 검사
-            if(pwText.length < 6 || pw2Text.length < 6) {
+            if(pw.length < 6 || pw2.length < 6) {
                 joinAvailable = false
                 Toast.makeText(this, "비밀번호를 최소 6자리 이상 입력하세요", Toast.LENGTH_SHORT).show()
             }
-            if(pwText.length > 20 || pw2Text.length > 20) {
+            if(pw.length > 20 || pw2.length > 20) {
                 joinAvailable = false
                 Toast.makeText(this, "비밀번호를 20자리 이하로 입력하세요", Toast.LENGTH_SHORT).show()
             }
-            if(pwText != pw2Text) {
+            if(pw != pw2) {
                 joinAvailable = false
                 Toast.makeText(this, "비밀번호 불일치", Toast.LENGTH_SHORT).show()
             }
@@ -118,7 +118,7 @@ class JoinActivity : AppCompatActivity() {
             // 가입조건 모두 만족하면
             if(joinAvailable) {
                 // 회원가입
-                auth.createUserWithEmailAndPassword(email.text.toString(), pw.text.toString())
+                auth.createUserWithEmailAndPassword(binding.email.text.toString(), binding.pw.text.toString())
                     .addOnCompleteListener(this) { task ->
                         // 성공
                         if (task.isSuccessful) {
@@ -183,4 +183,5 @@ class JoinActivity : AppCompatActivity() {
         uploadTask.addOnFailureListener {}.addOnSuccessListener { taskSnapshot -> }
 
     }
+
 }
