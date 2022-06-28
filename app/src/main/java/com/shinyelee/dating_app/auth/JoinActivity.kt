@@ -6,20 +6,17 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.shinyelee.dating_app.MainActivity
-import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.databinding.ActivityJoinBinding
 import com.shinyelee.dating_app.utils.FirebaseRef
 import java.io.ByteArrayOutputStream
@@ -35,18 +32,13 @@ class JoinActivity : AppCompatActivity() {
     // 파이어베이스 인증
     private lateinit var auth: FirebaseAuth
 
-    // UID
+    // UID, 별명, 성별, 지역, 나이, 프사
     private var uid = ""
-    // 별명
     private var nickname = ""
-    // 성별
     private var gender = ""
-    // 지역
     private var city = ""
-    // 나이
     private var age = ""
-    // 프사
-    lateinit var profileImage : ImageView
+    lateinit var selfie : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -58,21 +50,19 @@ class JoinActivity : AppCompatActivity() {
         // 파이어베이스 인증
         auth = Firebase.auth
 
-        profileImage = findViewById(R.id.imageArea)
+        selfie = binding.selfie
         // 선택한 이미지로 프사 변경
         val getAction = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
-                profileImage.setImageURI(uri)
+                selfie.setImageURI(uri)
             }
         )
-
-        // 프사 클릭하면 getAction 실행
-        profileImage.setOnClickListener {
+        selfie.setOnClickListener {
             getAction.launch("image/*")
         }
 
-        // 회원가입 버튼 -> 가입조건 확인
+        // 회원가입 버튼 -> 가입조건 확인 -> 가입
         binding.joinBtn.setOnClickListener {
 
             // 가입조건 확인
@@ -96,29 +86,29 @@ class JoinActivity : AppCompatActivity() {
             }
 
             // 이메일주소 검사
-            if(!email.contains("@")) {
+            if(!email.contains("@") || !email.contains(".")) {
                 joinAvailable = false
-                Toast.makeText(this, "잘못된 이메일주소입니다", Toast.LENGTH_SHORT).show()
+                binding.emailArea.error = "형식이 올바르지 않습니다"
             }
 
             // 비밀번호 검사
-            if(pw.length < 6 || pw2.length < 6) {
+            if(pw.length < 6 || pw.length > 20) {
                 joinAvailable = false
-                Toast.makeText(this, "비밀번호를 최소 6자리 이상 입력하세요", Toast.LENGTH_SHORT).show()
+                binding.pwArea.error = "최소 6자리 이상 20자리 이하로 입력하세요"
             }
-            if(pw.length > 20 || pw2.length > 20) {
+            if(pw2.length < 6 || pw2.length > 20) {
                 joinAvailable = false
-                Toast.makeText(this, "비밀번호를 20자리 이하로 입력하세요", Toast.LENGTH_SHORT).show()
+                binding.pw2Area.error = "최소 6자리 이상 20자리 이하로 입력하세요"
             }
             if(pw != pw2) {
                 joinAvailable = false
-                Toast.makeText(this, "비밀번호 불일치", Toast.LENGTH_SHORT).show()
+                binding.pw2Area.error = "비밀번호가 일치하지 않습니다"
             }
 
             // 가입조건 모두 만족하면
             if(joinAvailable) {
                 // 회원가입
-                auth.createUserWithEmailAndPassword(binding.email.text.toString(), binding.pw.text.toString())
+                auth.createUserWithEmailAndPassword(email, pw)
                     .addOnCompleteListener(this) { task ->
                         // 성공
                         if (task.isSuccessful) {
@@ -150,11 +140,8 @@ class JoinActivity : AppCompatActivity() {
                                 uploadImage(uid)
                                 // 메인액티비티로 이동
                                 val intent = Intent(this, MainActivity::class.java)
-                                // 액티비티 관리
-//                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                                 startActivity(intent)
                             })
-                        // 실패
                         } else {
                             Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
                         }
@@ -172,9 +159,9 @@ class JoinActivity : AppCompatActivity() {
         val storageRef = storage.reference.child("$uid.png")
 
         // 이미지뷰에서 데이터 가져옴
-        profileImage.isDrawingCacheEnabled = true
-        profileImage.buildDrawingCache()
-        val bitmap = (profileImage.drawable as BitmapDrawable).bitmap
+        selfie.isDrawingCacheEnabled = true
+        selfie.buildDrawingCache()
+        val bitmap = (selfie.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()

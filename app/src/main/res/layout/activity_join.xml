@@ -21,7 +21,7 @@
 
             <!-- 프사 -->
             <ImageView
-                android:id="@+id/imageArea"
+                android:id="@+id/selfie"
                 android:src="@drawable/profile"
                 android:layout_width="match_parent"
                 android:layout_height="100dp" />
@@ -29,6 +29,7 @@
             <!-- 이메일주소 -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailArea"
+                android:hint="이메일주소"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -36,7 +37,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email"
-                    android:hint="이메일 주소"
                     android:inputType="textEmailAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -46,6 +46,7 @@
             <!-- 비밀번호 -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/pwArea"
+                android:hint="비밀번호"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -54,7 +55,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/pw"
-                    android:hint="비밀번호"
                     android:inputType="textPassword"
                     app:counterMaxLength="20"
                     app:counterEnabled="true"
@@ -66,6 +66,7 @@
             <!-- 비밀번호 확인 -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/pw2Area"
+                android:hint="비밀번호 확인"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -74,7 +75,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/pw2"
-                    android:hint="비밀번호 확인"
                     android:inputType="textPassword"
                     app:counterMaxLength="20"
                     app:counterEnabled="true"
@@ -86,6 +86,7 @@
             <!-- 별명 -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nicknameArea"
+                android:hint="별명"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -96,7 +97,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nickname"
-                    android:hint="별명"
+
                     android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -106,6 +107,7 @@
             <!-- 성별 -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/genderArea"
+                android:hint="성별(M/W)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -114,7 +116,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/gender"
-                    android:hint="성별(M/W)"
                     android:inputType="textCapCharacters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -124,6 +125,7 @@
             <!-- 지역 -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cityArea"
+                android:hint="지역"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -131,7 +133,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/city"
-                    android:hint="지역"
                     android:inputType="textCapWords"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -141,6 +142,7 @@
             <!-- 나이 -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ageArea"
+                android:hint="나이(만)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -148,7 +150,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/age"
-                    android:hint="나이(만)"
                     android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
