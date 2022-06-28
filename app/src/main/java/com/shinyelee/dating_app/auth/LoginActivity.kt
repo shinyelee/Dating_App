@@ -31,19 +31,46 @@ class LoginActivity : AppCompatActivity() {
         // 파이어베이스 인증
         auth = Firebase.auth
 
-        // 로그인 버튼 -> 입력한 메일주소, 비밀번호 받아옴 -> 메인액티비티
+        // 로그인 버튼
         binding.loginBtn.setOnClickListener {
-            auth.signInWithEmailAndPassword(binding.email.text.toString(), binding.pw.text.toString())
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+
+            // 로그인조건 확인
+            var loginAvailable = true
+
+            // 메일주소, 비밀번호
+            val email = binding.email.text.toString()
+            val pw = binding.pw.text.toString()
+
+            // 빈 칸 검사
+            if(email.isEmpty()) {
+                loginAvailable = false
+                binding.emailArea.error = "이메일주소를 입력해 주세요"
+            }
+            if(pw.isEmpty()) {
+                loginAvailable = false
+                binding.pwArea.error = "비밀번호를 입력해 주세요"
+            }
+
+            // 로그인조건 모두 만족하면 로그인
+            if(loginAvailable) {
+                auth.signInWithEmailAndPassword(binding.email.text.toString(), binding.pw.text.toString())
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                }
+            }
+
         }
 
+    }
+
+    override fun onDestroy() {
+        vBinding = null
+        super.onDestroy()
     }
 
 }

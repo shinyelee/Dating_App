@@ -58,4 +58,9 @@ class SettingActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        vBinding = null
+        super.onDestroy()
+    }
+
 }

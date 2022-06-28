@@ -57,4 +57,9 @@ class MyMsgActivity : AppCompatActivity() {
         FirebaseRef.userMsgRef.child(FirebaseAuthUtils.getUid()).addValueEventListener(postListener)
     }
 
+    override fun onDestroy() {
+        vBinding = null
+        super.onDestroy()
+    }
+
 }

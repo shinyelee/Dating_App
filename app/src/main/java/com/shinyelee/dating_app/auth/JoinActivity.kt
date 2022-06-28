@@ -62,7 +62,7 @@ class JoinActivity : AppCompatActivity() {
             getAction.launch("image/*")
         }
 
-        // 회원가입 버튼 -> 가입조건 확인 -> 가입
+        // 회원가입 버튼
         binding.joinBtn.setOnClickListener {
 
             // 가입조건 확인
@@ -135,7 +135,9 @@ class JoinActivity : AppCompatActivity() {
                                 startActivity(intent)
                             })
                         } else {
+                            binding.email.error = "이미 가입된 이메일입니다"
                             Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
+
                         }
                     }
             }
@@ -161,6 +163,11 @@ class JoinActivity : AppCompatActivity() {
         var uploadTask = storageRef.putBytes(data)
         uploadTask.addOnFailureListener {}.addOnSuccessListener { taskSnapshot -> }
 
+    }
+
+    override fun onDestroy() {
+        vBinding = null
+        super.onDestroy()
     }
 
 }

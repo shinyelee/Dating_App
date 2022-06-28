@@ -165,4 +165,9 @@ class MyLikeActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        vBinding = null
+        super.onDestroy()
+    }
+
 }
