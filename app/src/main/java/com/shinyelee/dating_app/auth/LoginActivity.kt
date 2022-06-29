@@ -9,6 +9,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.databinding.ActivityLoginBinding
+import android.util.Patterns
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -37,33 +39,54 @@ class LoginActivity : AppCompatActivity() {
             // 로그인조건 확인
             var emailCheck = true
             var pwCheck = true
-            var loginCheck = emailCheck && pwCheck
 
-            // 메일주소, 비밀번호
+            // 이메일주소, 비밀번호
             val emailTxt = binding.email.text.toString()
             val pwTxt = binding.pw.text.toString()
 
-            // 빈 칸 검사
+            // 이메일주소 정규식
+            val emailPattern = Patterns.EMAIL_ADDRESS
+
+            // 이메일주소 검사
             if(emailTxt.isEmpty()) {
                 emailCheck = false
                 binding.emailArea.error = "이메일주소를 입력해 주세요"
+            } else if(!emailPattern.matcher(emailTxt).matches()) {
+                emailCheck = false
+                binding.emailArea.error = "이메일 형식이 잘못되었습니다"
+            } else {
+                emailCheck = true
+                binding.emailArea.error = null
             }
+
+            // 비밀번호 공란 검사
             if(pwTxt.isEmpty()) {
                 pwCheck = false
                 binding.pwArea.error = "비밀번호를 입력해 주세요"
+            } else if (pwTxt.length<6) {
+                pwCheck = false
+                binding.pwArea.error = "최소 6자리 이상 입력하세요"
+            } else if (pwTxt.length>20) {
+                pwCheck = false
+                binding.pwArea.error = "20자리 이하로 입력하세요"
+            } else {
+                pwCheck = true
+                binding.pwArea.error = null
             }
 
             // 로그인조건 모두 만족하면 로그인
-            if(loginCheck) {
+            if(emailCheck && pwCheck) {
                 auth.signInWithEmailAndPassword(emailTxt, pwTxt)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         } else {
-                            Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "이메일주소와 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show()
                         }
                     }
+            } else {
+                Toast.makeText(this, "이메일주소와 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show()
             }
 
         }
