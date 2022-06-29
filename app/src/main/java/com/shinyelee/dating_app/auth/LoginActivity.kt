@@ -3,12 +3,15 @@ package com.shinyelee.dating_app.auth
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.databinding.ActivityLoginBinding
+import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,6 +24,10 @@ class LoginActivity : AppCompatActivity() {
     // 파이어베이스 인증
     private lateinit var auth: FirebaseAuth
 
+    // 로그인 검사
+    var emailCheck = false
+    var pwCheck = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -31,39 +38,103 @@ class LoginActivity : AppCompatActivity() {
         // 파이어베이스 인증
         auth = Firebase.auth
 
+        // 이메일주소, 비밀번호
+        val emailText = binding.email.text.toString()
+        val pwText = binding.pw.text.toString()
+
+        // 이메일주소 정규식
+        val emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+
+        // 이메일주소 형식
+        fun emailPattern(string: String): Boolean {
+            val pattern = Pattern.matches(emailValidation, emailText)
+            return pattern
+        }
+
+        // 메일주소 리스너
+        binding.email.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    when {
+                        s.isEmpty() -> {
+                            binding.emailArea.error = "이메일주소를 입력하세요"
+                            emailCheck = false
+                        }
+                        s.isNotEmpty() -> {
+                            when {
+                                emailPattern(s.toString()) -> {
+                                    binding.emailArea.error = null
+                                    emailCheck = true
+                                }
+                                else -> {
+                                    binding.emailArea.error = "이메일주소가 올바르지 않습니다"
+                                    emailCheck = false
+                                }
+                            }
+                        }
+                        else -> {
+                            binding.emailArea.error = "이메일주소를 다시 확인하세요"
+                            emailCheck = false
+                        }
+                    }
+                }
+            }
+        })
+
+        // 비밀번호 리스너
+        binding.pw.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    when {
+                        s.isEmpty() -> {
+                            binding.pwArea.error = "비밀번호를 입력하세요"
+                            pwCheck = false
+                        }
+                        s.isNotEmpty() -> {
+                            when {
+                                pwText.length<6 -> {
+                                    binding.pwArea.error = "최소 6자리 이상 입력하세요"
+                                    pwCheck = false
+                                }
+                                pwText.length>20 -> {
+                                    binding.pwArea.error = "20자리 이하로 입력하세요"
+                                    pwCheck = false
+                                }
+                                else -> {
+                                    binding.pwArea.error = null
+                                    pwCheck = true
+                                }
+                            }
+                        }
+                        else -> {
+                            binding.pwArea.error = "비밀번호를 다시 확인하세요"
+                            pwCheck = false
+                        }
+                    }
+                }
+            }
+        })
+
         // 로그인 버튼
         binding.loginBtn.setOnClickListener {
-
-            // 로그인조건 확인
-            var loginAvailable = true
-
-            // 메일주소, 비밀번호
-            val email = binding.email.text.toString()
-            val pw = binding.pw.text.toString()
-
-            // 빈 칸 검사
-            if(email.isEmpty()) {
-                loginAvailable = false
-                binding.emailArea.error = "이메일주소를 입력해 주세요"
-            }
-            if(pw.isEmpty()) {
-                loginAvailable = false
-                binding.pwArea.error = "비밀번호를 입력해 주세요"
-            }
-
-            // 로그인조건 모두 만족하면 로그인
-            if(loginAvailable) {
-                auth.signInWithEmailAndPassword(binding.email.text.toString(), binding.pw.text.toString())
+            // 조건 모두 만족하면 로그인
+            if(emailCheck && pwCheck) {
+                auth.signInWithEmailAndPassword(emailText, pwText)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         } else {
-                            Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "이메일주소와 비밀번호를 다시 확인하세요", Toast.LENGTH_SHORT).show()
                         }
                     }
+            } else {
+                Toast.makeText(this, "이메일주소와 비밀번호를 다시 확인하세요", Toast.LENGTH_SHORT).show()
             }
-
         }
 
     }
