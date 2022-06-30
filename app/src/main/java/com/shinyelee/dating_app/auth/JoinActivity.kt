@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
@@ -67,9 +68,14 @@ class JoinActivity : AppCompatActivity() {
         binding.joinBtn.setOnClickListener {
 
             // 가입조건 확인
-            var joinAvailable = true
+            var emailCheck = true
+            var pwCheck = true
+            var pw2Check = true
+//            var nicknameCheck = true
+//            var cityCheck = true
+            var allCheck = emailCheck and pwCheck and pw2Check // and nicknameCheck and cityCheck
 
-            // 메일주소, 비밀번호, 비밀번호 확인
+            // 이메일주소, 비밀번호, 비밀번호 확인
             val emailTxt = binding.email.text.toString()
             val pwTxt = binding.pw.text.toString()
             val pw2Txt = binding.pw2.text.toString()
@@ -82,36 +88,78 @@ class JoinActivity : AppCompatActivity() {
 
             // 빈 칸 검사
             if(emailTxt.isEmpty() || pwTxt.isEmpty() || pw2Txt.isEmpty() || nickname.isEmpty() || gender.isEmpty() || city.isEmpty() || age.isEmpty()) {
-                joinAvailable = false
+                allCheck = false
                 Toast.makeText(this, "입력란을 모두 채워주세요", Toast.LENGTH_SHORT).show()
             }
 
+            // 이메일주소 정규식
+            val emailPattern = Patterns.EMAIL_ADDRESS
+
             // 이메일주소 검사
-            if(!emailTxt.contains("@") || !emailTxt.contains(".")) {
-                joinAvailable = false
-                binding.emailArea.error = "형식이 올바르지 않습니다"
+            if(emailTxt.isEmpty()) {
+                emailCheck = false
+                binding.emailArea.error = "이메일주소를 입력하세요"
+            } else if(!emailPattern.matcher(emailTxt).matches()) {
+                emailCheck = false
+                binding.emailArea.error = "이메일 형식이 잘못되었습니다"
+            } else {
+                emailCheck = true
+                binding.emailArea.error = null
             }
 
             // 비밀번호 검사
-            if(pwTxt.length < 6 || pwTxt.length > 20) {
-                joinAvailable = false
-                binding.pwArea.error = "최소 6자리 이상 20자리 이하로 입력하세요"
-            }
-            if(pw2Txt.length < 6 || pw2Txt.length > 20) {
-                joinAvailable = false
-                binding.pw2Area.error = "최소 6자리 이상 20자리 이하로 입력하세요"
-            }
-            if(pwTxt != pw2Txt) {
-                joinAvailable = false
-                binding.pw2Area.error = "비밀번호가 일치하지 않습니다"
+            if(pwTxt.isEmpty()) {
+                pwCheck = false
+                binding.pwArea.error = "비밀번호를 입력해 주세요"
+            } else if (pwTxt.length<6) {
+                pwCheck = false
+                binding.pwArea.error = "최소 6자 이상 입력하세요"
+            } else if (pwTxt.length>20) {
+                pwCheck = false
+                binding.pwArea.error = "20자 이하로 입력하세요"
+            } else {
+                pwCheck = true
+                binding.pwArea.error = null
             }
 
+            // 비밀번호 확인 검사
+            if(pw2Txt.isEmpty()) {
+                pw2Check = false
+                binding.pw2Area.error = "비밀번호를 한 번 더 입력하세요"
+            } else if(pwTxt != pw2Txt) {
+                pw2Check = false
+                binding.pw2Area.error = "비밀번호가 일치하지 않습니다"
+            } else {
+                pw2Check = true
+                binding.pw2Area.error = null
+            }
+
+//            // 별명 검사
+//            if(nickname.isEmpty()) {
+//                nicknameCheck = false
+//                binding.nicknameArea.error = "별명을 입력하세요"
+//            } else if(nickname.length>20) {
+//                nicknameCheck = false
+//                binding.nicknameArea.error = "10자 이하로 입력하세요"
+//            } else {
+//                nicknameCheck = true
+//                binding.nicknameArea.error = null
+//            }
+//
+//            // 지역 검사
+//            if(city.isEmpty()) {
+//                cityCheck = false
+//                binding.cityArea.error = "지역을 입력하세요"
+//            } else {
+//                cityCheck = true
+//                binding.cityArea.error = null
+//            }
+
             // 가입조건 모두 만족하면 회원가입
-            if(joinAvailable) {
+            if(allCheck) {
                 auth.createUserWithEmailAndPassword(emailTxt, pwTxt)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
                             val user = auth.currentUser
                             uid = user?.uid.toString()
                             FirebaseMessaging.getInstance().token.addOnCompleteListener(
@@ -136,11 +184,11 @@ class JoinActivity : AppCompatActivity() {
                                 startActivity(intent)
                             })
                         } else {
-                            binding.email.error = "이미 가입된 이메일입니다"
                             Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
-
                         }
                     }
+            } else {
+                Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
             }
 
         }

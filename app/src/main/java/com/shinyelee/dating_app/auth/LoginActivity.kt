@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
             // 이메일주소 검사
             if(emailTxt.isEmpty()) {
                 emailCheck = false
-                binding.emailArea.error = "이메일주소를 입력해 주세요"
+                binding.emailArea.error = "이메일주소를 입력하세요"
             } else if(!emailPattern.matcher(emailTxt).matches()) {
                 emailCheck = false
                 binding.emailArea.error = "이메일 형식이 잘못되었습니다"
@@ -59,34 +59,34 @@ class LoginActivity : AppCompatActivity() {
                 binding.emailArea.error = null
             }
 
-            // 비밀번호 공란 검사
+            // 비밀번호 검사
             if(pwTxt.isEmpty()) {
                 pwCheck = false
                 binding.pwArea.error = "비밀번호를 입력해 주세요"
             } else if (pwTxt.length<6) {
                 pwCheck = false
-                binding.pwArea.error = "최소 6자리 이상 입력하세요"
+                binding.pwArea.error = "최소 6자 이상 입력하세요"
             } else if (pwTxt.length>20) {
                 pwCheck = false
-                binding.pwArea.error = "20자리 이하로 입력하세요"
+                binding.pwArea.error = "20자 이하로 입력하세요"
             } else {
                 pwCheck = true
                 binding.pwArea.error = null
             }
 
             // 로그인조건 모두 만족하면 로그인
-            if(emailCheck && pwCheck) {
+            if(emailCheck and pwCheck) {
                 auth.signInWithEmailAndPassword(emailTxt, pwTxt)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         } else {
-                            Toast.makeText(this, "이메일주소와 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "이메일주소와 비밀번호를 확인하세요", Toast.LENGTH_SHORT).show()
                         }
                     }
             } else {
-                Toast.makeText(this, "이메일주소와 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "이메일주소와 비밀번호를 확인하세요", Toast.LENGTH_SHORT).show()
             }
 
         }
