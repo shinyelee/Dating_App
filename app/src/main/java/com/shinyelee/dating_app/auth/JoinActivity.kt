@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.widget.ImageView
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +18,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.shinyelee.dating_app.MainActivity
-import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.databinding.ActivityJoinBinding
 import com.shinyelee.dating_app.utils.FirebaseRef
 import java.io.ByteArrayOutputStream
@@ -53,9 +51,6 @@ class JoinActivity : AppCompatActivity() {
         // 파이어베이스 인증
         auth = Firebase.auth
 
-        // 성별 기본값
-        binding.genderArea.check(R.id.genderMan)
-
         selfie = binding.selfie
         // 선택한 이미지로 프사 변경
         val getAction = registerForActivityResult(
@@ -88,14 +83,12 @@ class JoinActivity : AppCompatActivity() {
 
             // 별명, 성별, 지역, 나이
             nickname = binding.nickname.text.toString()
-            var gender = binding.genderArea
-            val man = binding.genderMan
-            val woman = binding.genderWoman
+            gender = binding.gender.text.toString()
             city = binding.city.text.toString()
             age = binding.age.text.toString()
 
             // 빈 칸 검사
-            if(emailTxt.isEmpty() || pwTxt.isEmpty() || pw2Txt.isEmpty() || nickname.isEmpty() || city.isEmpty() || age.isEmpty()) {
+            if(emailTxt.isEmpty() || pwTxt.isEmpty() || pw2Txt.isEmpty() || nickname.isEmpty() || gender.isEmpty() || city.isEmpty() || age.isEmpty()) {
                 allCheck = false
                 Toast.makeText(this, "입력란을 모두 작성하세요", Toast.LENGTH_SHORT).show()
             }
@@ -155,11 +148,12 @@ class JoinActivity : AppCompatActivity() {
             }
 
             // 성별 검사
-            man.setOnClickListener {
-                val gender = when (gender.checkedRadioButtonId) {
-                    R.id.genderMan -> man.text.toString()
-                    else -> woman.text.toString()
-                }
+            if(gender.isEmpty()) {
+                genderCheck = false
+                binding.genderArea.error = "성별을 입력하세요"
+            } else {
+                genderCheck = true
+                binding.genderArea.error = null
             }
 
             // 지역 검사
@@ -189,25 +183,25 @@ class JoinActivity : AppCompatActivity() {
                             uid = user?.uid.toString()
                             FirebaseMessaging.getInstance().token.addOnCompleteListener(
                                 OnCompleteListener { task ->
-                                if (!task.isSuccessful) {
-                                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                                    return@OnCompleteListener
-                                }
-                                val token = task.result.toString()
-                                Log.e(TAG, "user token value - $token")
-                                val userModel = UserDataModel(
-                                    uid,
-                                    nickname,
-                                    gender.toString(),
-                                    city,
-                                    age,
-                                    token
-                                )
-                                FirebaseRef.userInfoRef.child(uid).setValue(userModel)
-                                uploadImage(uid)
-                                val intent = Intent(this, MainActivity::class.java)
-                                startActivity(intent)
-                            })
+                                    if (!task.isSuccessful) {
+                                        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                                        return@OnCompleteListener
+                                    }
+                                    val token = task.result.toString()
+                                    Log.e(TAG, "user token value - $token")
+                                    val userModel = UserDataModel(
+                                        uid,
+                                        nickname,
+                                        gender,
+                                        city,
+                                        age,
+                                        token
+                                    )
+                                    FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                                    uploadImage(uid)
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    startActivity(intent)
+                                })
                         } else {
                             Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
                         }
