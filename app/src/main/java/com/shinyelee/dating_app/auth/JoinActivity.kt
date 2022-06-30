@@ -38,7 +38,7 @@ class JoinActivity : AppCompatActivity() {
     private var gender = ""
     private var city = ""
     private var age = ""
-    lateinit var selfie : ImageView
+    private lateinit var selfie : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -51,6 +51,7 @@ class JoinActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         selfie = binding.selfie
+
         // 선택한 이미지로 프사 변경
         val getAction = registerForActivityResult(
             ActivityResultContracts.GetContent(),
@@ -69,9 +70,9 @@ class JoinActivity : AppCompatActivity() {
             var joinAvailable = true
 
             // 메일주소, 비밀번호, 비밀번호 확인
-            val email = binding.email.text.toString()
-            val pw = binding.pw.text.toString()
-            val pw2 = binding.pw2.text.toString()
+            val emailTxt = binding.email.text.toString()
+            val pwTxt = binding.pw.text.toString()
+            val pw2Txt = binding.pw2.text.toString()
 
             // 별명, 성별, 지역, 나이
             nickname = binding.nickname.text.toString()
@@ -80,34 +81,34 @@ class JoinActivity : AppCompatActivity() {
             age = binding.age.text.toString()
 
             // 빈 칸 검사
-            if(email.isEmpty() || pw.isEmpty() || pw2.isEmpty() || nickname.isEmpty() || gender.isEmpty() || city.isEmpty() || age.isEmpty()) {
+            if(emailTxt.isEmpty() || pwTxt.isEmpty() || pw2Txt.isEmpty() || nickname.isEmpty() || gender.isEmpty() || city.isEmpty() || age.isEmpty()) {
                 joinAvailable = false
                 Toast.makeText(this, "입력란을 모두 채워주세요", Toast.LENGTH_SHORT).show()
             }
 
             // 이메일주소 검사
-            if(!email.contains("@") || !email.contains(".")) {
+            if(!emailTxt.contains("@") || !emailTxt.contains(".")) {
                 joinAvailable = false
                 binding.emailArea.error = "형식이 올바르지 않습니다"
             }
 
             // 비밀번호 검사
-            if(pw.length < 6 || pw.length > 20) {
+            if(pwTxt.length < 6 || pwTxt.length > 20) {
                 joinAvailable = false
                 binding.pwArea.error = "최소 6자리 이상 20자리 이하로 입력하세요"
             }
-            if(pw2.length < 6 || pw2.length > 20) {
+            if(pw2Txt.length < 6 || pw2Txt.length > 20) {
                 joinAvailable = false
                 binding.pw2Area.error = "최소 6자리 이상 20자리 이하로 입력하세요"
             }
-            if(pw != pw2) {
+            if(pwTxt != pw2Txt) {
                 joinAvailable = false
                 binding.pw2Area.error = "비밀번호가 일치하지 않습니다"
             }
 
             // 가입조건 모두 만족하면 회원가입
             if(joinAvailable) {
-                auth.createUserWithEmailAndPassword(email, pw)
+                auth.createUserWithEmailAndPassword(emailTxt, pwTxt)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
