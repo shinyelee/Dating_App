@@ -107,23 +107,28 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- 성별 -->
-            <com.google.android.material.textfield.TextInputLayout
+            <RadioGroup
                 android:id="@+id/genderArea"
-                android:hint="성별(M/W)"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_gravity="center"
                 android:background="@color/white"
-                app:counterMaxLength="1"
-                app:errorEnabled="true">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/gender"
-                    android:inputType="textCapCharacters"
+                <RadioButton
+                    android:id="@+id/genderMan"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="남자" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <RadioButton
+                    android:id="@+id/genderWoman"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="여자" />
+
+            </RadioGroup>
 
             <!-- 지역 -->
             <com.google.android.material.textfield.TextInputLayout

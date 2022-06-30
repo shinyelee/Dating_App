@@ -11,7 +11,6 @@ import com.shinyelee.dating_app.MainActivity
 import com.shinyelee.dating_app.databinding.ActivityLoginBinding
 import android.util.Patterns
 
-
 class LoginActivity : AppCompatActivity() {
 
     private val TAG = "LoginActivity"
