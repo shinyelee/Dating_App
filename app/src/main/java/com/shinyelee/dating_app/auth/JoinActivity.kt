@@ -52,7 +52,6 @@ class JoinActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         selfie = binding.selfie
-
         // 선택한 이미지로 프사 변경
         val getAction = registerForActivityResult(
             ActivityResultContracts.GetContent(),
@@ -71,9 +70,11 @@ class JoinActivity : AppCompatActivity() {
             var emailCheck = true
             var pwCheck = true
             var pw2Check = true
-//            var nicknameCheck = true
-//            var cityCheck = true
-            var allCheck = emailCheck and pwCheck and pw2Check // and nicknameCheck and cityCheck
+            var nicknameCheck = true
+            var genderCheck = true
+            var cityCheck = true
+            var ageCheck = true
+            var allCheck = emailCheck and pwCheck and pw2Check and nicknameCheck and genderCheck and cityCheck and ageCheck
 
             // 이메일주소, 비밀번호, 비밀번호 확인
             val emailTxt = binding.email.text.toString()
@@ -89,7 +90,7 @@ class JoinActivity : AppCompatActivity() {
             // 빈 칸 검사
             if(emailTxt.isEmpty() || pwTxt.isEmpty() || pw2Txt.isEmpty() || nickname.isEmpty() || gender.isEmpty() || city.isEmpty() || age.isEmpty()) {
                 allCheck = false
-                Toast.makeText(this, "입력란을 모두 채워주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "입력란을 모두 작성하세요", Toast.LENGTH_SHORT).show()
             }
 
             // 이메일주소 정규식
@@ -110,7 +111,7 @@ class JoinActivity : AppCompatActivity() {
             // 비밀번호 검사
             if(pwTxt.isEmpty()) {
                 pwCheck = false
-                binding.pwArea.error = "비밀번호를 입력해 주세요"
+                binding.pwArea.error = "비밀번호를 입력하세요"
             } else if (pwTxt.length<6) {
                 pwCheck = false
                 binding.pwArea.error = "최소 6자 이상 입력하세요"
@@ -134,26 +135,44 @@ class JoinActivity : AppCompatActivity() {
                 binding.pw2Area.error = null
             }
 
-//            // 별명 검사
-//            if(nickname.isEmpty()) {
-//                nicknameCheck = false
-//                binding.nicknameArea.error = "별명을 입력하세요"
-//            } else if(nickname.length>20) {
-//                nicknameCheck = false
-//                binding.nicknameArea.error = "10자 이하로 입력하세요"
-//            } else {
-//                nicknameCheck = true
-//                binding.nicknameArea.error = null
-//            }
-//
-//            // 지역 검사
-//            if(city.isEmpty()) {
-//                cityCheck = false
-//                binding.cityArea.error = "지역을 입력하세요"
-//            } else {
-//                cityCheck = true
-//                binding.cityArea.error = null
-//            }
+            // 별명 검사
+            if(nickname.isEmpty()) {
+                nicknameCheck = false
+                binding.nicknameArea.error = "별명을 입력하세요"
+            } else if(nickname.length>20) {
+                nicknameCheck = false
+                binding.nicknameArea.error = "10자 이하로 입력하세요"
+            } else {
+                nicknameCheck = true
+                binding.nicknameArea.error = null
+            }
+
+            // 성별 검사
+            if(gender.isEmpty()) {
+                genderCheck = false
+                binding.genderArea.error = "성별을 입력하세요"
+            } else {
+                genderCheck = true
+                binding.genderArea.error = null
+            }
+
+            // 지역 검사
+            if(city.isEmpty()) {
+                cityCheck = false
+                binding.cityArea.error = "지역을 입력하세요"
+            } else {
+                cityCheck = true
+                binding.cityArea.error = null
+            }
+
+            // 나이 검사
+            if(age.isEmpty()) {
+                ageCheck = false
+                binding.ageArea.error = "나이를 입력하세요"
+            } else {
+                ageCheck = true
+                binding.ageArea.error = null
+            }
 
             // 가입조건 모두 만족하면 회원가입
             if(allCheck) {
