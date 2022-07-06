@@ -126,24 +126,25 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- 지역 -->
+
+            <!-- 나이 -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cityArea"
-                android:hint="지역"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@color/white"
+                android:hint="지역"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/city"
-                    android:inputType="textCapWords"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- 나이 -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ageArea"
                 android:hint="나이(만)"
@@ -170,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@color/mainColor" />
+                android:background="@drawable/btn_gra1" />
 
         </LinearLayout>
 

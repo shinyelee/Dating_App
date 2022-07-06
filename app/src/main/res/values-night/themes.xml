@@ -4,8 +4,8 @@
         <!--상태바 숨김 -->
 <!--        <item name="android:windowFullscreen">true</item>-->
         <!-- 액션바(타이틀바) 숨김 -->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/mainColor</item>
