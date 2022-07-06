@@ -55,10 +55,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 설정 버튼 -> 세팅액티비티
-        binding.settingIcon.setOnClickListener {
-            val intent = Intent(this, SettingActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.settingIcon.setOnClickListener {
+//            val intent = Intent(this, SettingActivity::class.java)
+//            startActivity(intent)
+//        }
 
         // 카드스택뷰
         manager = CardStackLayoutManager(baseContext, object: CardStackListener {

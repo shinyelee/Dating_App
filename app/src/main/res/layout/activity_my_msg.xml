@@ -10,6 +10,8 @@
     <ListView
         android:id="@+id/msgListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

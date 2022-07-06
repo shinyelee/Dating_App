@@ -14,15 +14,15 @@
         android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Day_2"
+        android:text="DAY2DAY"
         android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-    <!-- 앱 이름 -->
 
+    <!-- 설명 -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- 회원가입 버튼-->
+        <!-- 회원가입 버튼 -->
         <Button
             android:id="@+id/joinBtn"
             android:text="회원가입"
@@ -53,7 +53,7 @@
             android:layout_margin="5dp"
             android:background="@drawable/btn_gra1" />
 
-        <!-- 로그인 버튼-->
+        <!-- 로그인 버튼 -->
         <Button
             android:id="@+id/loginBtn"
             android:text="로그인"

@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@color/mainColor" />
+        android:background="@drawable/btn_gra1" />
 
     <!-- 좋아요 리스트 -->
     <Button
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@color/mainColor" />
+        android:background="@drawable/btn_gra1" />
 
     <!-- 좋아요 리스트 -->
     <Button
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@color/mainColor" />
+        android:background="@drawable/btn_gra1" />
 
     <!-- 로그아웃 -->
     <Button
@@ -52,6 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@color/mainColor" />
+        android:background="@drawable/btn_gra1" />
 
 </LinearLayout>
