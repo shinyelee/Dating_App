@@ -8,6 +8,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
@@ -54,11 +56,12 @@ class MainActivity : AppCompatActivity() {
         vBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 설정 버튼 -> 세팅액티비티
-        binding.settingIcon.setOnClickListener {
-            val intent = Intent(this, SettingActivity::class.java)
-            startActivity(intent)
-        }
+        // 커스텀한 toolbar를 액션바로 사용
+        setSupportActionBar(binding.toolbar)
+        // 액션바에 제목의 표시유무 설정
+        // (false -> 커스텀한 이름이 나옴)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbar.title = "프로필 탐색하기"
 
         // 카드스택뷰
         manager = CardStackLayoutManager(baseContext, object: CardStackListener {
@@ -97,6 +100,32 @@ class MainActivity : AppCompatActivity() {
 
         getMyUserData()
 
+    }
+
+    //액션버튼 메뉴 액션바에 집어 넣기
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    //액션버튼 클릭 했을 때
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId){
+            // 검색 버튼 -> 토스트 메시지
+            R.id.likeBtn -> {
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+                return super.onOptionsItemSelected(item)
+
+            }
+            // 설정 버튼 -> 세팅액티비티
+            R.id.settingBtn -> {
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+                return super.onOptionsItemSelected(item)
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     // 현재 사용자 정보
