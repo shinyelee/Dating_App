@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="supportColor">#FFCC00</color>
     <color name="subColor">#6BE7C6</color>
     <color name="mainColor">#FF6BC0</color>
     <color name="purple_200">#FFDBE9</color>

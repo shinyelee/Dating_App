@@ -52,32 +52,4 @@
 
     </LinearLayout>
 
-    <!-- 왼쪽으로 슬라이딩(관심없음) -->
-<!--    <FrameLayout-->
-<!--        android:id="@+id/left_overlay"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="400dp"-->
-<!--            android:layout_height="400dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:src="@drawable/x" />-->
-
-<!--    </FrameLayout>-->
-
-    <!-- 오른쪽으로 슬라이딩(좋아요) -->
-<!--    <FrameLayout-->
-<!--        android:id="@+id/right_overlay"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="400dp"-->
-<!--            android:layout_height="400dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:src="@drawable/ic_baseline_favorite_border_24" />-->
-
-<!--    </FrameLayout>-->
-
 </androidx.cardview.widget.CardView>

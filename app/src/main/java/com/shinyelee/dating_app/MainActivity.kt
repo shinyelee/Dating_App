@@ -14,13 +14,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.view.isVisible
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.shinyelee.dating_app.auth.UserDataModel
 import com.shinyelee.dating_app.databinding.ActivityMainBinding
-import com.shinyelee.dating_app.setting.SettingActivity
+import com.shinyelee.dating_app.message.MyLikeActivity
+import com.shinyelee.dating_app.setting.MyPageActivity
 import com.shinyelee.dating_app.slider.CardStackAdapter
 import com.shinyelee.dating_app.utils.FirebaseAuthUtils
 import com.shinyelee.dating_app.utils.FirebaseRef
@@ -71,13 +71,10 @@ class MainActivity : AppCompatActivity() {
             // 카드 넘기기
             override fun onCardSwiped(direction: Direction?) {
                 // 왼쪽(관심없음)
-                if(direction == Direction.Left) {
-                    binding.ltAnimation.isVisible = false
-                }
+                if(direction == Direction.Left) {}
                 // 오른쪽(좋아요)
                 if(direction == Direction.Right) {
                     // 하트 애니메이션
-                    binding.ltAnimation.isVisible = true
                     binding.ltAnimation.playAnimation()
                     // 다른 사용자 UID 받아옴
                     userLikeOther(uid, usersDataList[userCount].uid.toString())
@@ -114,16 +111,16 @@ class MainActivity : AppCompatActivity() {
     //액션버튼 클릭 했을 때
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
-            // 검색 버튼 -> 토스트 메시지
+            // 하트 버튼 -> 좋아요
             R.id.likeBtn -> {
-                val intent = Intent(this, SettingActivity::class.java)
+                val intent = Intent(this, MyLikeActivity::class.java)
                 startActivity(intent)
                 return super.onOptionsItemSelected(item)
 
             }
             // 설정 버튼 -> 세팅액티비티
             R.id.settingBtn -> {
-                val intent = Intent(this, SettingActivity::class.java)
+                val intent = Intent(this, MyPageActivity::class.java)
                 startActivity(intent)
                 return super.onOptionsItemSelected(item)
             }
