@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.isVisible
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -71,11 +72,13 @@ class MainActivity : AppCompatActivity() {
             override fun onCardSwiped(direction: Direction?) {
                 // 왼쪽(관심없음)
                 if(direction == Direction.Left) {
-//                    Toast.makeText(this@MainActivity, "관심없음", Toast.LENGTH_SHORT).show()
+                    binding.ltAnimation.isVisible = false
                 }
                 // 오른쪽(좋아요)
                 if(direction == Direction.Right) {
-                    Toast.makeText(this@MainActivity, "좋아요", Toast.LENGTH_SHORT).show()
+                    // 하트 애니메이션
+                    binding.ltAnimation.isVisible = true
+                    binding.ltAnimation.playAnimation()
                     // 다른 사용자 UID 받아옴
                     userLikeOther(uid, usersDataList[userCount].uid.toString())
                 }
