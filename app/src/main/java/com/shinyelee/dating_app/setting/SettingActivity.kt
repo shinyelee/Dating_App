@@ -27,32 +27,21 @@ class SettingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 내 정보 버튼 -> 마이페이지액티비티
-        binding.myPageBtn.setOnClickListener {
-            val intent = Intent(this, MyPageActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.myPageBtn.setOnClickListener {
+//            val intent = Intent(this, MyPageActivity::class.java)
+//            startActivity(intent)
+//        }
 
         // 좋아요 버튼 -> 마이라이크액티비티
-        binding.myLikeBtn.setOnClickListener {
-            val intent = Intent(this, MyLikeActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.myLikeBtn.setOnClickListener {
+//            val intent = Intent(this, MyLikeActivity::class.java)
+//            startActivity(intent)
+//        }
 
         // 메시지 버튼 -> 마이메시지액티비티
         binding.myMsgBtn.setOnClickListener {
             // 마이메시지액티비티로 이동
             val intent = Intent(this, MyMsgActivity::class.java)
-            startActivity(intent)
-        }
-
-        // 로그아웃 버튼
-        binding.logoutBtn.setOnClickListener {
-            // 로그아웃 후
-            val auth = Firebase.auth
-            auth.signOut()
-            Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show()
-            // 인트로액티비티로 이동
-            val intent = Intent(this, IntroActivity::class.java)
             startActivity(intent)
         }
 

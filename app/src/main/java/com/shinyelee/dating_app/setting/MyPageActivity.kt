@@ -1,16 +1,20 @@
 package com.shinyelee.dating_app.setting
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.shinyelee.dating_app.R
+import com.shinyelee.dating_app.auth.IntroActivity
 import com.shinyelee.dating_app.auth.UserDataModel
 import com.shinyelee.dating_app.databinding.ActivityMyPageBinding
 import com.shinyelee.dating_app.utils.FirebaseAuthUtils
@@ -36,6 +40,17 @@ class MyPageActivity : AppCompatActivity() {
 
         // 내 정보 불러오기
         getMyData()
+
+        // 로그아웃 버튼
+        binding.logoutBtn.setOnClickListener {
+            // 로그아웃 후
+            val auth = Firebase.auth
+            auth.signOut()
+            Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show()
+            // 인트로액티비티로 이동
+            val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

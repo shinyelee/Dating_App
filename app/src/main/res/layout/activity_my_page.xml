@@ -1,65 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:orientation="vertical"
-    android:background="@drawable/card"
-    android:layout_gravity="center">
+    android:layout_height="match_parent">
 
-    <!-- 내 프사 -->
-    <ImageView
-        android:id="@+id/myImage"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_margin="5dp"
-        android:src="@drawable/profile" />
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/card"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- 내 Uid -->
-    <TextView
-        android:id="@+id/myUid"
-        android:text="내 uid"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
+        <!-- 내 프사 -->
+        <ImageView
+            android:id="@+id/myImage"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/profile" />
 
-    <!-- 내 별명 -->
-    <TextView
-        android:id="@+id/myNickname"
-        android:text="내 별명"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
+        <!-- 내 Uid -->
+        <TextView
+            android:id="@+id/myUid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="내 uid"
+            android:visibility="gone" />
 
-    <!-- 내 성별 -->
-    <TextView
-        android:id="@+id/myGender"
-        android:text="내 성별"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
+        <!-- 내 별명 -->
+        <TextView
+            android:id="@+id/myNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="내 별명"
+            android:textSize="24sp" />
 
-    <!-- 내 지역 -->
-    <TextView
-        android:id="@+id/myCity"
-        android:text="내 지역"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
+        <!-- 내 성별 -->
+        <TextView
+            android:id="@+id/myGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="내 성별"
+            android:textSize="24sp" />
 
-    <!--내 나이-->
-    <TextView
-        android:id="@+id/myAge"
-        android:text="내 나이"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
+        <!-- 내 지역 -->
+        <TextView
+            android:id="@+id/myCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="내 지역"
+            android:textSize="24sp" />
 
-</LinearLayout>
+        <!--내 나이-->
+        <TextView
+            android:id="@+id/myAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="내 나이"
+            android:textSize="24sp" />
+
+        <!-- 로그아웃 -->
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/btn_gra1"
+            android:text="로그아웃"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

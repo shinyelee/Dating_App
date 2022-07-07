@@ -10,17 +10,6 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <!-- 내 정보 -->
-    <Button
-        android:id="@+id/myPageBtn"
-        android:text="내 정보"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/btn_gra1" />
-
     <!-- 좋아요 리스트 -->
     <Button
         android:id="@+id/myLikeBtn"
@@ -36,17 +25,6 @@
     <Button
         android:id="@+id/myMsgBtn"
         android:text="받은 메시지"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/btn_gra1" />
-
-    <!-- 로그아웃 -->
-    <Button
-        android:id="@+id/logoutBtn"
-        android:text="로그아웃"
         android:textSize="18sp"
         android:textColor="@color/white"
         android:layout_width="match_parent"

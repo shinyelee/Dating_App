@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.UserDataModel
@@ -30,7 +31,6 @@ class ListViewAdapter(val context : Context, val items : MutableList<UserDataMod
         val nickname = convertView!!.findViewById<TextView>(R.id.lvNick)
         nickname.text = items[position].nickname
         return convertView!!
-
     }
 
 }
