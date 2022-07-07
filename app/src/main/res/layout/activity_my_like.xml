@@ -8,11 +8,38 @@
     android:layout_height="match_parent"
     tools:context=".message.MyLikeActivity">
 
-    <ListView
-        android:id="@+id/myLikeListView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/card" />
+        android:background="@drawable/card"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 내 좋아요 목록 -->
+        <ListView
+            android:id="@+id/myLikeListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/card" />
+
+    </LinearLayout>
+
+    <!-- 내가 받은 메시지 -->
+    <Button
+        android:id="@+id/myMsgBtn"
+        android:text="받은 메시지"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/btn_gra1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

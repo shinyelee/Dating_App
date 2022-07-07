@@ -102,23 +102,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //액션버튼 메뉴 액션바에 집어 넣기
+    // 액션버튼 메뉴 액션바에 집어 넣음
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true
     }
 
-    //액션버튼 클릭 했을 때
+    // 액션버튼 클릭 했을 때
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
-            // 하트 버튼 -> 좋아요
+            // 하트 버튼 -> 마이라이크액티비티
             R.id.likeBtn -> {
                 val intent = Intent(this, MyLikeActivity::class.java)
                 startActivity(intent)
                 return super.onOptionsItemSelected(item)
 
             }
-            // 설정 버튼 -> 세팅액티비티
+            // 설정 버튼 -> 마이페이지액티비티
             R.id.settingBtn -> {
                 val intent = Intent(this, MyPageActivity::class.java)
                 startActivity(intent)

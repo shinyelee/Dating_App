@@ -1,5 +1,6 @@
 package com.shinyelee.dating_app.message
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -55,6 +56,13 @@ class MyLikeActivity : AppCompatActivity() {
         // 어댑터
         listviewAdapter = ListViewAdapter(this, myLikeList)
         binding.myLikeListView.adapter = listviewAdapter
+
+        // 메시지 버튼 -> 마이메시지액티비티
+        binding.myMsgBtn.setOnClickListener {
+            // 마이메시지액티비티로 이동
+            val intent = Intent(this, MyMsgActivity::class.java)
+            startActivity(intent)
+        }
 
         // 현재 사용자가 좋아하는 사용자
         getMyLikeList()
