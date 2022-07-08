@@ -70,6 +70,11 @@ class MyPageActivity : AppCompatActivity() {
                 binding.myNickname.text = data!!.nickname
                 // 성별
                 binding.myGender.text = data!!.gender
+                if(binding.myGender.text.equals("W")) {
+                    binding.myGender.text = "여자"
+                } else {
+                    binding.myGender.text = "남자"
+                }
                 // 지역
                 binding.myCity.text = data!!.city
                 // 나이
