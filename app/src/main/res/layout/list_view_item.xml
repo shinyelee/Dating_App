@@ -40,13 +40,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/xItem"
+            android:id="@+id/heartItem"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_clear_24"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="2dp"
+            android:src="@drawable/ic_baseline_favorite_border_24"
+            app:layout_constraintEnd_toStartOf="@+id/chatItem"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/mainColor" />
+            app:tint="@color/purple_200" />
 
         <ImageView
             android:id="@+id/chatItem"
@@ -59,14 +60,13 @@
             app:tint="@color/purple_200" />
 
         <ImageView
-            android:id="@+id/heartItem"
+            android:id="@+id/xItem"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:padding="2dp"
-            android:src="@drawable/ic_baseline_favorite_border_24"
-            app:layout_constraintEnd_toStartOf="@+id/chatItem"
+            android:src="@drawable/ic_baseline_clear_24"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/purple_200" />
+            app:tint="@color/mainColor" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

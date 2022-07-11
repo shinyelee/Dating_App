@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/drawable-v24/btn_str1.xml" value="0.25846153846153846" />
         <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.13796296296296295" />
         <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/drawable/btn_gra1.xml" value="0.2" />
         <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/drawable/btn_gra2.xml" value="0.2692307692307692" />
@@ -33,7 +34,7 @@
         <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/layout/activity_splash.xml" value="0.2" />
         <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/layout/custom_dialog.xml" value="0.2" />
         <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/layout/item_card.xml" value="0.2" />
-        <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/layout/list_view_item.xml" value="0.1" />
+        <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/layout/list_view_item.xml" value="0.2" />
         <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/menu/main_menu.xml" value="0.253125" />
         <entry key="..\:/Users/shinyelee/AndroidStudioProjects/Dating_App/app/src/main/res/menu/toolbar_menu.xml" value="0.26979166666666665" />
       </map>

@@ -27,9 +27,6 @@
             android:name=".message.MyLikeActivity"
             android:exported="true" />
         <activity
-            android:name=".setting.SettingActivity"
-            android:exported="true" />
-        <activity
             android:name=".setting.MyPageActivity"
             android:exported="true" />
         <activity

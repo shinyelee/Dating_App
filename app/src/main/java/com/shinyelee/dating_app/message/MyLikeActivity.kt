@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -57,7 +55,7 @@ class MyLikeActivity : AppCompatActivity() {
         listviewAdapter = ListViewAdapter(this, myLikeList)
         binding.myLikeListView.adapter = listviewAdapter
 
-        // 메시지 버튼 -> 마이메시지액티비티
+        // 받은 메시지 버튼 -> 마이메시지액티비티
         binding.myMsgBtn.setOnClickListener {
             // 마이메시지액티비티로 이동
             val intent = Intent(this, MyMsgActivity::class.java)
@@ -83,15 +81,17 @@ class MyLikeActivity : AppCompatActivity() {
                 Log.d(TAG, otherUid)
                 Log.e(TAG, dataSnapshot.toString())
                 if(dataSnapshot.children.count() == 0) {
-                    Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MyLikeActivity, "메시지를 보낼 수 없습니다", Toast.LENGTH_LONG).show()
                 } else {
                     for (dataModel in dataSnapshot.children) {
                         val likeUserKey = dataModel.key.toString()
                         if(likeUserKey == uid) {
-                            Toast.makeText(this@MyLikeActivity, "매칭 성공", Toast.LENGTH_LONG).show()
+                            val matched = binding.myLikeListView
+                            matched.setBackgroundResource(R.drawable.btn_str1);
+//                            Toast.makeText(this@MyLikeActivity, "매칭 성공", Toast.LENGTH_LONG).show()
                             showDialog()
                         } else {
-                            Toast.makeText(this@MyLikeActivity, "매칭 실패", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@MyLikeActivity, "메시지를 보낼 수 없습니다", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
