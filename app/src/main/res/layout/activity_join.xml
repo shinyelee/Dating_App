@@ -23,7 +23,7 @@
             <!-- 프사 -->
             <ImageView
                 android:id="@+id/selfie"
-                android:src="@drawable/profile"
+                android:src="@drawable/ic_baseline_perm_identity_24"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="50dp" />

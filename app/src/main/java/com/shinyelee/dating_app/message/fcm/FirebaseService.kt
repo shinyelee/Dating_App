@@ -22,18 +22,19 @@ class FirebaseService : FirebaseMessagingService() {
 
         super.onMessageReceived(message)
 
-        val title = message.data["test title"].toString()
-        val body = message.data["test content"].toString()
+        val title = message.data["title"].toString()
+        val body = message.data["content"].toString()
 
         createNotificationChannel()
         sendNotification(title, body)
+
     }
 
     // 알림 채널 시스템에 등록
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "name"
-            val descriptionText = "descriptionText"
+            val descriptionText = "description"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("CHANNEL_ID", name, importance).apply {
                 description = descriptionText
@@ -44,15 +45,15 @@ class FirebaseService : FirebaseMessagingService() {
         }
     }
 
-    // 푸시 알림
+    // 푸시 알림 - 메시지
     private fun sendNotification(title : String, body : String) {
         var builder = NotificationCompat.Builder(this, "CHANNEL_ID")
-            .setSmallIcon(R.drawable.logo)
+            .setSmallIcon(R.drawable.ic_baseline_local_fire_department_24)
             .setContentTitle(title)
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         with(NotificationManagerCompat.from(this)) {
-            notify(1234, builder.build())
+            notify(123, builder.build())
         }
     }
 }

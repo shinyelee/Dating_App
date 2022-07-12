@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_margin="5dp"
-            android:src="@drawable/profile" />
+            android:src="@drawable/ic_baseline_perm_identity_24" />
 
         <!-- 내 Uid -->
         <TextView

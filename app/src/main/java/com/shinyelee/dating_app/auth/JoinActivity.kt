@@ -188,7 +188,7 @@ class JoinActivity : AppCompatActivity() {
                                         return@OnCompleteListener
                                     }
                                     val token = task.result.toString()
-                                    Log.e(TAG, "토큰 : user token value - $token")
+                                    Log.e(TAG, "토큰(user token value) - $token")
                                     val userModel = UserDataModel(
                                         uid,
                                         nickname,

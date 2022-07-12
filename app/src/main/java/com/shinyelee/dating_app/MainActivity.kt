@@ -237,16 +237,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    // 푸시 알림
+    // 푸시 알림 - 매칭
     private fun sendNotification() {
 
         var builder = NotificationCompat.Builder(this, "CHANNEL_ID")
-            .setSmallIcon(R.drawable.logo)
+            .setSmallIcon(R.drawable.ic_baseline_local_fire_department_24)
             .setContentTitle("매칭 완료")
             .setContentText("상대방도 나에게 호감이 있어요! 메시지를 보내볼까요?")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         with(NotificationManagerCompat.from(this)) {
-            notify(1234, builder.build())
+            notify(123, builder.build())
         }
 
     }

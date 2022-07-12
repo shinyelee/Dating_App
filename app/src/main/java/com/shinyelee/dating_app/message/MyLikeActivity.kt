@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.UserDataModel
 import com.shinyelee.dating_app.databinding.ActivityMyLikeBinding
@@ -22,6 +23,7 @@ import com.shinyelee.dating_app.utils.MyInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MyLikeActivity : AppCompatActivity() {
 
@@ -74,6 +76,7 @@ class MyLikeActivity : AppCompatActivity() {
 
     }
 
+
     // 현재 사용자와 상대방이 서로 좋아요 했는지 체크
     private fun checkMatching(otherUid : String){
         val postListener = object : ValueEventListener {
@@ -88,7 +91,6 @@ class MyLikeActivity : AppCompatActivity() {
                         if(likeUserKey == uid) {
                             val matched = binding.myLikeListView
                             matched.setBackgroundResource(R.drawable.btn_str1);
-//                            Toast.makeText(this@MyLikeActivity, "매칭 성공", Toast.LENGTH_LONG).show()
                             showDialog()
                         } else {
                             Toast.makeText(this@MyLikeActivity, "메시지를 보낼 수 없습니다", Toast.LENGTH_LONG).show()
@@ -149,6 +151,16 @@ class MyLikeActivity : AppCompatActivity() {
     // push messaging
     private fun testPush(notification : PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         RetrofitInstance.api.postNotification(notification)
+//        try {
+//            val response = RetrofitInstance.api.postNotification(notification)
+//            if(response.isSuccessful) {
+//                Log.d(TAG, "Response: ${Gson().toJson(response)}")
+//            } else {
+//                Log.e(TAG, response.errorBody().toString())
+//            }
+//        } catch(e: Exception) {
+//            Log.e(TAG, e.toString())
+//        }
     }
 
     // dialog

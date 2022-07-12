@@ -20,7 +20,8 @@
             android:id="@+id/lvNickArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="별명 : "
+            android:paddingRight="5dp"
+            android:text="별명 :"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +31,7 @@
             android:id="@+id/lvNick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="5dp"
             android:text="쩡이"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -39,25 +41,25 @@
             app:layout_constraintStart_toEndOf="@+id/lvNickArea"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/heartItem"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="2dp"
-            android:src="@drawable/ic_baseline_favorite_border_24"
-            app:layout_constraintEnd_toStartOf="@+id/chatItem"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/purple_200" />
+<!--        <ImageView-->
+<!--            android:id="@+id/heartItem"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:padding="2dp"-->
+<!--            android:src="@drawable/ic_baseline_favorite_border_24"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/chatItem"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:tint="@color/purple_200" />-->
 
-        <ImageView
-            android:id="@+id/chatItem"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="3dp"
-            android:src="@drawable/ic_baseline_chat_24"
-            app:layout_constraintEnd_toStartOf="@+id/xItem"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/purple_200" />
+<!--        <ImageView-->
+<!--            android:id="@+id/chatItem"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:padding="3dp"-->
+<!--            android:src="@drawable/ic_baseline_chat_24"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/xItem"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:tint="@color/purple_200" />-->
 
         <ImageView
             android:id="@+id/xItem"
@@ -73,7 +75,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
