@@ -170,10 +170,10 @@ class MyLikeActivity : AppCompatActivity() {
             .setView(mDialogView)
             .setTitle("메시지 보내기")
         val mAlertDialog = mBuilder.show()
-        val send = mAlertDialog.findViewById<Button>(R.id.sendBtn)
-        val textArea = mAlertDialog.findViewById<EditText>(R.id.sendText)
-        send?.setOnClickListener {
-            val msgText = textArea!!.text.toString()
+        val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
+        val text = mAlertDialog.findViewById<EditText>(R.id.sendText)
+        btn?.setOnClickListener {
+            val msgText = text!!.text.toString()
             val msgModel = MsgModel(MyInfo.myNickname, msgText)
             FirebaseRef.userMsgRef.child(getterUid).push().setValue(msgModel)
             val notiModel = NotiModel(MyInfo.myNickname, msgText)
