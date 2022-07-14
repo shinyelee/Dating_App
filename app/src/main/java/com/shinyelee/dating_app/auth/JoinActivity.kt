@@ -33,7 +33,7 @@ class JoinActivity : AppCompatActivity() {
     // 파이어베이스 인증
     private lateinit var auth: FirebaseAuth
 
-    // UID, 별명, 성별, 지역, 나이, 프사
+    // UID, 별명, 성별, 지역, 생년, 프사
     private var uid = ""
     private var nickname = ""
     private var gender = ""
@@ -81,7 +81,7 @@ class JoinActivity : AppCompatActivity() {
             val pwTxt = binding.pw.text.toString()
             val pw2Txt = binding.pw2.text.toString()
 
-            // 별명, 성별, 지역, 나이
+            // 별명, 성별, 지역, 생년
             nickname = binding.nickname.text.toString()
             gender = binding.gender.text.toString()
             city = binding.city.text.toString()
@@ -165,10 +165,10 @@ class JoinActivity : AppCompatActivity() {
                 binding.cityArea.error = null
             }
 
-            // 나이 검사
+            // 생년 검사
             if(age.isEmpty()) {
                 ageCheck = false
-                binding.ageArea.error = "나이를 입력하세요"
+                binding.ageArea.error = "생년을 입력하세요"
             } else {
                 ageCheck = true
                 binding.ageArea.error = null

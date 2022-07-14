@@ -39,7 +39,7 @@ class CardStackAdapter(val context: Context, val items: List<UserDataModel>): Re
         val nickname = itemView.findViewById<TextView>(R.id.itemNickname)
         // 지역
         val city = itemView.findViewById<TextView>(R.id.itemCity)
-        // 나이
+        // 생년
         val age = itemView.findViewById<TextView>(R.id.itemAge)
 
         fun binding(data: UserDataModel) {

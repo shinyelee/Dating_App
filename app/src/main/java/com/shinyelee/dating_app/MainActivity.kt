@@ -204,7 +204,7 @@ class MainActivity : AppCompatActivity() {
                     val likeUserKey = dataModel.key.toString()
                     // 상대방도 현재 사용자를 좋아요 했는지 확인
                     if(likeUserKey.equals(uid)) {
-//                        Toast.makeText(this@MainActivity, "매칭 성공", Toast.LENGTH_SHORT).show()
+                        // 푸시 알림 - 매칭
                         createNotificationChannel()
                         sendNotification()
                     }

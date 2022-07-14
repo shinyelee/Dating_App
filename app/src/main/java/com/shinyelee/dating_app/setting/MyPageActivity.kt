@@ -77,7 +77,7 @@ class MyPageActivity : AppCompatActivity() {
                 }
                 // 지역
                 binding.myCity.text = data!!.city
-                // 나이
+                // 생년
                 binding.myAge.text = data!!.age
                 // 프사
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")

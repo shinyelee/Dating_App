@@ -89,11 +89,9 @@ class MyLikeActivity : AppCompatActivity() {
                     for (dataModel in dataSnapshot.children) {
                         val likeUserKey = dataModel.key.toString()
                         if(likeUserKey == uid) {
-                            val matched = binding.myLikeListView
-                            matched.setBackgroundResource(R.drawable.btn_str1);
+//                            val matched = binding.myLikeListView
+//                            matched.setBackgroundResource(R.drawable.btn_str1);
                             showDialog()
-                        } else {
-                            Toast.makeText(this@MyLikeActivity, "메시지를 보낼 수 없습니다", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
