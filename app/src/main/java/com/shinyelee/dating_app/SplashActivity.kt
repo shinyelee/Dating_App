@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
             // 2초 뒤 인트로액티비티로 이동
             Handler().postDelayed({
                 val intent = Intent(this, IntroActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION and Intent.FLAG_ACTIVITY_NO_HISTORY)
                 startActivity(intent)
                 finish()
             }, 2000)
@@ -36,7 +36,7 @@ class SplashActivity : AppCompatActivity() {
             // 2초 뒤 메인액티비티로 이동
             Handler().postDelayed({
                 val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION and Intent.FLAG_ACTIVITY_NO_HISTORY)
                 startActivity(intent)
                 finish()
             }, 2000)
