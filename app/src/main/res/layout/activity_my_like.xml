@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".message.MyLikeActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -19,14 +19,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- 내 좋아요 목록 -->
+
         <ListView
             android:id="@+id/myLikeListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/card" />
+            android:background="@drawable/card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+        </ListView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 내가 받은 메시지 -->
     <Button
@@ -41,5 +47,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/noLike"
+        android:text="아직 마음에 드는 사람이 없습니다"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
