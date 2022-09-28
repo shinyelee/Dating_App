@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.UserDataModel
 import com.shinyelee.dating_app.databinding.ActivityMyLikeBinding
@@ -23,6 +23,7 @@ import com.shinyelee.dating_app.utils.MyInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MyLikeActivity : AppCompatActivity() {
 
@@ -88,9 +89,9 @@ class MyLikeActivity : AppCompatActivity() {
                     for (dataModel in dataSnapshot.children) {
                         val likeUserKey = dataModel.key.toString()
                         if(likeUserKey == uid) {
+//                            val matched = binding.myLikeListView
+//                            matched.setBackgroundResource(R.drawable.btn_str1);
                             showDialog()
-                        } else {
-                            Toast.makeText(this@MyLikeActivity, "메시지를 보낼 수 없습니다", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -111,7 +112,6 @@ class MyLikeActivity : AppCompatActivity() {
                     // 현재 사용자가 좋아하는 사용자들의 UID가 myLikeList에 들어있음
                     myLikeListUid.add(dataModel.key.toString())
                 }
-                binding.noLike.isVisible = myLikeListUid.count()==0
                 // 전체 사용자 정보 받아옴
                 getUserDataList()
             }
@@ -133,7 +133,6 @@ class MyLikeActivity : AppCompatActivity() {
                     if(myLikeListUid.contains(user?.uid)) {
                         // 현재 사용자가 좋아하는 사용자의 정보만 추가
                         myLikeList.add(user!!)
-                        Log.d(TAG, user.toString())
                     }
                 }
                 listviewAdapter.notifyDataSetChanged()
@@ -150,6 +149,16 @@ class MyLikeActivity : AppCompatActivity() {
     // push messaging
     private fun testPush(notification : PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         RetrofitInstance.api.postNotification(notification)
+//        try {
+//            val response = RetrofitInstance.api.postNotification(notification)
+//            if(response.isSuccessful) {
+//                Log.d(TAG, "Response: ${Gson().toJson(response)}")
+//            } else {
+//                Log.e(TAG, response.errorBody().toString())
+//            }
+//        } catch(e: Exception) {
+//            Log.e(TAG, e.toString())
+//        }
     }
 
     // dialog

@@ -3,7 +3,6 @@ package com.shinyelee.dating_app.message
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.core.view.isVisible
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -47,7 +46,6 @@ class MyMsgActivity : AppCompatActivity() {
                     msgList.add(msg!!)
                     Log.d(TAG, msg.toString())
                 }
-                binding.noMsg.isVisible = msgList.count()==0
                 msgList.reverse()
                 listviewAdapter.notifyDataSetChanged()
             }

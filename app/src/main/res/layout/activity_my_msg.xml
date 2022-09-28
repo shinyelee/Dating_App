@@ -13,12 +13,12 @@
         android:layout_height="match_parent"
         android:background="@drawable/card" />
 
-    <TextView
-        android:id="@+id/noMsg"
-        android:text="아직 받은 메시지가 없습니다"
-        android:textSize="18dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/noMsg"-->
+<!--        android:text="받은 메시지가 없습니다"-->
+<!--        android:textSize="18dp"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
