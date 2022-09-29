@@ -6,7 +6,7 @@
     <string name="join">회원가입</string>
     <string name="login">로그인</string>
 
-    <string name="selfie">사진</string>
+    <string name="selfie">프로필 사진</string>
     <string name="email">이메일주소</string>
     <string name="password">비밀번호</string>
     <string name="nickname">별명</string>

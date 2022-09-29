@@ -20,7 +20,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <!-- 설명 -->
     <TextView
@@ -46,24 +47,26 @@
         <!-- 회원가입 버튼 -->
         <Button
             android:id="@+id/joinBtn"
-            android:text="@string/join"
-            android:textColor="@color/white"
-            android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/btn_gra1" />
+            android:background="@drawable/btn_gra1"
+            android:text="@string/join"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            tools:ignore="TextContrastCheck" />
 
         <!-- 로그인 버튼 -->
         <Button
             android:id="@+id/loginBtn"
-            android:text="@string/login"
-            android:textColor="@color/white"
-            android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/btn_gra1" />
+            android:background="@drawable/btn_gra1"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            tools:ignore="TextContrastCheck" />
 
     </LinearLayout>
 
