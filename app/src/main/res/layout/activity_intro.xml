@@ -14,7 +14,7 @@
         android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DAY2DAY"
+        android:text="@string/app_name"
         android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -27,13 +27,14 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="계속하시려면 회원가입 또는 로그인 하세요"
+        android:text="@string/intro"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/btnLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- 버튼 모음 -->
     <LinearLayout
         android:id="@+id/btnLayout"
         android:layout_width="match_parent"
@@ -45,7 +46,7 @@
         <!-- 회원가입 버튼 -->
         <Button
             android:id="@+id/joinBtn"
-            android:text="회원가입"
+            android:text="@string/join"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_width="match_parent"
@@ -56,7 +57,7 @@
         <!-- 로그인 버튼 -->
         <Button
             android:id="@+id/loginBtn"
-            android:text="로그인"
+            android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_width="match_parent"
