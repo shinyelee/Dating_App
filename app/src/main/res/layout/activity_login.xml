@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
-            android:hint="이메일주소"
+            android:hint="@string/email"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
-            android:hint="비밀번호"
+            android:hint="@string/password"
             app:errorEnabled="true"
             app:passwordToggleEnabled="true">
 
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/btn_gra1"
-            android:text="로그인"
+            android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

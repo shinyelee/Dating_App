@@ -229,7 +229,7 @@ class JoinActivity : AppCompatActivity() {
 
                     }
 
-            // 가입조건 불만족 -> 회원가입 실패
+            // 조건 불만족하면 회원가입 실패
             } else { Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show() }
 
         }
@@ -257,10 +257,13 @@ class JoinActivity : AppCompatActivity() {
 
     }
 
-    // 액티비티 파괴시 바인딩 클래스 인스턴스 참조를 정리 -> 메모리 효율이 좋아짐
+    // 액티비티 파괴시
     override fun onDestroy() {
+
+        // 바인딩 클래스 인스턴스 참조를 정리 -> 메모리 효율이 좋아짐
         vBinding = null
         super.onDestroy()
+
     }
 
 }
