@@ -10,12 +10,11 @@
     tools:context=".SplashActivity">
 
     <!-- 앱 이름 -->
-
     <TextView
         android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DAY2DAY"
+        android:text="@string/app_name"
         android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -28,12 +27,13 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="#데이트데이 #로딩중"
+        android:text="@string/splash"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- 로딩 -->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
