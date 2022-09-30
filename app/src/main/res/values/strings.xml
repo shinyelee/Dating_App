@@ -5,6 +5,7 @@
     <string name="intro">계속하시려면 회원가입 또는 로그인 하세요</string>
     <string name="join">회원가입</string>
     <string name="login">로그인</string>
+    <string name="logout">로그아웃</string>
 
     <string name="selfie">프로필 사진</string>
     <string name="email">이메일주소</string>
@@ -13,5 +14,6 @@
     <string name="gender">성별(남자면 M, 여자면 W 입력)</string>
     <string name="city">지역</string>
     <string name="age">생년(2002년생이면 02 입력)</string>
+    <string name="uid">내 UID</string>
 
 </resources>

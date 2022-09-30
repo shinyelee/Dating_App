@@ -3,10 +3,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- 내 정보 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_margin="5dp"
+            android:contentDescription="@string/selfie"
             android:src="@drawable/ic_baseline_perm_identity_24" />
 
         <!-- 내 Uid -->
@@ -31,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="내 uid"
+            android:text="@string/uid"
             android:visibility="gone" />
 
         <!-- 내 별명 -->
@@ -40,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="내 별명"
+            android:text="@string/nickname"
             android:textSize="24sp" />
 
         <!-- 내 성별 -->
@@ -49,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="내 성별"
+            android:text="@string/gender"
             android:textSize="24sp" />
 
         <!-- 내 지역 -->
@@ -58,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="내 지역"
+            android:text="@string/city"
             android:textSize="24sp" />
 
         <!-- 내 생년 -->
@@ -67,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="내 생년"
+            android:text="@string/age"
             android:textSize="24sp" />
 
     </LinearLayout>
@@ -75,7 +76,7 @@
     <!-- 로그아웃 -->
     <Button
         android:id="@+id/logoutBtn"
-        android:text="로그아웃"
+        android:text="@string/logout"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_width="match_parent"
