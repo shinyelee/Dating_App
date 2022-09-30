@@ -76,6 +76,7 @@ class MyPageActivity : AppCompatActivity() {
     // 파이어베이스에서 현재 사용자의 정보 불러오기
     private fun getMyData() {
 
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
         val postListener = object : ValueEventListener {
 
             // 데이터스냅샷 내 사용자 데이터 출력

@@ -14,7 +14,8 @@ import com.google.firebase.storage.ktx.storage
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.UserDataModel
 
-class CardStackAdapter(val context: Context, val items: List<UserDataModel>): RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+// 카드스택
+class CardStackAdapter(val context: Context, private val items: List<UserDataModel>): RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     // ViewHolder : (자식뷰를 포함한) 레이아웃 단위의 뷰를 하나의 뷰홀더로 설정
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardStackAdapter.ViewHolder {
@@ -22,6 +23,7 @@ class CardStackAdapter(val context: Context, val items: List<UserDataModel>): Re
         // 뷰홀더 생성
         val inflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(R.layout.item_card, parent, false)
+
         return ViewHolder(view)
 
     }
@@ -49,7 +51,7 @@ class CardStackAdapter(val context: Context, val items: List<UserDataModel>): Re
 
         fun binding(data: UserDataModel) {
 
-            // 프사
+            // 프사 저장된 위치
             val storageRef = Firebase.storage.reference.child(data.uid + ".png")
 
             // 프사 다운로드
@@ -67,7 +69,7 @@ class CardStackAdapter(val context: Context, val items: List<UserDataModel>): Re
 
             })
 
-            // UserDataModel의 데이터와 매칭
+            // 불러온 별명, 지역, 나이 정보를 해당 영역에 매칭
             nickname.text = data.nickname
             city.text = data.city
             age.text = data.age
