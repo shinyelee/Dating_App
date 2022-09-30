@@ -3,10 +3,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- 좋아요/메시지 아이템 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,23 +16,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- 별명 영역 -->
         <TextView
             android:id="@+id/lvNickArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="5dp"
-            android:text="별명 :"
+            android:paddingEnd="5dp"
+            android:text="@string/nickname"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- 별명/메시지 영역 -->
         <TextView
             android:id="@+id/lvNick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="5dp"
-            android:text="쩡이"
+            android:paddingEnd="5dp"
+            android:text="@string/nickname"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,14 +63,14 @@
 <!--            app:layout_constraintTop_toTopOf="parent"-->
 <!--            app:tint="@color/purple_200" />-->
 
-        <ImageView
-            android:id="@+id/xItem"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_clear_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/mainColor" />
+<!--        <ImageView-->
+<!--            android:id="@+id/xItem"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:src="@drawable/ic_baseline_clear_24"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:tint="@color/mainColor" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
