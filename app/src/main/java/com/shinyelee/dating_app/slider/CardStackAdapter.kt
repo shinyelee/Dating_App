@@ -17,11 +17,13 @@ import com.shinyelee.dating_app.auth.UserDataModel
 class CardStackAdapter(val context: Context, val items: List<UserDataModel>): RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     // ViewHolder : (자식뷰를 포함한) 레이아웃 단위의 뷰를 하나의 뷰홀더로 설정
-    // 뷰홀더 생성
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardStackAdapter.ViewHolder {
+
+        // 뷰홀더 생성
         val inflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(R.layout.item_card, parent, false)
         return ViewHolder(view)
+
     }
 
     // 각 뷰홀더에 데이터 연결
@@ -33,28 +35,43 @@ class CardStackAdapter(val context: Context, val items: List<UserDataModel>): Re
     // 자식뷰를 포함한 레이아웃 단위의 뷰를 하나의 뷰홀더로 설정
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        // (카드스택뷰의) 프사
+        // (카드의) 프사
         val image = itemView.findViewById<ImageView>(R.id.profileImageArea)
+
         // 별명
         val nickname = itemView.findViewById<TextView>(R.id.itemNickname)
+
         // 지역
         val city = itemView.findViewById<TextView>(R.id.itemCity)
+
         // 생년
         val age = itemView.findViewById<TextView>(R.id.itemAge)
 
         fun binding(data: UserDataModel) {
+
+            // 프사
             val storageRef = Firebase.storage.reference.child(data.uid + ".png")
+
+            // 프사 다운로드
             storageRef.downloadUrl.addOnCompleteListener( OnCompleteListener { task ->
+
+                // 수행
                 if(task.isSuccessful) {
+
+                    // 글라이드로 불러옴
                     Glide.with(context)
                         .load(task.result)
                         .into(image)
+
                 }
+
             })
+
             // UserDataModel의 데이터와 매칭
             nickname.text = data.nickname
             city.text = data.city
             age.text = data.age
+
         }
 
     }

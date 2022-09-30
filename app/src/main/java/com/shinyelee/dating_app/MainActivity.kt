@@ -212,6 +212,7 @@ class MainActivity : AppCompatActivity() {
                 // 데이터스냅샷 내 사용자 데이터 출력
                 for(dataModel in dataSnapshot.children) {
 
+                    // 다른 사용자들 정보 가져옴
                     val user = dataModel.getValue(UserDataModel::class.java)
 
                     // 현재 사용자와 같은 성별인 사용자 -> 패스

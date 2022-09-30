@@ -9,10 +9,13 @@ class FirebaseRef {
 
         // 파이어베이스 내
         val database = Firebase.database
+
         // 사용자 정보
         val userInfoRef = database.getReference("userInfo")
+
         // 좋아요 정보
         val userLikeRef = database.getReference("userLike")
+
         // 메시지 정보
         val userMsgRef = database.getReference("userMsg")
 
