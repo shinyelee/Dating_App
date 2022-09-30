@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.shinyelee.dating_app.R
 
+// 메시지 목록
 class MsgAdapter(val context : Context, val items : MutableList<MsgModel>) : BaseAdapter() {
 
     // 리스트 전체 개수
@@ -28,12 +29,15 @@ class MsgAdapter(val context : Context, val items : MutableList<MsgModel>) : Bas
             convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item, parent, false)
         }
 
-        // 메시지 보낸 사람의 별명과 내용을 받은 메시지에 넣어줌
+        // 메시지 보낸 사람의 별명과 내용을
         val nicknameArea = convertView!!.findViewById<TextView>(R.id.lvNickArea)
-        val textArea = convertView!!.findViewById<TextView>(R.id.lvNick)
+        val textArea = convertView.findViewById<TextView>(R.id.lvNick)
+
+        // 받은 메시지에 넣어줌
         nicknameArea.text = items[position].senderInfo
         textArea.text = items[position].sendText
-        return convertView!!
+
+        return convertView
 
     }
 

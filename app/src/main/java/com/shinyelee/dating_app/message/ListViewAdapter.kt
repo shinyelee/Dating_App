@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.UserDataModel
 
+// 좋아요 목록
 class ListViewAdapter(val context : Context, private val items : MutableList<UserDataModel>) : BaseAdapter() {
 
     // 리스트 전체 개수
@@ -29,9 +30,12 @@ class ListViewAdapter(val context : Context, private val items : MutableList<Use
             convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item, parent, false)
         }
 
-        // 별명 불러와서 좋아요 목록에 넣어줌
+        // 현재 사용자가 좋아하는 사용자의 별명을
         val nickname = convertView!!.findViewById<TextView>(R.id.lvNick)
+
+        // 좋아요 목록에 넣어줌
         nickname.text = items[position].nickname
+
         return convertView
 
     }
