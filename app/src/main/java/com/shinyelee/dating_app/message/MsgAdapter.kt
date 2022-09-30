@@ -21,16 +21,20 @@ class MsgAdapter(val context : Context, val items : MutableList<MsgModel>) : Bas
 
     // 뷰를 꾸며줌
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+
         var convertView = convertView
+
         if(convertView == null) {
             convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item, parent, false)
         }
-        // 메시지를 보낸 사용자의 별명과 메시지 내용 넣어줌
+
+        // 메시지 보낸 사람의 별명과 내용을 받은 메시지에 넣어줌
         val nicknameArea = convertView!!.findViewById<TextView>(R.id.lvNickArea)
         val textArea = convertView!!.findViewById<TextView>(R.id.lvNick)
         nicknameArea.text = items[position].senderInfo
         textArea.text = items[position].sendText
         return convertView!!
+
     }
 
 }
