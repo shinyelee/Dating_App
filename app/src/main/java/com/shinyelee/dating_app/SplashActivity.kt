@@ -44,15 +44,16 @@ class SplashActivity : AppCompatActivity() {
             // 2초 후 실행
             }, 2000)
 
-            // 로그인 한 상태면
+        // 로그인 한 상태면
         } else {
 
             Handler(Looper.getMainLooper()).postDelayed({
 
-                // 플래그 세우고 -> 메인 액티비티 시작 -> 스플래시 액티비티 종료
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION and Intent.FLAG_ACTIVITY_NO_HISTORY)
+
+                // 메인 액티비티 시작
+                startActivity(Intent(this, MainActivity::class.java))
+
                 finish()
 
             }, 2000)

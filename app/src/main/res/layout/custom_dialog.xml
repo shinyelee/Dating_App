@@ -5,34 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
+        <!-- 메시지 내용 -->
         <EditText
             android:id="@+id/sendText"
-            android:hint="내용을 입력하세요"
+            android:hint="@string/send_txt"
+            android:autofillHints="no"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:padding="20dp"
             android:background="@drawable/card" />
 
+        <!-- 메시지 보내기 버튼 -->
         <Button
             android:id="@+id/sendBtn"
-            android:text="전송"
+            android:text="@string/send"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/btn_gra1" />
-
-    </LinearLayout>
 
 </LinearLayout>

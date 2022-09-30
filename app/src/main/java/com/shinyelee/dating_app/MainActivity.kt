@@ -35,15 +35,15 @@ class MainActivity : AppCompatActivity() {
     // 태그
     private val TAG: String = "MainActivity"
 
-    // 카드스택뷰
-    lateinit var cardStackAdapter: CardStackAdapter
-    private lateinit var manager: CardStackLayoutManager
-
     // (전역변수) 바인딩 객체 선언
     private var vBinding : ActivityMainBinding? = null
 
     // 매번 null 확인 귀찮음 -> 바인딩 변수 재선언
     private val binding get() = vBinding!!
+
+    // 카드스택뷰
+    lateinit var cardStackAdapter: CardStackAdapter
+    private lateinit var manager: CardStackLayoutManager
 
     // 사용자 데이터 리스트
     private val usersDataList = mutableListOf<UserDataModel>()
@@ -128,50 +128,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    // 액션바에
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
-        // 액션버튼 메뉴 집어 넣음
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-
-    }
-
-    // 액션바 내 아이템(아이콘)을 클릭할 때
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        // 해당 아이템이
-        when(item.itemId){
-
-            // 하트 버튼인 경우
-            R.id.likeBtn -> {
-
-                // -> 좋아요 액티비티 시작
-                val intent = Intent(this, MyLikeActivity::class.java)
-                startActivity(intent)
-                return super.onOptionsItemSelected(item)
-
-            }
-
-            // 설정 버튼인 경우
-            R.id.settingBtn -> {
-
-                // -> 내 정보 액티비티 시작
-                val intent = Intent(this, MyPageActivity::class.java)
-                startActivity(intent)
-                return super.onOptionsItemSelected(item)
-
-            }
-
-            else -> return super.onOptionsItemSelected(item)
-
-        }
-
-    }
-
     // 현재 사용자 정보
     private fun getMyUserData() {
 
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
         val postListener = object : ValueEventListener {
 
             // 데이터스냅샷 내 사용자 데이터 출력
@@ -204,8 +164,10 @@ class MainActivity : AppCompatActivity() {
     // 전체 사용자 정보
     private fun getUserDataList(currentUserGender : String) {
 
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
         val postListener = object : ValueEventListener {
 
+            // 데이터스냅샷 내 사용자 데이터 출력
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -216,13 +178,10 @@ class MainActivity : AppCompatActivity() {
                     val user = dataModel.getValue(UserDataModel::class.java)
 
                     // 현재 사용자와 같은 성별인 사용자 -> 패스
-                    if(user!!.gender.toString() == currentUserGender) {
-                    } else {
+                    if(user!!.gender.toString() == currentUserGender) {}
 
-                        // 현재 사용자와 다른 성별인 사용자만 불러옴
-                        usersDataList.add(user)
-
-                    }
+                    // 현재 사용자와 다른 성별인 사용자만 불러옴
+                    else { usersDataList.add(user) }
 
                 }
 
@@ -250,27 +209,32 @@ class MainActivity : AppCompatActivity() {
         // 좋아요 목록
         getMyLikeList(otherUid)
 
+        // 대충 이런 구조
+
+        // DB
+        // └─userLike
+        //   └─현재 사용자의 UID
+        //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
+
     }
-    // 대충 이런 구조임
-    // DB
-    // └─userLike
-    //   └─현재 사용자의 UID
-    //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
 
     // 현재 사용자의 좋아요 목록
     private fun getMyLikeList(otherUid: String) {
 
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
         val postListener = object : ValueEventListener {
 
+            // 데이터스냅샷 내 사용자 데이터 출력
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 // "모든" 사용자의 좋아요 리스트 (x)
                 // "현재 사용자가 좋아하는" 사용자의 좋아요 리스트 (O)
                 for(dataModel in dataSnapshot.children) {
 
+                    // 다른 사용자가 좋아요 한 사용자 목록에
                     val likeUserKey = dataModel.key.toString()
 
-                    // 상대방도 현재 사용자를 좋아하면
+                    // 현재 사용자가 포함돼 있으면
                     if(likeUserKey == uid) {
 
                         // 푸시 알림(매칭)
@@ -319,6 +283,47 @@ class MainActivity : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         with(NotificationManagerCompat.from(this)) { notify(1234, builder.build()) }
+
+    }
+
+    // 액션바에
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        // 액션버튼 메뉴 집어 넣음
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+
+    }
+
+    // 액션바 내 아이템(아이콘)을 클릭할 때
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        // 해당 아이템이
+        when(item.itemId){
+
+            // 하트 버튼인 경우
+            R.id.likeBtn -> {
+
+                // -> 좋아요 액티비티 시작
+                val intent = Intent(this, MyLikeActivity::class.java)
+                startActivity(intent)
+                return super.onOptionsItemSelected(item)
+
+            }
+
+            // 설정 버튼인 경우
+            R.id.settingBtn -> {
+
+                // -> 내 정보 액티비티 시작
+                val intent = Intent(this, MyPageActivity::class.java)
+                startActivity(intent)
+                return super.onOptionsItemSelected(item)
+
+            }
+
+            else -> return super.onOptionsItemSelected(item)
+
+        }
 
     }
 

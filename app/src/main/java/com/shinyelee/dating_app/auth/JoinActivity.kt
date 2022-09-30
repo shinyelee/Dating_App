@@ -67,6 +67,7 @@ class JoinActivity : AppCompatActivity() {
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri -> selfie.setImageURI(uri) }
         )
+
         // 아이콘 클릭하면 프사 업로드 실행
         selfie.setOnClickListener { getAction.launch("image/*") }
 
@@ -183,7 +184,7 @@ class JoinActivity : AppCompatActivity() {
                             val user = auth.currentUser
                             uid = user?.uid.toString()
 
-                            // 토큰 생성
+                            // 토큰
                             FirebaseMessaging.getInstance().token.addOnCompleteListener(
                                 OnCompleteListener { task ->
 
@@ -193,7 +194,7 @@ class JoinActivity : AppCompatActivity() {
                                         return@OnCompleteListener
                                     }
 
-                                    // 토큰
+                                    // 새 FCM 등록 토큰
                                     val token = task.result.toString()
                                     Log.e(TAG, "토큰(user token value) - $token")
 
