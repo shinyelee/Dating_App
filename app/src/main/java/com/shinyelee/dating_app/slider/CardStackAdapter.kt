@@ -38,16 +38,16 @@ class CardStackAdapter(val context: Context, private val items: List<UserDataMod
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         // (카드의) 프사
-        val image = itemView.findViewById<ImageView>(R.id.profileImageArea)
+        private val image = itemView.findViewById<ImageView>(R.id.profileImageArea)
 
         // 별명
-        val nickname = itemView.findViewById<TextView>(R.id.itemNickname)
+        private val nickname = itemView.findViewById<TextView>(R.id.itemNickname)
 
         // 지역
-        val city = itemView.findViewById<TextView>(R.id.itemCity)
+        private val city = itemView.findViewById<TextView>(R.id.itemCity)
 
         // 생년
-        val age = itemView.findViewById<TextView>(R.id.itemAge)
+        private val age = itemView.findViewById<TextView>(R.id.itemAge)
 
         fun binding(data: UserDataModel) {
 

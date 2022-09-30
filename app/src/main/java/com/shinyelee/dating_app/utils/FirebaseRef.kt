@@ -8,7 +8,7 @@ class FirebaseRef {
     companion object {
 
         // 파이어베이스 내
-        val database = Firebase.database
+        private val database = Firebase.database
 
         // 사용자 정보
         val userInfoRef = database.getReference("userInfo")

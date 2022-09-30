@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
 import com.shinyelee.dating_app.R
 import com.shinyelee.dating_app.auth.UserDataModel
 import com.shinyelee.dating_app.databinding.ActivityMyLikeBinding
@@ -23,7 +22,6 @@ import com.shinyelee.dating_app.utils.MyInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class MyLikeActivity : AppCompatActivity() {
 
@@ -49,10 +47,10 @@ class MyLikeActivity : AppCompatActivity() {
     lateinit var listviewAdapter: ListViewAdapter
 
     // 현재 사용자가 보낸 메시지를 받는 사용자
-    lateinit var getterUid : String
+    private lateinit var getterUid : String
 
     // 메시지를 받는 사용자의 토큰 값
-    lateinit var getterToken : String
+    private lateinit var getterToken : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
