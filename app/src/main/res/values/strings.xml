@@ -16,7 +16,9 @@
     <string name="age">생년(2002년생이면 02 입력)</string>
     <string name="uid">내 UID</string>
 
+    <string name="no_like">아직 마음에 드는 사람이 없습니다</string>
     <string name="no_msg">아직 받은 메시지가 없습니다</string>
+    <string name="my_msg">내게 온 메시지 확인하기</string>
     <string name="send_txt">내용을 입력하세요</string>
     <string name="send">메시지 보내기</string>
 

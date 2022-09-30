@@ -28,10 +28,21 @@
 
     </LinearLayout>
 
-    <!-- 내가 받은 메시지 -->
+    <!-- 좋아요 없을 때 -->
+    <TextView
+        android:id="@+id/noLike"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_like"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- 받은 메시지 버튼 -->
     <Button
         android:id="@+id/myMsgBtn"
-        android:text="받은 메시지"
+        android:text="@string/my_msg"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_width="match_parent"

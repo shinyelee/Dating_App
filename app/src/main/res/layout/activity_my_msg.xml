@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,18 +8,23 @@
     android:layout_height="match_parent"
     tools:context=".message.MyMsgActivity">
 
+    <!-- 메시지 목록 -->
     <ListView
         android:id="@+id/msgListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/card" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/noMsg"-->
-<!--        android:text="받은 메시지가 없습니다"-->
-<!--        android:textSize="18dp"-->
-<!--        android:gravity="center"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
+    <!-- 메시지 없을 때 -->
+    <TextView
+        android:id="@+id/noMsg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_msg"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/msgListView"
+        app:layout_constraintTop_toTopOf="@+id/msgListView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
