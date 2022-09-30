@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- 툴바(액션바) -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -21,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
     </androidx.appcompat.widget.Toolbar>
 
+    <!-- 카드스택뷰 -->
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/cardStackView"
         android:layout_width="match_parent"
@@ -28,6 +30,7 @@
         android:layout_marginTop="50dp"
         android:background="@drawable/card" />
 
+    <!-- 하트 애니메이션 -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/ltAnimation"
         android:layout_width="match_parent"
