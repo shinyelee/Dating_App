@@ -1086,6 +1086,26 @@ class RetrofitInstance {
 
 ---
 
+## DB 설계(Firebase Realtime Database)
+
+![db_all](https://user-images.githubusercontent.com/68595933/193630716-0453af4d-3594-403f-afc1-4cf27f1fe755.png)
+
+- DB 전체
+
+![info_table](https://user-images.githubusercontent.com/68595933/193632032-1c93954b-f1d6-449c-b267-b582e26d13bc.png)
+
+- userInfo(회원정보)
+
+![like_table](https://user-images.githubusercontent.com/68595933/193631821-ab4a9337-5068-451d-9956-a69e6445b5db.png)
+
+- userLike(좋아요)
+
+![msg_table](https://user-images.githubusercontent.com/68595933/193632246-7886ac2f-3dbc-410b-821b-567284962d79.png)
+
+- userMsg(메시지)
+
+---
+
 ## 피드백
 
 ### 문제점
