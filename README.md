@@ -368,6 +368,101 @@
         cardStackAdapter = CardStackAdapter(baseContext, usersDataList)
         binding.cardStackView.layoutManager = manager
         binding.cardStackView.adapter = cardStackAdapter
+
+        // 현재 사용자 정보
+        getMyUserData()
+
+    }
+
+    // 현재 사용자 정보
+    private fun getMyUserData() {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터스냅샷 내 사용자 데이터 출력
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // 프사 제외한 나머지 정보
+                val data = dataSnapshot.getValue(UserDataModel::class.java)
+
+                // 현재 사용자의 성별
+                currentUserGender = data?.gender.toString()
+
+                // 현재 사용자의 닉네임
+                MyInfo.myNickname = data?.nickname.toString()
+
+                // 현재 사용자와 성별이 반대인 사용자 목록
+                getUserDataList(currentUserGender)
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getMyUserData - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
+
+    }
+
+    // 전체 사용자 정보
+    private fun getUserDataList(currentUserGender : String) {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터스냅샷 내 사용자 데이터 출력
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // 데이터스냅샷 내 사용자 데이터 출력
+                for(dataModel in dataSnapshot.children) {
+
+                    // 다른 사용자들 정보 가져옴
+                    val user = dataModel.getValue(UserDataModel::class.java)
+
+                    // 현재 사용자와 같은 성별인 사용자 -> 패스
+                    if(user!!.gender.toString() == currentUserGender) {}
+
+                    // 현재 사용자와 다른 성별인 사용자만 불러옴
+                    else { usersDataList.add(user) }
+
+                }
+
+                // 동기화(새로고침) -> 리스트 크기 및 아이템 변화를 어댑터에 알림
+                cardStackAdapter.notifyDataSetChanged()
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getUserDataList - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userInfoRef.addValueEventListener(postListener)
+
+    }
+
+    // 카드 좋아요 하기
+    private fun userLikeOther(myUid : String, otherUid : String) {
+
+        // (카드 오른쪽으로 넘기면) 좋아요 값 true로 설정
+        FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
+
+        // 좋아요 목록
+        getMyLikeList(otherUid)
+
+        // 대충 이런 구조
+
+        // DB
+        // └─userLike
+        //   └─현재 사용자의 UID
+        //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
+
+    }
 ```
 ```kotlin
 // CardStackAdapter.kt
@@ -448,7 +543,111 @@ class CardStackAdapter(val context: Context, private val items: List<UserDataMod
   - 좋아요를 취소할 수 있습니다.
 
 ```kotlin
-// 코드3
+// MyLikeActivity.kt
+
+    // 현재 사용자의 좋아요 리스트
+    private fun getMyLikeList() {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터 스냅샷
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // 데이터스냅샷 내 사용자 데이터 출력 -> 현재 사용자가 좋아하는 사용자들의 UID를 myLikeList에 넣음
+                for(dataModel in dataSnapshot.children) { myLikeListUid.add(dataModel.key.toString()) }
+
+                // 전체 사용자 정보 받아옴
+                getUserDataList()
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getMyLikeList - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userLikeRef.child(uid).addValueEventListener(postListener)
+
+    }
+
+    // 전체 사용자 정보
+    private fun getUserDataList() {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터 스냅샷
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // 데이터스냅샷 내 사용자 데이터 출력
+                for(dataModel in dataSnapshot.children) {
+
+                    // 다른 사용자 정보 받아옴
+                    val user = dataModel.getValue(UserDataModel::class.java)
+
+                    // 전체 사용자 중
+                    if(myLikeListUid.contains(user?.uid)) {
+
+                        // 현재 사용자가 좋아하는 사용자의 정보만 추가
+                        myLikeList.add(user!!)
+
+                    }
+
+                }
+
+                // 동기화(새로고침) -> 리스트 크기 및 아이템 변화를 어댑터에 알림
+                listviewAdapter.notifyDataSetChanged()
+                Log.d(TAG, myLikeList.toString())
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getUserDataList - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userInfoRef.addValueEventListener(postListener)
+
+    }
+```
+```kotlin
+// ListViewAdapter.kt
+
+// 좋아요 목록
+class ListViewAdapter(val context : Context, private val items : MutableList<UserDataModel>) : BaseAdapter() {
+
+    // 리스트 전체 개수
+    override fun getCount(): Int = items.size
+
+    // 리스트를 하나씩 가져옴
+    override fun getItem(position: Int): Any = items[position]
+
+    // 리스트의 ID를 가져옴
+    override fun getItemId(position: Int): Long = position.toLong()
+
+    // 뷰를 꾸며줌
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+
+        var convertView = convertView
+
+        if(convertView == null) {
+            convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item, parent, false)
+        }
+
+        // 현재 사용자가 좋아하는 사용자의 별명을
+        val nickname = convertView!!.findViewById<TextView>(R.id.lvNick)
+
+        // 좋아요 목록에 넣어줌
+        nickname.text = items[position].nickname
+
+        return convertView
+
+    }
+
+}
 ```
 
 ![match](https://user-images.githubusercontent.com/68595933/193455842-c8b83ef5-13d2-42aa-bd11-33d02372e0d7.PNG)
@@ -458,7 +657,93 @@ class CardStackAdapter(val context: Context, private val items: List<UserDataMod
   - 매칭된 사용자는 서로 메시지를 주고받을 수 있습니다.
 
 ```kotlin
-// 코드3
+// MainActivity.kt
+
+    // 현재 사용자의 좋아요 목록
+    private fun getMyLikeList(otherUid: String) {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터스냅샷 내 사용자 데이터 출력
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // "모든" 사용자의 좋아요 리스트 (x)
+                // "현재 사용자가 좋아하는" 사용자의 좋아요 리스트 (O)
+                for(dataModel in dataSnapshot.children) {
+
+                    // 다른 사용자가 좋아요 한 사용자 목록에
+                    val likeUserKey = dataModel.key.toString()
+
+                    // 현재 사용자가 포함돼 있으면
+                    if(likeUserKey == uid) {
+
+                        // 알림 채널 시스템에 등록
+                        createNotificationChannel()
+
+                        // 알림 보내기
+                        sendNotification()
+
+                    }
+
+                }
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getMyLikeList - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
+
+    }
+
+    // 알림 채널 시스템에 등록
+    private fun createNotificationChannel() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val name = "name"
+            val descriptionText = "descriptionText"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("CHANNEL_ID", name, importance).apply { description = descriptionText }
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            notificationManager.createNotificationChannel(channel)
+
+        }
+
+    }
+
+    // 푸시 알림(매칭)
+    private fun sendNotification() {
+
+        var builder = NotificationCompat.Builder(this, "CHANNEL_ID")
+            .setSmallIcon(R.drawable.ic_baseline_local_fire_department_24)
+            .setContentTitle("매칭 완료")
+            .setContentText("상대방도 나에게 호감이 있어요! 메시지를 보내볼까요?")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)) { notify(123, builder.build()) }
+
+    }
+```
+```kotlin
+// MyLikeActivity.kt
+
+        // 좋아요 목록 길게 클릭하면
+        binding.myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
+
+            // 매칭된 상태인 경우 메시지 보낼 수 있음
+            checkMatching(myLikeList[position].uid.toString())
+            getterUid = myLikeList[position].uid.toString()
+            getterToken = myLikeList[position].token.toString()
+
+            return@setOnItemLongClickListener(true)
+
+        }
 ```
 
 ### 4. 메시지 보내기(Firebase Cloud Messaging)
@@ -471,7 +756,332 @@ class CardStackAdapter(val context: Context, private val items: List<UserDataMod
 - 받은 모든 메시지는 내 쪽지함에서 확인할 수 있습니다.
 
 ```kotlin
-// 코드4
+// MyLikeActivity.kt
+
+    // 현재 사용자와 상대방이 서로 좋아요 했는지 확인
+    private fun checkMatching(otherUid : String) {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터 스냅샷
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // 다른 사용자 정보 로그로 출력
+                Log.d(TAG, otherUid)
+                Log.e(TAG, dataSnapshot.toString())
+
+                // 서로 좋아요 한 상태 아니면 메시지 못 보냄
+                if(dataSnapshot.children.count() == 0) { Toast.makeText(this@MyLikeActivity, "메시지를 보낼 수 없습니다", Toast.LENGTH_LONG).show() }
+
+                // 서로 좋아요 된 상태면 메시지 보냄
+                else {
+
+                    // 데이터스냅샷 내 사용자 데이터 출력
+                    for (dataModel in dataSnapshot.children) {
+
+                        // 다른 사용자가 좋아요 한 사용자 목록에
+                        val likeUserKey = dataModel.key.toString()
+
+                        // 현재 사용자가 포함돼 있으면
+                        if(likeUserKey == uid) {
+
+                            // 메시지 입력창 띄움
+                            showDialog()
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "checkMatching - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
+
+    }
+
+    // 현재 사용자의 좋아요 리스트
+    private fun getMyLikeList() {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터 스냅샷
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // 데이터스냅샷 내 사용자 데이터 출력 -> 현재 사용자가 좋아하는 사용자들의 UID를 myLikeList에 넣음
+                for(dataModel in dataSnapshot.children) { myLikeListUid.add(dataModel.key.toString()) }
+
+                // 전체 사용자 정보 받아옴
+                getUserDataList()
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getMyLikeList - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userLikeRef.child(uid).addValueEventListener(postListener)
+
+    }
+
+    // 전체 사용자 정보
+    private fun getUserDataList() {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터 스냅샷
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // 데이터스냅샷 내 사용자 데이터 출력
+                for(dataModel in dataSnapshot.children) {
+
+                    // 다른 사용자 정보 받아옴
+                    val user = dataModel.getValue(UserDataModel::class.java)
+
+                    // 전체 사용자 중
+                    if(myLikeListUid.contains(user?.uid)) {
+
+                        // 현재 사용자가 좋아하는 사용자의 정보만 추가
+                        myLikeList.add(user!!)
+
+                    }
+
+                }
+
+                // 동기화(새로고침) -> 리스트 크기 및 아이템 변화를 어댑터에 알림
+                listviewAdapter.notifyDataSetChanged()
+                Log.d(TAG, myLikeList.toString())
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getUserDataList - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userInfoRef.addValueEventListener(postListener)
+
+    }
+
+    // 푸시 메시지
+    private fun testPush(notification : PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+
+        // 레트로핏 API 이용
+        RetrofitInstance.api.postNotification(notification)
+
+    }
+
+    // 메시지 보내는 대화창
+    private fun showDialog() {
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("메시지 보내기")
+        val mAlertDialog = mBuilder.show()
+
+        val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
+        val text = mAlertDialog.findViewById<EditText>(R.id.sendText)
+
+        // 메시지 보내기 버튼을 클릭하면 푸시 메시지 발송
+        btn?.setOnClickListener {
+
+            val msgText = text!!.text.toString()
+            val msgModel = MsgModel(MyInfo.myNickname, msgText)
+
+            // 파이어베이스에 메시지 업로드
+            FirebaseRef.userMsgRef.child(getterUid).push().setValue(msgModel)
+
+            val notiModel = NotiModel(MyInfo.myNickname, msgText)
+            val pushModel = PushNotification(notiModel, getterToken)
+
+            // 푸시 메시지
+            testPush(pushModel)
+
+            // 대화창
+            mAlertDialog.dismiss()
+
+        }
+
+    }
+```
+```kotlin
+// MyMsgActivity.kt
+
+    // 내 메시지 불러오기
+    private fun getMyMsg() {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터 스냅샷
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // 중복 출력 방지 위해 메시지 목록 비워줌
+                msgList.clear()
+
+                // 데이터스냅샷 내 사용자 데이터 출력
+                for(dataModel in dataSnapshot.children) {
+
+                    // 메시지 모델에서
+                    val msg = dataModel.getValue(MsgModel::class.java)
+                    msgList.add(msg!!)
+                    Log.d(TAG, msg.toString())
+
+                }
+
+                // 역순 정렬
+                msgList.reverse()
+
+                // 동기화(새로고침) -> 리스트 크기 및 아이템 변화를 어댑터에 알림
+                listviewAdapter.notifyDataSetChanged()
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getMyMsg - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userMsgRef.child(FirebaseAuthUtils.getUid()).addValueEventListener(postListener)
+
+    }
+```
+```kotlin
+// MsgAdapter.kt
+
+// 메시지 목록
+class MsgAdapter(val context : Context, val items : MutableList<MsgModel>) : BaseAdapter() {
+
+    // 리스트 전체 개수
+    override fun getCount(): Int = items.size
+
+    // 리스트를 하나씩 가져옴
+    override fun getItem(position: Int): Any = items[position]
+
+    // 리스트의 ID를 가져옴
+    override fun getItemId(position: Int): Long = position.toLong()
+
+    // 뷰를 꾸며줌
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+
+        var convertView = convertView
+
+        if(convertView == null) {
+            convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item, parent, false)
+        }
+
+        // 메시지 보낸 사람의 별명과 내용을
+        val nicknameArea = convertView!!.findViewById<TextView>(R.id.lvNickArea)
+        val textArea = convertView.findViewById<TextView>(R.id.lvNick)
+
+        // 받은 메시지에 넣어줌
+        nicknameArea.text = items[position].senderInfo
+        textArea.text = items[position].sendText
+
+        return convertView
+
+    }
+
+}
+```
+```kotlin
+// FirebaseService.kt
+
+    // 새 토큰
+    override fun onNewToken(token: String) { super.onNewToken(token) }
+
+    // 메시지 받기
+    override fun onMessageReceived(message: RemoteMessage) {
+
+        super.onMessageReceived(message)
+
+        val title = message.data["title"].toString()
+        val body = message.data["content"].toString()
+
+        // 알림 채널 시스템에 등록
+        createNotificationChannel()
+
+        // 알림 보내기
+        sendNotification(title, body)
+
+    }
+
+    // 알림 채널 시스템에 등록
+    private fun createNotificationChannel() {
+
+        // API 26 이상에서만 NotificationChannel을 생성(API 25 이하는 지원하지 않음)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val name = "name"
+            val descriptionText = "description"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("CHANNEL_ID", name, importance).apply { description = descriptionText }
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            notificationManager.createNotificationChannel(channel)
+
+        }
+
+    }
+
+    // 푸시 알림(메시지)
+    private fun sendNotification(title : String, body : String) {
+
+        var builder = NotificationCompat.Builder(this, "CHANNEL_ID")
+            .setSmallIcon(R.drawable.ic_baseline_local_fire_department_24)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)) { notify(123, builder.build()) }
+
+    }
+```
+```kotlin
+// RetrofitInstance.kt
+
+// 레트로핏 인스턴스
+class RetrofitInstance {
+
+    companion object {
+
+        // (레트로핏) 객체 지연초기화
+        private val retrofit by lazy {
+
+            // 빌더
+            Retrofit.Builder()
+
+                // 통신할 서버 URL
+                .baseUrl(BASE_URL)
+
+                // 서버로부터 받아온 데이터(컨텐츠)를 원하는 타입으로 바꿈
+                .addConverterFactory(GsonConverterFactory.create())
+
+                // 빌드
+                .build()
+
+        }
+
+        // (레트로핏) 객체 생성
+        val api = retrofit.create(NotiAPI::class.java)
+
+    }
+
+}
 ```
 
 ---
