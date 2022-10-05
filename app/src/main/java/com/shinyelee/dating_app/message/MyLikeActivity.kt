@@ -64,6 +64,11 @@ class MyLikeActivity : AppCompatActivity() {
         // -> 생성된 뷰를 액티비티에 표시
         setContentView(binding.root)
 
+        // 액션바에 제목의 표시유무 설정
+        // (false -> 커스텀한 이름이 나옴)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbar.title = "좋아요"
+
         // 어댑터 연결
         listviewAdapter = ListViewAdapter(this, myLikeList)
         binding.myLikeListView.adapter = listviewAdapter
@@ -96,9 +101,8 @@ class MyLikeActivity : AppCompatActivity() {
 
     }
 
-
     // 현재 사용자와 상대방이 서로 좋아요 했는지 확인
-    private fun checkMatching(otherUid : String){
+    private fun checkMatching(otherUid : String) {
 
         // 데이터베이스에서 컨텐츠의 세부정보를 검색
         val postListener = object : ValueEventListener {

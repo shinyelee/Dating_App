@@ -8,23 +8,26 @@
     android:layout_height="match_parent"
     tools:context=".message.MyMsgActivity">
 
+    <!-- 툴바(액션바) -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:titleTextColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </androidx.appcompat.widget.Toolbar>
+
     <!-- 메시지 목록 -->
     <ListView
         android:id="@+id/msgListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:background="@drawable/card" />
-
-    <!-- 메시지 없을 때 -->
-    <TextView
-        android:id="@+id/noMsg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/no_msg"
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/msgListView"
-        app:layout_constraintTop_toTopOf="@+id/msgListView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

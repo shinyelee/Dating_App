@@ -45,6 +45,14 @@ class MyPageActivity : AppCompatActivity() {
         // -> 생성된 뷰를 액티비티에 표시
         setContentView(binding.root)
 
+        // 커스텀한 툴바를 액션바로 사용
+        setSupportActionBar(binding.toolbar)
+
+        // 액션바에 제목의 표시유무 설정
+        // (false -> 커스텀한 이름이 나옴)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbar.title = "내 프로필"
+
         // 내 정보 불러오기
         getMyData()
 

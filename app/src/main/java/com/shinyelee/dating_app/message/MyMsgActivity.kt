@@ -39,6 +39,11 @@ class MyMsgActivity : AppCompatActivity() {
         // -> 생성된 뷰를 액티비티에 표시
         setContentView(binding.root)
 
+        // 액션바에 제목의 표시유무 설정
+        // (false -> 커스텀한 이름이 나옴)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbar.title = "쪽지함"
+
         // 어댑터 연결
         listviewAdapter = MsgAdapter(this, msgList)
         binding.msgListView.adapter = listviewAdapter
