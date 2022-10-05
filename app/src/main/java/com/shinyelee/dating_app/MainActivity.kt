@@ -84,13 +84,19 @@ class MainActivity : AppCompatActivity() {
             override fun onCardSwiped(direction: Direction?) {
 
                 // 왼쪽(관심없음)
-//                if(direction == Direction.Left) {}
+                if(direction == Direction.Left) {
+
+                    // 해당 카드(사용자) 좋아요 삭제
+                    userLikeDelete(uid, usersDataList[userCount].uid.toString())
+
+                }
 
                 // 오른쪽(좋아요)
                 if(direction == Direction.Right) {
 
-                    // 하트 애니메이션
+                    // 하트 애니메이션 및 토스트 메시지
                     binding.ltAnimation.playAnimation()
+                    Toast.makeText(this@MainActivity, "좋아요", Toast.LENGTH_SHORT).show()
 
                     // 해당 카드(사용자) 좋아요 처리
                     userLikeOther(uid, usersDataList[userCount].uid.toString())
@@ -177,11 +183,8 @@ class MainActivity : AppCompatActivity() {
                     // 다른 사용자들 정보 가져옴
                     val user = dataModel.getValue(UserDataModel::class.java)
 
-                    // 현재 사용자와 같은 성별인 사용자 -> 패스
-                    if(user!!.gender.toString() == currentUserGender) {}
-
                     // 현재 사용자와 다른 성별인 사용자만 불러옴
-                    else { usersDataList.add(user) }
+                    if(user!!.gender.toString() != currentUserGender) { usersDataList.add(user) }
 
                 }
 
@@ -215,6 +218,14 @@ class MainActivity : AppCompatActivity() {
         // └─userLike
         //   └─현재 사용자의 UID
         //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
+
+    }
+
+    // 카드 좋아요 삭제하기
+    private fun userLikeDelete(myUid : String, otherUid : String) {
+
+        // (카드 왼쪽으로 넘기면) 좋아요 값 삭제
+        FirebaseRef.userLikeRef.child(myUid).child(otherUid).removeValue()
 
     }
 
@@ -282,7 +293,7 @@ class MainActivity : AppCompatActivity() {
         var builder = NotificationCompat.Builder(this, "CHANNEL_ID")
             .setSmallIcon(R.drawable.ic_baseline_local_fire_department_24)
             .setContentTitle("매칭 완료")
-            .setContentText("상대방도 나에게 호감이 있어요! 메시지를 보내볼까요?")
+            .setContentText("상대방도 나에게 호감이 있어요!")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         with(NotificationManagerCompat.from(this)) { notify(123, builder.build()) }
@@ -303,7 +314,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         // 해당 아이템이
-        when(item.itemId){
+        when(item.itemId) {
 
             // 하트 버튼인 경우
             R.id.likeBtn -> {
