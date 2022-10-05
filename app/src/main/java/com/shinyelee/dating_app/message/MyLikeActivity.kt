@@ -64,11 +64,6 @@ class MyLikeActivity : AppCompatActivity() {
         // -> 생성된 뷰를 액티비티에 표시
         setContentView(binding.root)
 
-        // 액션바에 제목의 표시유무 설정
-        // (false -> 커스텀한 이름이 나옴)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        binding.toolbar.title = "좋아요"
-
         // 어댑터 연결
         listviewAdapter = ListViewAdapter(this, myLikeList)
         binding.myLikeListView.adapter = listviewAdapter
@@ -98,6 +93,9 @@ class MyLikeActivity : AppCompatActivity() {
             startActivity(intent)
 
         }
+
+        // 뒤로가기 버튼 -> 좋아요 액티비티 종료
+        binding.backBtn.setOnClickListener { finish() }
 
     }
 

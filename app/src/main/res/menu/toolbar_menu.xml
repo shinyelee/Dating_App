@@ -3,15 +3,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- 클릭하면 내 좋아요로 이동 -->
     <item
         android:id="@+id/likeBtn"
-        android:title="좋아요"
+        android:title="@string/like"
         android:icon="@drawable/ic_baseline_favorite_24"
         app:showAsAction="ifRoom" />
 
+    <!-- 클릭하면 내 프로필로 이동 -->
     <item
         android:id="@+id/settingBtn"
-        android:title="설정"
+        android:title="@string/setting"
         android:icon="@drawable/ic_baseline_settings_24"
         app:showAsAction="ifRoom" />
 
