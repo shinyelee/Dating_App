@@ -237,8 +237,10 @@ class MainActivity : AppCompatActivity() {
                     // 현재 사용자가 포함돼 있으면
                     if(likeUserKey == uid) {
 
-                        // 푸시 알림(매칭)
+                        // 알림 채널 시스템에 등록
                         createNotificationChannel()
+
+                        // 알림 보내기
                         sendNotification()
 
                     }
@@ -267,6 +269,7 @@ class MainActivity : AppCompatActivity() {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("CHANNEL_ID", name, importance).apply { description = descriptionText }
             val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
             notificationManager.createNotificationChannel(channel)
 
         }
@@ -282,7 +285,7 @@ class MainActivity : AppCompatActivity() {
             .setContentText("상대방도 나에게 호감이 있어요! 메시지를 보내볼까요?")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        with(NotificationManagerCompat.from(this)) { notify(1234, builder.build()) }
+        with(NotificationManagerCompat.from(this)) { notify(123, builder.build()) }
 
     }
 
@@ -291,6 +294,7 @@ class MainActivity : AppCompatActivity() {
 
         // 액션버튼 메뉴 집어 넣음
         menuInflater.inflate(R.menu.toolbar_menu, menu)
+
         return true
 
     }
@@ -307,6 +311,7 @@ class MainActivity : AppCompatActivity() {
                 // -> 좋아요 액티비티 시작
                 val intent = Intent(this, MyLikeActivity::class.java)
                 startActivity(intent)
+
                 return super.onOptionsItemSelected(item)
 
             }
@@ -317,6 +322,7 @@ class MainActivity : AppCompatActivity() {
                 // -> 내 정보 액티비티 시작
                 val intent = Intent(this, MyPageActivity::class.java)
                 startActivity(intent)
+
                 return super.onOptionsItemSelected(item)
 
             }
