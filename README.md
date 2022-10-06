@@ -14,12 +14,12 @@
 
 ### 기간
 
-- 22.05.30.~22.07.14.
+- 22. 5. 30. ~ 22. 7. 14.
 
 ### 목표
 
-- 코틀린으로 주요 기능을 구현해 봅니다.
-- FCM을 사용해 봅니다.
+- 코틀린으로 주요 기능을 구현합니다.
+- FCM을 사용합니다.
 
 ### 사용
 
@@ -33,12 +33,12 @@
 
 ### 1. 인증(Firebase Auth)
 
-![auth](https://user-images.githubusercontent.com/68595933/193455141-2077c40d-ea35-4e70-92fe-7bc9084b77bf.PNG)
+![auth](https://user-images.githubusercontent.com/68595933/194291726-c0896dd5-237f-4c01-a103-f3ea28ebc9e2.PNG)
 
-- 1.1 로그인/로그아웃
-  - 로그인 버튼을 클릭하면 유효성 검사 후 로그인합니다.
-  - 비회원로그인 버튼을 클릭하면 회원가입 없이 임의로 로그인이 가능하나, 한 번 로그아웃하면 같은 계정으로 재로그인할 수 없습니다.
-  - 로그아웃 버튼을 클릭하면 로그아웃 후 IntroActivity로 이동합니다.
+- 1.1. 로그인/로그아웃
+  - 유효성 검사 후 로그인합니다.
+  - 비회원으로 로그인하면 회원 가입 절차 없이 로그인하는 대신, 한 번 로그아웃하면 같은 계정으로 다시 로그인할 수 없습니다.
+  - 로그아웃하면 IntroActivity로 이동합니다.
 
 ```kotlin
 // LoginActivity.kt
@@ -140,8 +140,8 @@
         }
 ```
 
-- 1.2 회원가입
-  - 회원가입 버튼을 클릭하면 유효성 검사 후 회원가입합니다.
+- 1.2. 회원가입
+  - 유효성 검사 후 가입합니다.
 
 ```kotlin
 // JoinActivity.kt
@@ -313,12 +313,12 @@
 
 ### 2. 메인(Card Stack View)
 
-![main](https://user-images.githubusercontent.com/68595933/193457384-01def4a5-3c8f-4bcd-951e-22be19d7c28e.PNG)
+![main](https://user-images.githubusercontent.com/68595933/194291695-f901b0b2-c53e-48b2-a533-778b8e205605.PNG)
 
 - 현재 사용자와 다른 성별인 사용자의 프로필만 카드 더미 형식으로 구현합니다.
-- 카드는 양쪽으로 넘길 수 있으며, 왼쪽으로 넘기면 아무런 변화 없이 다음 프로필로 넘어갑니다.
-- 카드를 오른쪽으로 넘기면 하트 애니메이션이 활성화되며 좋아요 설정됩니다.
-- 모든 프로필을 확인하면 자동으로 새로고침 됩니다.
+- 카드를 오른쪽으로 넘기면 하트 애니메이션이 활성화되며 좋아요 목록에 해당 사용자를 추가합니다.
+- 카드를 왼쪽으로 넘기면 좋아요를 취소합니다. - 22. 10. 6. 업데이트
+- 모든 프로필을 확인하면 자동으로 새로고침합니다.
 
 ```kotlin
 // MainActivity.kt
@@ -328,15 +328,21 @@
 
             // 카드 넘기기
             override fun onCardSwiped(direction: Direction?) {
-
+            
                 // 왼쪽(관심없음)
-//                if(direction == Direction.Left) {}
+                if(direction == Direction.Left) {
+
+                    // 해당 카드(사용자) 좋아요 삭제
+                    userLikeDelete(uid, usersDataList[userCount].uid.toString())
+
+                }
 
                 // 오른쪽(좋아요)
                 if(direction == Direction.Right) {
 
-                    // 하트 애니메이션
+                    // 하트 애니메이션 및 토스트 메시지
                     binding.ltAnimation.playAnimation()
+                    Toast.makeText(this@MainActivity, "좋아요", Toast.LENGTH_SHORT).show()
 
                     // 해당 카드(사용자) 좋아요 처리
                     userLikeOther(uid, usersDataList[userCount].uid.toString())
@@ -356,11 +362,7 @@
                 }
             }
 
-            override fun onCardDragging(direction: Direction?, ratio: Float) {}
-            override fun onCardRewound() {}
-            override fun onCardCanceled() {}
-            override fun onCardAppeared(view: View?, position: Int) {}
-            override fun onCardDisappeared(view: View?, position: Int) {}
+            // 중략
 
         })
 
@@ -454,14 +456,7 @@
 
         // 좋아요 목록
         getMyLikeList(otherUid)
-
-        // 대충 이런 구조
-
-        // DB
-        // └─userLike
-        //   └─현재 사용자의 UID
-        //     └─현재 사용자가 좋아요 한 사용자의 UID : "true"
-
+        
     }
 ```
 ```kotlin
@@ -538,9 +533,10 @@ class CardStackAdapter(val context: Context, private val items: List<UserDataMod
 
 ![my_like](https://user-images.githubusercontent.com/68595933/193457538-67f80dfb-51c7-40e9-b330-67252af42a72.PNG)
 
-- 3.1 좋아요
-  - 좋아요 목록에서 내가 좋아요 한 사용자를 확인합니다.
-  - 좋아요를 취소할 수 있습니다.
+- 3.1. 좋아요
+  - 좋아요 목록에서 내가 좋아하는 사용자를 확인합니다.
+  - 현재 사용자와 상대방이 서로 좋아요 상태면 메시지를 주고받을 수 있습니다.
+  - 나만 좋아요 상태면 메시지를 보낼 수 없습니다.
 
 ```kotlin
 // MyLikeActivity.kt
@@ -652,7 +648,7 @@ class ListViewAdapter(val context : Context, private val items : MutableList<Use
 
 ![match](https://user-images.githubusercontent.com/68595933/193455842-c8b83ef5-13d2-42aa-bd11-33d02372e0d7.PNG)
 
-- 3.2 매칭
+- 3.2. 매칭
   - 현재 사용자와 상대방이 서로 좋아요한 상태면 매칭을 알리는 푸시 메시지가 전송됩니다.
   - 매칭된 사용자는 서로 메시지를 주고받을 수 있습니다.
 
@@ -1110,11 +1106,14 @@ class RetrofitInstance {
 
 ### 문제점
 
-1. ~함.
+1. 메인 페이지를 제외한 나머지 화면에 액션바가 없어 현재 페이지의 기능을 알기 어려움.
+2. 좋아요 설정한 사용자를 삭제할 수 없음.
+
 
 ### 개선점
 
-1. ~할 것.
+1. 모든 페이지에 액션바 및 뒤로가기 버튼 추가. - 22. 10. 05 업데이트
+2. 메인 페이지에 좋아요 취소 기능 추가. - 22. 10. 06 업데이트
 
 ---
 
