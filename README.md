@@ -14,7 +14,7 @@
 
 ### 기간
 
-- 22. 5. 30. ~ 22. 7. 14.
+- 22.05.30. ~ 22.07.14.
 
 ### 목표
 
@@ -311,13 +311,13 @@
         }
 ```
 
-### 2. 메인(Card Stack View)
+### 2. 메인 화면(Card Stack View)
 
 ![main](https://user-images.githubusercontent.com/68595933/194291695-f901b0b2-c53e-48b2-a533-778b8e205605.PNG)
 
 - 현재 사용자와 다른 성별인 사용자의 프로필만 카드 더미 형식으로 구현합니다.
 - 카드를 오른쪽으로 넘기면 하트 애니메이션이 활성화되며 좋아요 목록에 해당 사용자를 추가합니다.
-- 카드를 왼쪽으로 넘기면 좋아요를 취소합니다. - 22. 10. 6. 업데이트
+- 카드를 왼쪽으로 넘기면 좋아요를 취소합니다(22.10.06. 업데이트).
 - 모든 프로필을 확인하면 자동으로 새로고침합니다.
 
 ```kotlin
@@ -458,6 +458,14 @@
         getMyLikeList(otherUid)
         
     }
+    
+    // 카드 좋아요 삭제하기
+    private fun userLikeDelete(myUid : String, otherUid : String) {
+
+        // (카드 왼쪽으로 넘기면) 좋아요 값 삭제
+        FirebaseRef.userLikeRef.child(myUid).child(otherUid).removeValue()
+
+    }
 ```
 ```kotlin
 // CardStackAdapter.kt
@@ -529,14 +537,108 @@ class CardStackAdapter(val context: Context, private val items: List<UserDataMod
 }
 ```
 
-### 3. 좋아요 및 매칭(Firebase Cloud Messaging)
+### 3. 매칭 및 좋아요(Firebase Cloud Messaging)
+
+![match](https://user-images.githubusercontent.com/68595933/193455842-c8b83ef5-13d2-42aa-bd11-33d02372e0d7.PNG)
+
+- 3.1. 매칭
+  - 현재 사용자와 상대방이 서로 좋아요한 상태면 양쪽에 매칭을 알리는 푸시 메시지가 전송됩니다.
+
+```kotlin
+// MainActivity.kt
+
+    // 현재 사용자의 좋아요 목록
+    private fun getMyLikeList(otherUid: String) {
+
+        // 데이터베이스에서 컨텐츠의 세부정보를 검색
+        val postListener = object : ValueEventListener {
+
+            // 데이터스냅샷 내 사용자 데이터 출력
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // "모든" 사용자의 좋아요 리스트 (x)
+                // "현재 사용자가 좋아하는" 사용자의 좋아요 리스트 (O)
+                for(dataModel in dataSnapshot.children) {
+
+                    // 다른 사용자가 좋아요 한 사용자 목록에
+                    val likeUserKey = dataModel.key.toString()
+
+                    // 현재 사용자가 포함돼 있으면
+                    if(likeUserKey == uid) {
+
+                        // 알림 채널 시스템에 등록
+                        createNotificationChannel()
+
+                        // 알림 보내기
+                        sendNotification()
+
+                    }
+
+                }
+
+            }
+
+            // 실패
+            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getMyLikeList - loadPost:onCancelled", databaseError.toException()) }
+
+        }
+
+        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
+        FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
+
+    }
+
+    // 알림 채널 시스템에 등록
+    private fun createNotificationChannel() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val name = "name"
+            val descriptionText = "descriptionText"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("CHANNEL_ID", name, importance).apply { description = descriptionText }
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            notificationManager.createNotificationChannel(channel)
+
+        }
+
+    }
+
+    // 푸시 알림(매칭)
+    private fun sendNotification() {
+
+        var builder = NotificationCompat.Builder(this, "CHANNEL_ID")
+            .setSmallIcon(R.drawable.ic_baseline_local_fire_department_24)
+            .setContentTitle("매칭 완료")
+            .setContentText("상대방도 나에게 호감이 있어요! 메시지를 보내볼까요?")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)) { notify(123, builder.build()) }
+
+    }
+```
+```kotlin
+// MyLikeActivity.kt
+
+        // 좋아요 목록 길게 클릭하면
+        binding.myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
+
+            // 매칭된 상태인 경우 메시지 보낼 수 있음
+            checkMatching(myLikeList[position].uid.toString())
+            getterUid = myLikeList[position].uid.toString()
+            getterToken = myLikeList[position].token.toString()
+
+            return@setOnItemLongClickListener(true)
+
+        }
+```
 
 ![my_like](https://user-images.githubusercontent.com/68595933/193457538-67f80dfb-51c7-40e9-b330-67252af42a72.PNG)
 
-- 3.1. 좋아요
+- 3.2. 좋아요
   - 좋아요 목록에서 내가 좋아하는 사용자를 확인합니다.
-  - 현재 사용자와 상대방이 서로 좋아요 상태면 메시지를 주고받을 수 있습니다.
-  - 나만 좋아요 상태면 메시지를 보낼 수 없습니다.
+  - 매칭된 사용자는 서로 메시지를 주고받을 수 있습니다(나만 좋아요 상태면 메시지를 보낼 수 없습니다).
 
 ```kotlin
 // MyLikeActivity.kt
@@ -646,110 +748,15 @@ class ListViewAdapter(val context : Context, private val items : MutableList<Use
 }
 ```
 
-![match](https://user-images.githubusercontent.com/68595933/193455842-c8b83ef5-13d2-42aa-bd11-33d02372e0d7.PNG)
-
-- 3.2. 매칭
-  - 현재 사용자와 상대방이 서로 좋아요한 상태면 매칭을 알리는 푸시 메시지가 전송됩니다.
-  - 매칭된 사용자는 서로 메시지를 주고받을 수 있습니다.
-
-```kotlin
-// MainActivity.kt
-
-    // 현재 사용자의 좋아요 목록
-    private fun getMyLikeList(otherUid: String) {
-
-        // 데이터베이스에서 컨텐츠의 세부정보를 검색
-        val postListener = object : ValueEventListener {
-
-            // 데이터스냅샷 내 사용자 데이터 출력
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                // "모든" 사용자의 좋아요 리스트 (x)
-                // "현재 사용자가 좋아하는" 사용자의 좋아요 리스트 (O)
-                for(dataModel in dataSnapshot.children) {
-
-                    // 다른 사용자가 좋아요 한 사용자 목록에
-                    val likeUserKey = dataModel.key.toString()
-
-                    // 현재 사용자가 포함돼 있으면
-                    if(likeUserKey == uid) {
-
-                        // 알림 채널 시스템에 등록
-                        createNotificationChannel()
-
-                        // 알림 보내기
-                        sendNotification()
-
-                    }
-
-                }
-
-            }
-
-            // 실패
-            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getMyLikeList - loadPost:onCancelled", databaseError.toException()) }
-
-        }
-
-        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
-        FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
-
-    }
-
-    // 알림 채널 시스템에 등록
-    private fun createNotificationChannel() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            val name = "name"
-            val descriptionText = "descriptionText"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("CHANNEL_ID", name, importance).apply { description = descriptionText }
-            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-            notificationManager.createNotificationChannel(channel)
-
-        }
-
-    }
-
-    // 푸시 알림(매칭)
-    private fun sendNotification() {
-
-        var builder = NotificationCompat.Builder(this, "CHANNEL_ID")
-            .setSmallIcon(R.drawable.ic_baseline_local_fire_department_24)
-            .setContentTitle("매칭 완료")
-            .setContentText("상대방도 나에게 호감이 있어요! 메시지를 보내볼까요?")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        with(NotificationManagerCompat.from(this)) { notify(123, builder.build()) }
-
-    }
-```
-```kotlin
-// MyLikeActivity.kt
-
-        // 좋아요 목록 길게 클릭하면
-        binding.myLikeListView.setOnItemLongClickListener { parent, view, position, id ->
-
-            // 매칭된 상태인 경우 메시지 보낼 수 있음
-            checkMatching(myLikeList[position].uid.toString())
-            getterUid = myLikeList[position].uid.toString()
-            getterToken = myLikeList[position].token.toString()
-
-            return@setOnItemLongClickListener(true)
-
-        }
-```
-
 ### 4. 메시지 보내기(Firebase Cloud Messaging)
 
 ![push_msg1](https://user-images.githubusercontent.com/68595933/193456208-7b78b73b-0174-42b7-a262-1d8d61c3d5a1.PNG)
 ![push_msg2](https://user-images.githubusercontent.com/68595933/193456209-a6b02f97-b181-4603-9ef0-b4eca9abb2f7.PNG)
 ![push_msg3](https://user-images.githubusercontent.com/68595933/193456211-0ec8986e-db0f-42ad-ac38-b0a5ebe5df96.PNG)
 
-- 메시지를 보내면 해당 내용이 푸시 메시지로 전송됩니다.
-- 받은 모든 메시지는 내 쪽지함에서 확인할 수 있습니다.
+- 매칭된 사용자를 길게 클릭하면 메시지를 보낼 수 있는 대화창이 뜹니다.
+- 전송 버튼을 클릭하면 작성한 내용이 푸시 메시지로 전송됩니다.
+- 받은 모든 메시지는 쪽지함에서 확인할 수 있습니다.
 
 ```kotlin
 // MyLikeActivity.kt
@@ -806,68 +813,14 @@ class ListViewAdapter(val context : Context, private val items : MutableList<Use
     // 현재 사용자의 좋아요 리스트
     private fun getMyLikeList() {
 
-        // 데이터베이스에서 컨텐츠의 세부정보를 검색
-        val postListener = object : ValueEventListener {
-
-            // 데이터 스냅샷
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                // 데이터스냅샷 내 사용자 데이터 출력 -> 현재 사용자가 좋아하는 사용자들의 UID를 myLikeList에 넣음
-                for(dataModel in dataSnapshot.children) { myLikeListUid.add(dataModel.key.toString()) }
-
-                // 전체 사용자 정보 받아옴
-                getUserDataList()
-
-            }
-
-            // 실패
-            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getMyLikeList - loadPost:onCancelled", databaseError.toException()) }
-
-        }
-
-        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
-        FirebaseRef.userLikeRef.child(uid).addValueEventListener(postListener)
+        // 중략
 
     }
 
     // 전체 사용자 정보
     private fun getUserDataList() {
 
-        // 데이터베이스에서 컨텐츠의 세부정보를 검색
-        val postListener = object : ValueEventListener {
-
-            // 데이터 스냅샷
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                // 데이터스냅샷 내 사용자 데이터 출력
-                for(dataModel in dataSnapshot.children) {
-
-                    // 다른 사용자 정보 받아옴
-                    val user = dataModel.getValue(UserDataModel::class.java)
-
-                    // 전체 사용자 중
-                    if(myLikeListUid.contains(user?.uid)) {
-
-                        // 현재 사용자가 좋아하는 사용자의 정보만 추가
-                        myLikeList.add(user!!)
-
-                    }
-
-                }
-
-                // 동기화(새로고침) -> 리스트 크기 및 아이템 변화를 어댑터에 알림
-                listviewAdapter.notifyDataSetChanged()
-                Log.d(TAG, myLikeList.toString())
-
-            }
-
-            // 실패
-            override fun onCancelled(databaseError: DatabaseError) { Log.w(TAG, "getUserDataList - loadPost:onCancelled", databaseError.toException()) }
-
-        }
-
-        // 파이어베이스 내 데이터의 변화(추가)를 알려줌
-        FirebaseRef.userInfoRef.addValueEventListener(postListener)
+        // 중략
 
     }
 
@@ -1109,11 +1062,10 @@ class RetrofitInstance {
 1. 메인 페이지를 제외한 나머지 화면에 액션바가 없어 현재 페이지의 기능을 알기 어려움.
 2. 좋아요 설정한 사용자를 삭제할 수 없음.
 
-
 ### 개선점
 
-1. 모든 페이지에 액션바 및 뒤로가기 버튼 추가. - 22. 10. 05 업데이트
-2. 메인 페이지에 좋아요 취소 기능 추가. - 22. 10. 06 업데이트
+1. 모든 페이지에 액션바 및 뒤로가기 버튼 추가(22.10.05 업데이트).
+2. 메인 페이지에 좋아요 취소 기능 추가(22.10.06 업데이트).
 
 ---
 
